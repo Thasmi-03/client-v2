@@ -14,12 +14,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { addPartnerClothes } from '@/lib/api/partner-clothes';
 import { toast } from 'sonner';
-import { Category, Color } from '@/types/clothes';
+import { PARTNER_CATEGORIES } from '@/types/clothes';
 
-const categories: Category[] = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'Frock', 'blazer', 'sweater', 'coat', 'Tshirt', 'saree', 'kurta', 'lehenga'];
-const colors: Color[] = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi', 'gold', 'silver'];
-const occasions = ['casual', 'formal', 'business', 'party', 'wedding', 'sports', 'beach'];
-const genders = ['male', 'female', 'unisex'];
+const colors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi', 'gold', 'silver'] as const;
 const skinTones = ['fair', 'light', 'medium', 'tan', 'deep', 'dark'];
 
 export default function AddPartnerClothesPage() {
@@ -36,8 +33,6 @@ export default function AddPartnerClothesPage() {
         imageUrl: '',
         size: '',
         visibility: 'public',
-        occasion: 'casual',
-        gender: 'unisex',
         suitableSkinTones: [] as string[],
     });
 
@@ -59,7 +54,6 @@ export default function AddPartnerClothesPage() {
         e.preventDefault();
         setLoading(true);
 
-        // Client-side validation
         if (!formData.name || !formData.category || !formData.color || !formData.brand || !formData.price || !formData.stock || !formData.size) {
             toast.error('Please fill in all required fields');
             setLoading(false);
@@ -78,9 +72,6 @@ export default function AddPartnerClothesPage() {
                 image: formData.imageUrl || undefined,
                 size: formData.size,
                 visibility: formData.visibility as 'public' | 'private',
-                // Important for suggestions!
-                occasion: formData.occasion,
-                gender: formData.gender,
                 suitableSkinTones: formData.suitableSkinTones,
             } as any); // Type assertion to allow extra fields
 
@@ -164,7 +155,7 @@ export default function AddPartnerClothesPage() {
                                                     <SelectValue placeholder="Select category" />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    {categories.map((cat) => (
+                                                    {PARTNER_CATEGORIES.map((cat) => (
                                                         <SelectItem key={cat} value={cat}>
                                                             {cat.charAt(0).toUpperCase() + cat.slice(1)}
                                                         </SelectItem>
