@@ -2,7 +2,6 @@
 
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { DashboardSidebar } from '@/components/layout/DashboardSidebar';
-<<<<<<< HEAD
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Package, DollarSign, TrendingUp, Plus, ShoppingBag, Edit, BarChart3, Trash2 } from 'lucide-react';
@@ -12,11 +11,6 @@ import { getPartnerClothes, deletePartnerClothes, PartnerClothes } from '@/lib/a
 import { getPayments, Payment } from '@/lib/api/payment';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-=======
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
->>>>>>> origin/main
 
 export default function PartnerDashboard() {
     const router = useRouter();
@@ -77,18 +71,11 @@ export default function PartnerDashboard() {
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
-<<<<<<< HEAD
                         {/* Header */}
                         <div className="mb-8">
                             <div className="flex items-center justify-between">
                                 <div>
                                     <h1 className="text-3xl font-bold text-gray-900">Partner Dashboard</h1>
-=======
-                        <div className="mb-8">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h1 className="text-3xl font-bold text-gray-900">Partner Store Dashboard</h1>
->>>>>>> origin/main
                                     <p className="mt-2 text-gray-600">
                                         Manage your inventory, track sales, and grow your business
                                     </p>
@@ -101,7 +88,6 @@ export default function PartnerDashboard() {
                                 </Link>
                             </div>
                         </div>
-<<<<<<< HEAD
 
                         {/* Stats Grid */}
                         <div className="grid gap-6 md:grid-cols-4 mb-8 items-stretch">
@@ -328,8 +314,6 @@ export default function PartnerDashboard() {
                                 </CardContent>
                             </Card>
                         </div>
-=======
->>>>>>> origin/main
                     </div>
                 </main>
             </div>
