@@ -59,13 +59,8 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
             icon: <Sparkles className="h-5 w-5" />,
         },
         {
-<<<<<<< HEAD
             label: 'My Occasions',
             href: '/styler/occasions',
-=======
-            label: 'Matching Options',
-            href: '/styler/matching',
->>>>>>> origin/main
             icon: <Shirt className="h-5 w-5" />,
         },
         {
@@ -92,19 +87,7 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
             icon: <Package2 className="h-5 w-5" />,
         },
         {
-<<<<<<< HEAD
-=======
-            label: 'Orders',
-            href: '/partner/orders',
-            icon: <ShoppingBag className="h-5 w-5" />,
-        },
-        {
-            label: 'Analytics',
-            href: '/partner/analytics',
-            icon: <BarChart3 className="h-5 w-5" />,
-        },
-        {
->>>>>>> origin/main
+
             label: 'Profile',
             href: '/partner/profile',
             icon: <User className="h-5 w-5" />,
@@ -114,7 +97,6 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
     const navItems = role === 'styler' ? stylerNavItems : partnerNavItems;
 
     const isActive = (href: string) => {
-<<<<<<< HEAD
         // Exact match for dashboard home
         if (href === `/${role}`) {
             return pathname === href;
@@ -137,12 +119,6 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
             return !hasLongerMatch;
         }
         return false;
-=======
-        if (href === `/${role}`) {
-            return pathname === href;
-        }
-        return pathname?.startsWith(href);
->>>>>>> origin/main
     };
 
     return (
