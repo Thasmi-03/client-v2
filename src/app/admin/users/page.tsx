@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Users, UserCheck, UserX, Search, Filter } from 'lucide-react';
 import { useState, useEffect, useMemo } from 'react';
-import { getAllUsers, AdminUser } from '@/lib/api/admin';
+import { getUsers, AdminUser } from '@/lib/api/admin';
 import { toast } from 'sonner';
 
 export default function UsersPage() {
@@ -24,7 +24,7 @@ export default function UsersPage() {
     const loadUsers = async () => {
         try {
             setLoading(true);
-            const response = await getAllUsers();
+            const response = await getUsers();
             setUsers(response.users);
         } catch (error: any) {
             if (error?.response?.status === 404) {
