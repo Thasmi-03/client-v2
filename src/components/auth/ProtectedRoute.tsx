@@ -1,0 +1,61 @@
+'use client'
+
+import React, { useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
+import { Role } from '@/types/auth';
+
+interface ProtectedRouteProps {
+    children: React.ReactNode;
+    allowedRoles?: Role[];
+}
+
+export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
+    const { user, loading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        console.log('[ProtectedRoute] Auth state:', { user: user?.email, role: user?.role, loading, allowedRoles });
+
+        if (!loading) {
+            if (!user) {
+                console.log('[ProtectedRoute] No user, redirecting to login');
+                router.push('/auth/login');
+                return;
+            }
+
+            if (allowedRoles && !allowedRoles.includes(user.role)) {
+                console.log('[ProtectedRoute] Wrong role, redirecting to dashboard');
+                const dashboardMap: Record<Role, string> = {
+                    admin: '/admin',
+                    styler: '/styler',
+                    partner: '/partner',
+                };
+                router.push(dashboardMap[user.role] || '/');
+            } else {
+                console.log('[ProtectedRoute] Auth check passed');
+            }
+        }
+    }, [user, loading, router, allowedRoles]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="text-center">
+                    <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent"></div>
+                    <p className="mt-4 text-gray-600">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!user) {
+        return null;
+    }
+
+    if (allowedRoles && !allowedRoles.includes(user.role)) {
+        return null;
+    }
+
+    return <>{children}</>;
+}
