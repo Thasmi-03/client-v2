@@ -14,11 +14,10 @@ import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { getClothesById, updateClothes } from '@/lib/api/clothes';
 import { toast } from 'sonner';
-import { Category, Color } from '@/types/clothes';
+import { Category, Color, OCCASIONS, Occasion } from '@/types/clothes';
 
-const categories: Category[] = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'gown', 'blazer', 'sweater', 'coat'];
+const categories: Category[] = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'blazer', 'sweater', 'coat', 'tshirt', 'frock'];
 const colors: Color[] = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi'];
-const occasions = ['casual', 'formal', 'business', 'party', 'wedding', 'sports', 'beach'] as const;
 
 export default function EditClothesPage() {
     const router = useRouter();
@@ -31,7 +30,7 @@ export default function EditClothesPage() {
         name: '',
         category: '',
         color: '',
-        occasion: '',
+        occasion: [] as Occasion[],
         description: '',
         imageUrl: '',
     });
@@ -59,7 +58,8 @@ export default function EditClothesPage() {
                 name: item.name || '',
                 category: item.category || '',
                 color: item.color || '',
-                occasion: item.occasion || '',
+                // Handle occasion as array
+                occasion: Array.isArray(item.occasion) ? item.occasion : (item.occasion ? [item.occasion] : []),
                 description: item.description || (item as any).note || '',
                 imageUrl: item.imageUrl || (item as any).image || '',
             });
@@ -86,22 +86,47 @@ export default function EditClothesPage() {
         });
     };
 
+    const handleOccasionToggle = (occasion: Occasion) => {
+        setFormData(prev => {
+            const currentOccasions = prev.occasion;
+            if (currentOccasions.includes(occasion)) {
+                // Remove occasion
+                return { ...prev, occasion: currentOccasions.filter(o => o !== occasion) };
+            } else {
+                // Add occasion (max 4)
+                if (currentOccasions.length >= 4) {
+                    toast.error('You can select maximum 4 occasions');
+                    return prev;
+                }
+                return { ...prev, occasion: [...currentOccasions, occasion] };
+            }
+        });
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
 
         try {
+            // Validate occasions (1-4)
+            if (formData.occasion.length < 1) {
+                toast.error('Please select at least 1 occasion');
+                setLoading(false);
+                return;
+            }
+            if (formData.occasion.length > 4) {
+                toast.error('Please select maximum 4 occasions');
+                setLoading(false);
+                return;
+            }
+
             // Build update payload
             const updatePayload: any = {
                 name: formData.name,
                 category: formData.category,
                 color: formData.color,
+                occasion: formData.occasion,
             };
-
-            // Only add optional fields if they have values
-            if (formData.occasion) {
-                updatePayload.occasion = formData.occasion;
-            }
             if (formData.description && formData.description.trim() !== '') {
                 updatePayload.note = formData.description;
             }
@@ -229,23 +254,29 @@ export default function EditClothesPage() {
                                             </Select>
                                         </div>
 
-                                        <div>
-                                            <Label htmlFor="occasion">Occasion</Label>
-                                            <Select
-                                                value={formData.occasion}
-                                                onValueChange={(value) => handleSelectChange('occasion', value)}
-                                            >
-                                                <SelectTrigger className="mt-1 w-full">
-                                                    <SelectValue placeholder="Select occasion" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    {occasions.map((occasion) => (
-                                                        <SelectItem key={occasion} value={occasion}>
+                                        <div className="md:col-span-2">
+                                            <Label>Occasions * (Select 1-4)</Label>
+                                            <div className="mt-2 grid grid-cols-2 gap-3">
+                                                {OCCASIONS.map((occasion) => (
+                                                    <label
+                                                        key={occasion}
+                                                        className="flex items-center space-x-2 cursor-pointer p-2 rounded border hover:bg-gray-50"
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={formData.occasion.includes(occasion)}
+                                                            onChange={() => handleOccasionToggle(occasion)}
+                                                            className="w-4 h-4 rounded border-gray-300"
+                                                        />
+                                                        <span className="text-sm">
                                                             {occasion.charAt(0).toUpperCase() + occasion.slice(1)}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectContent>
-                                            </Select>
+                                                        </span>
+                                                    </label>
+                                                ))}
+                                            </div>
+                                            <p className="text-xs text-gray-500 mt-1">
+                                                Selected: {formData.occasion.length}/4
+                                            </p>
                                         </div>
 
                                         <div className="md:col-span-2">

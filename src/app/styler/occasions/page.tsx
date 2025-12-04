@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar, Plus, Edit, Trash2, X, Sparkles } from 'lucide-react';
 import { getOccasions, createOccasion, updateOccasion, deleteOccasion, getOccasionSuggestions, Occasion, CreateOccasionInput } from '@/lib/api/occasions';
+import { recordPartnerClothView } from '@/lib/api/partner-clothes';
 import { toast } from 'sonner';
 
 export default function OccasionsPage() {
@@ -144,6 +145,18 @@ export default function OccasionsPage() {
         try {
             const response = await getOccasionSuggestions(occasion._id);
             setSuggestions(response.suggestions);
+
+            // Record views for partner clothes shown in suggestions
+            for (const item of response.suggestions) {
+                if (item.partner) {
+                    try {
+                        await recordPartnerClothView(item._id);
+                    } catch (viewError) {
+                        // Silently handle view recording errors
+                        console.log('View recording skipped:', viewError);
+                    }
+                }
+            }
         } catch (error) {
             console.error('Error fetching suggestions:', error);
             toast.error('Failed to load suggestions');
