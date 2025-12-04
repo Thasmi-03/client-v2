@@ -15,6 +15,10 @@ import { useRouter, useParams } from 'next/navigation';
 import { getClothesById, updateClothes } from '@/lib/api/clothes';
 import { toast } from 'sonner';
 import { Category, Color, OCCASIONS, Occasion } from '@/types/clothes';
+import { Upload, X, Loader2 } from 'lucide-react';
+
+const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
 
 const categories: Category[] = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'blazer', 'sweater', 'coat', 'tshirt', 'frock'];
 const colors: Color[] = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi'];
@@ -25,6 +29,7 @@ export default function EditClothesPage() {
     const id = params?.id as string;
 
     const [loading, setLoading] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [fetching, setFetching] = useState(true);
     const [formData, setFormData] = useState({
         name: '',
@@ -77,6 +82,46 @@ export default function EditClothesPage() {
             ...formData,
             [e.target.name]: e.target.value,
         });
+    };
+
+    // Cloudinary image upload handler
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
+            toast.error('Cloudinary is not configured');
+            return;
+        }
+
+        setUploading(true);
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', file);
+        uploadFormData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+        try {
+            const res = await fetch(
+                `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+                { method: 'POST', body: uploadFormData }
+            );
+            const data = await res.json();
+
+            if (data.secure_url) {
+                setFormData(prev => ({ ...prev, imageUrl: data.secure_url }));
+                toast.success('Image uploaded successfully!');
+            } else {
+                toast.error(data.error?.message || 'Upload failed');
+            }
+        } catch (err) {
+            console.error('Upload error:', err);
+            toast.error('Failed to upload image');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    const removeImage = () => {
+        setFormData(prev => ({ ...prev, imageUrl: '' }));
     };
 
     const handleSelectChange = (name: string, value: string) => {
@@ -280,15 +325,45 @@ export default function EditClothesPage() {
                                         </div>
 
                                         <div className="md:col-span-2">
-                                            <Label htmlFor="imageUrl">Image URL</Label>
-                                            <Input
-                                                id="imageUrl"
-                                                name="imageUrl"
-                                                value={formData.imageUrl}
-                                                onChange={handleChange}
-                                                placeholder="https://example.com/image.jpg"
-                                                className="mt-1"
-                                            />
+                                            <Label htmlFor="image">Clothes Image</Label>
+                                            {formData.imageUrl ? (
+                                                <div className="mt-2 relative">
+                                                    <img
+                                                        src={formData.imageUrl}
+                                                        alt="Clothes preview"
+                                                        className="w-full h-48 object-cover rounded-lg border"
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={removeImage}
+                                                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                                                    >
+                                                        <X className="h-4 w-4" />
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="mt-2">
+                                                    <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 border-gray-300">
+                                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                            {uploading ? (
+                                                                <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
+                                                            ) : (
+                                                                <Upload className="h-8 w-8 text-gray-400" />
+                                                            )}
+                                                            <p className="mt-2 text-sm text-gray-500">
+                                                                {uploading ? 'Uploading...' : 'Click to upload image'}
+                                                            </p>
+                                                        </div>
+                                                        <input
+                                                            type="file"
+                                                            className="hidden"
+                                                            accept="image/*"
+                                                            onChange={handleImageUpload}
+                                                            disabled={uploading}
+                                                        />
+                                                    </label>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
