@@ -42,7 +42,6 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
     formState: { errors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
-<<<<<<< HEAD
     defaultValues: {
       fullName: '',
       email: '',
@@ -52,9 +51,6 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
       gender: undefined,
       dateOfBirth: '',
     },
-=======
-    defaultValues: { fullName: '', email: '', phone: '', address: '', password: '' },
->>>>>>> origin/main
   });
 
   useEffect(() => {
@@ -67,13 +63,9 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
       await registerUser(data.email, data.password, data.role as Role, {
         fullName: data.fullName,
         phone: data.phone,
-<<<<<<< HEAD
         address: data.address,
         ...(data.role === 'styler' && data.gender ? { gender: data.gender } : {}),
         ...(data.role === 'styler' && data.dateOfBirth ? { dateOfBirth: data.dateOfBirth } : {}),
-=======
-        address: data.address
->>>>>>> origin/main
       }, isPartnerPage);
       if (onSuccess) onSuccess();
     } catch (err: any) {
@@ -148,7 +140,6 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
           {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
         </div>
 
-<<<<<<< HEAD
         {!isPartnerPage && (
           <>
             <div>
@@ -180,9 +171,6 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
             </div>
           </>
         )}
-
-=======
->>>>>>> origin/main
         {error && (
           <div className="p-3 rounded-md bg-red-50 border border-red-200">
             <p className="text-red-600 text-sm font-medium">{error}</p>

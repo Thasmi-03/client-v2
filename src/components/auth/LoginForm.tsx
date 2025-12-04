@@ -27,10 +27,7 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
     try {
       await login(data.email, data.password);
       
-<<<<<<< HEAD
 // AuthContext will handle the page change, then the modal will close if there is a callback
-=======
->>>>>>> origin/main
 
       if (onSuccess) {
         onSuccess();
