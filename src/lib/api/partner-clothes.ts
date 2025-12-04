@@ -82,3 +82,63 @@ export const deletePartnerClothes = async (id: string): Promise<{ message: strin
     const response = await apiClient.delete(`/api/partnerclothes/${id}`);
     return response.data;
 };
+
+// Smart Suggestion Response interface
+export interface SmartSuggestion {
+    _id: string;
+    name: string;
+    category: string;
+    color: string;
+    image?: string;
+    gender?: string;
+    occasion?: string;
+    price: number;
+    brand: string;
+    suitableSkinTones?: string[];
+    matchReason: string;
+    partner: {
+        _id: string;
+        name: string;
+        location: string;
+        phone: string;
+        email: string;
+    } | null;
+}
+
+export interface SmartSuggestionsResponse {
+    meta: {
+        total: number;
+        page: number;
+        limit: number;
+        pages: number;
+        filters: {
+            occasion: string | null;
+            gender: string | undefined;
+            skinTone: string | undefined;
+            userOccasions: string[];
+        };
+    };
+    data: SmartSuggestion[];
+}
+
+// Get smart suggestions based on user's skin tone, gender, and occasion
+export const getSmartSuggestions = async (params?: {
+    occasion?: string;
+    skinTone?: string;
+    gender?: string;
+    page?: number;
+    limit?: number;
+}): Promise<SmartSuggestionsResponse> => {
+    const queryParams = new URLSearchParams();
+    if (params?.occasion) queryParams.append('occasion', params.occasion);
+    if (params?.skinTone) queryParams.append('skinTone', params.skinTone);
+    if (params?.gender) queryParams.append('gender', params.gender);
+    if (params?.page) queryParams.append('page', params.page.toString());
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+
+    const queryString = queryParams.toString();
+    const url = `/api/partnerclothes/suggestions${queryString ? `?${queryString}` : ''}`;
+
+    const response = await apiClient.get(url);
+    return response.data;
+};
