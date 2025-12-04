@@ -1,11 +1,7 @@
 'use client'
 
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
-<<<<<<< HEAD
 import { AdminDashboardSidebar } from '@/components/layout/AdminDashboardSidebar';
-=======
-import { AdminHeader } from '@/components/layout/AdminHeader';
->>>>>>> origin/main
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useState, useEffect } from 'react';
 import { Users, CheckCircle, UserCheck, Store, ShoppingBag, DollarSign } from 'lucide-react';
@@ -79,13 +75,8 @@ export default function AdminDashboard() {
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-<<<<<<< HEAD
             <div className="flex min-h-screen bg-gray-50">
                 <AdminDashboardSidebar />
-=======
-            <div className="min-h-screen bg-gray-50">
-                <AdminHeader />
->>>>>>> origin/main
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
