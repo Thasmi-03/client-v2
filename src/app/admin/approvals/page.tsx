@@ -25,7 +25,10 @@ export default function ApprovalsPage() {
             setPendingUsers(response.users);
         } catch (error) {
             console.error('Error loading pending users:', error);
-            toast.error('Failed to load pending users');
+            toast.error('Failed to load pending users', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -34,11 +37,16 @@ export default function ApprovalsPage() {
     const handleApprove = async (userId: string) => {
         try {
             await adminService.approveUser(userId);
-            toast.success('User approved successfully');
+            toast.success('User approved successfully', {
+                duration: 3000,
+            });
             loadPendingUsers();
         } catch (error) {
             console.error('Error approving user:', error);
-            toast.error('Failed to approve user');
+            toast.error('Failed to approve user', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 

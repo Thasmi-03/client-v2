@@ -41,11 +41,17 @@ export default function PaymentsPage() {
         } catch (error: any) {
             if (error?.response?.status === 404) {
                 console.log('Payments endpoint not found (404) - using empty fallback');
-                toast.error('Payments endpoint not yet implemented on backend');
+                toast.error('Payments endpoint not yet implemented on backend', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 setPayments([]);
             } else {
                 console.error('Error loading payments:', error);
-                toast.error('Failed to load payments');
+                toast.error('Failed to load payments', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } finally {
             setLoading(false);

@@ -47,7 +47,10 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
             const item = response.clothes;
 
             if (!item) {
-                toast.error('Product not found');
+                toast.error('Product not found', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 router.push('/partner/clothes');
                 return;
             }
@@ -65,7 +68,10 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
             });
         } catch (error: any) {
             console.error('Error loading product:', error);
-            toast.error(error?.response?.data?.error || 'Failed to load product');
+            toast.error(error?.response?.data?.error || 'Failed to load product', {
+                duration: Infinity,
+                closeButton: true,
+            });
             router.push('/partner/clothes');
         } finally {
             setFetching(false);
@@ -103,11 +109,16 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                 visibility: formData.visibility as 'public' | 'private',
             });
 
-            toast.success('Product updated successfully!');
+            toast.success('Product updated successfully!', {
+                duration: 3000,
+            });
             router.push('/partner/clothes');
         } catch (error: any) {
             console.error('Error updating product:', error);
-            toast.error(error?.response?.data?.error || 'Failed to update product');
+            toast.error(error?.response?.data?.error || 'Failed to update product', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }

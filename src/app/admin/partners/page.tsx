@@ -27,11 +27,17 @@ export default function PartnersPage() {
         } catch (error: any) {
             if (error?.response?.status === 404) {
                 console.log('Partners endpoint not found (404) - using empty fallback');
-                toast.error('Partners endpoint not yet implemented on backend');
+                toast.error('Partners endpoint not yet implemented on backend', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 setPartners([]);
             } else {
                 console.error('Error loading partners:', error);
-                toast.error('Failed to load partners');
+                toast.error('Failed to load partners', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } finally {
             setLoading(false);
@@ -47,11 +53,16 @@ export default function PartnersPage() {
 
         try {
             await adminService.approveUser(userId);
-            toast.success('Partner approved successfully');
+            toast.success('Partner approved successfully', {
+                duration: 3000,
+            });
             loadPartners();
         } catch (error) {
             console.error('Error approving partner:', error);
-            toast.error('Failed to approve partner');
+            toast.error('Failed to approve partner', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 
@@ -64,11 +75,16 @@ export default function PartnersPage() {
 
         try {
             await adminService.rejectUser(userId);
-            toast.success('Partner rejected and removed successfully');
+            toast.success('Partner rejected and removed successfully', {
+                duration: 3000,
+            });
             loadPartners();
         } catch (error) {
             console.error('Error rejecting partner:', error);
-            toast.error('Failed to reject partner');
+            toast.error('Failed to reject partner', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 

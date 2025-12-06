@@ -25,7 +25,10 @@ export default function AnalyticsPage() {
         } catch (error: any) {
             console.error('Error loading analytics:', error);
             if (error?.response?.status === 404) {
-                toast.error('Analytics endpoint not yet implemented on backend');
+                toast.error('Analytics endpoint not yet implemented on backend', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 // Set empty analytics as fallback
                 setAnalytics({
                     totalUsers: 0,
@@ -36,7 +39,10 @@ export default function AnalyticsPage() {
                     weeklyTrend: []
                 });
             } else {
-                toast.error('Failed to load analytics. Please check your connection.');
+                toast.error('Failed to load analytics. Please check your connection.', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } finally {
             setLoading(false);

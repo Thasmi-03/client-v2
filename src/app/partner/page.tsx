@@ -32,7 +32,10 @@ export default function PartnerDashboard() {
             setClothes(response.clothes);
         } catch (error) {
             console.error('Error loading clothes:', error);
-            toast.error('Failed to load inventory');
+            toast.error('Failed to load inventory', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -52,11 +55,16 @@ export default function PartnerDashboard() {
 
         try {
             await partnerService.deleteCloth(id);
-            toast.success('Product deleted successfully');
+            toast.success('Product deleted successfully', {
+                duration: 3000,
+            });
             loadClothes(); // Reload the list
         } catch (error) {
             console.error('Error deleting product:', error);
-            toast.error('Failed to delete product');
+            toast.error('Failed to delete product', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 

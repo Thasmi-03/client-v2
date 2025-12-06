@@ -71,12 +71,17 @@ export default function ProfileSettingsPage() {
                 preferredStyle: formData.preferredStyle,
             });
 
-            toast.success('Profile updated successfully!');
+            toast.success('Profile updated successfully!', {
+                duration: 3000,
+            });
             setIsEditing(false);
             await refreshUser();
         } catch (error: any) {
             console.error('Error updating profile:', error);
-            toast.error('Failed to update profile');
+            toast.error('Failed to update profile', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }

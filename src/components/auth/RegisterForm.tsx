@@ -73,7 +73,9 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
 
       const response = await authService.register(registerData);
 
-      toast.success('Registration successful!');
+      toast.success('Registration successful!', {
+        duration: 3000,
+      });
 
       if (response.token && response.user) {
         await login(response.token, response.user);

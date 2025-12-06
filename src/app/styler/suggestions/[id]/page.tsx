@@ -31,7 +31,10 @@ export default function ProductDetailsPage() {
             setProduct(response.clothes);
         } catch (error) {
             console.error('Error loading product:', error);
-            toast.error('Failed to load product details');
+            toast.error('Failed to load product details', {
+                duration: Infinity,
+                closeButton: true,
+            });
             router.push('/styler/suggestions');
         } finally {
             setLoading(false);

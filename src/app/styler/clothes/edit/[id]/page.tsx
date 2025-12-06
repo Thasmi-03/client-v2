@@ -54,7 +54,10 @@ export default function EditClothesPage() {
 
             // Check if item exists
             if (!item) {
-                toast.error('Clothes not found');
+                toast.error('Clothes not found', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 router.push('/styler/clothes');
                 return;
             }
@@ -70,7 +73,10 @@ export default function EditClothesPage() {
             });
         } catch (error: any) {
             console.error('Error loading clothes:', error);
-            toast.error(error?.response?.data?.error || 'Failed to load clothes');
+            toast.error(error?.response?.data?.error || 'Failed to load clothes', {
+                duration: Infinity,
+                closeButton: true,
+            });
             router.push('/styler/clothes');
         } finally {
             setFetching(false);
@@ -90,7 +96,10 @@ export default function EditClothesPage() {
         if (!file) return;
 
         if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
-            toast.error('Cloudinary is not configured');
+            toast.error('Cloudinary is not configured', {
+                duration: Infinity,
+                closeButton: true,
+            });
             return;
         }
 
@@ -108,13 +117,21 @@ export default function EditClothesPage() {
 
             if (data.secure_url) {
                 setFormData(prev => ({ ...prev, imageUrl: data.secure_url }));
-                toast.success('Image uploaded successfully!');
+                toast.success('Image uploaded successfully!', {
+                    duration: 3000,
+                });
             } else {
-                toast.error(data.error?.message || 'Upload failed');
+                toast.error(data.error?.message || 'Upload failed', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } catch (err) {
             console.error('Upload error:', err);
-            toast.error('Failed to upload image');
+            toast.error('Failed to upload image', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setUploading(false);
         }
@@ -140,7 +157,10 @@ export default function EditClothesPage() {
             } else {
                 // Add occasion (max 4)
                 if (currentOccasions.length >= 4) {
-                    toast.error('You can select maximum 4 occasions');
+                    toast.error('You can select maximum 4 occasions', {
+                        duration: Infinity,
+                        closeButton: true,
+                    });
                     return prev;
                 }
                 return { ...prev, occasion: [...currentOccasions, occasion] };
@@ -155,12 +175,18 @@ export default function EditClothesPage() {
         try {
             // Validate occasions (1-4)
             if (formData.occasion.length < 1) {
-                toast.error('Please select at least 1 occasion');
+                toast.error('Please select at least 1 occasion', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 setLoading(false);
                 return;
             }
             if (formData.occasion.length > 4) {
-                toast.error('Please select maximum 4 occasions');
+                toast.error('Please select maximum 4 occasions', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 setLoading(false);
                 return;
             }
@@ -183,7 +209,9 @@ export default function EditClothesPage() {
 
             await clothesService.update(id, updatePayload);
 
-            toast.success('Clothes updated successfully!');
+            toast.success('Clothes updated successfully!', {
+                duration: 3000,
+            });
             router.push('/styler/clothes');
         } catch (error: any) {
             console.error('Error updating clothes:', error);
@@ -192,9 +220,15 @@ export default function EditClothesPage() {
 
             if (errorDetails && Array.isArray(errorDetails)) {
                 const detailsMsg = errorDetails.map((d: any) => `${d.field}: ${d.message}`).join(', ');
-                toast.error(`${errorMessage} - ${detailsMsg}`);
+                toast.error(`${errorMessage} - ${detailsMsg}`, {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             } else {
-                toast.error(errorMessage);
+                toast.error(errorMessage, {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } finally {
             setLoading(false);

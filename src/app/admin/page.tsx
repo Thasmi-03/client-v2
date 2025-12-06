@@ -52,7 +52,10 @@ export default function AdminDashboard() {
 
         } catch (error) {
             console.error('Error loading dashboard data:', error);
-            toast.error('Could not connect to backend. Please check your connection.');
+            toast.error('Could not connect to backend. Please check your connection.', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }

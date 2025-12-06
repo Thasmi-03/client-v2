@@ -28,7 +28,9 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
       const response = await authService.login({ email: data.email, password: data.password });
       await login(response.token, response.user);
 
-      toast.success('Login successful!');
+      toast.success('Login successful!', {
+        duration: 3000,
+      });
 
       if (onSuccess) {
         onSuccess();

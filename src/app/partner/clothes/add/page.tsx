@@ -61,7 +61,10 @@ export default function AddPartnerClothesPage() {
         if (!file) return;
 
         if (!CLOUDINARY_CLOUD_NAME || !CLOUDINARY_UPLOAD_PRESET) {
-            toast.error('Cloudinary is not configured');
+            toast.error('Cloudinary is not configured', {
+                duration: Infinity,
+                closeButton: true,
+            });
             return;
         }
 
@@ -79,13 +82,21 @@ export default function AddPartnerClothesPage() {
 
             if (data.secure_url) {
                 setFormData(prev => ({ ...prev, imageUrl: data.secure_url }));
-                toast.success('Image uploaded successfully!');
+                toast.success('Image uploaded successfully!', {
+                    duration: 3000,
+                });
             } else {
-                toast.error(data.error?.message || 'Upload failed');
+                toast.error(data.error?.message || 'Upload failed', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } catch (err) {
             console.error('Upload error:', err);
-            toast.error('Failed to upload image');
+            toast.error('Failed to upload image', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setUploading(false);
         }
@@ -100,7 +111,10 @@ export default function AddPartnerClothesPage() {
         setLoading(true);
 
         if (!formData.name || !formData.category || !formData.color || !formData.brand || !formData.price || !formData.stock || !formData.size) {
-            toast.error('Please fill in all required fields');
+            toast.error('Please fill in all required fields', {
+                duration: Infinity,
+                closeButton: true,
+            });
             setLoading(false);
             return;
         }
@@ -120,7 +134,9 @@ export default function AddPartnerClothesPage() {
                 suitableSkinTones: formData.suitableSkinTones,
             } as any); // Type assertion to allow extra fields
 
-            toast.success('Product added successfully!');
+            toast.success('Product added successfully!', {
+                duration: 3000,
+            });
             router.push('/partner/clothes');
         } catch (error: any) {
             console.error('Error adding product:', error);
@@ -128,7 +144,10 @@ export default function AddPartnerClothesPage() {
                 console.error('Error response data:', error.response.data);
                 console.error('Error response status:', error.response.status);
             }
-            toast.error(error?.response?.data?.error || 'Failed to add product');
+            toast.error(error?.response?.data?.error || 'Failed to add product', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }

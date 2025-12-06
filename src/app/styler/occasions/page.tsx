@@ -61,7 +61,10 @@ export default function OccasionsPage() {
             setOccasions(response.data);
         } catch (error) {
             console.error('Error loading occasions:', error);
-            toast.error('Failed to load occasions');
+            toast.error('Failed to load occasions', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -71,23 +74,33 @@ export default function OccasionsPage() {
         e.preventDefault();
 
         if (!formData.title || !formData.date) {
-            toast.error('Title and date are required');
+            toast.error('Title and date are required', {
+                duration: Infinity,
+                closeButton: true,
+            });
             return;
         }
 
         try {
             if (editingOccasion) {
                 await occasionsService.update(editingOccasion._id, formData);
-                toast.success('Occasion updated successfully');
+                toast.success('Occasion updated successfully', {
+                    duration: 3000,
+                });
             } else {
                 await occasionsService.create(formData);
-                toast.success('Occasion created successfully');
+                toast.success('Occasion created successfully', {
+                    duration: 3000,
+                });
             }
             loadOccasions();
             closeModal();
         } catch (error) {
             console.error('Error saving occasion:', error);
-            toast.error('Failed to save occasion');
+            toast.error('Failed to save occasion', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 
@@ -96,11 +109,16 @@ export default function OccasionsPage() {
 
         try {
             await occasionsService.delete(id);
-            toast.success('Occasion deleted successfully');
+            toast.success('Occasion deleted successfully', {
+                duration: 3000,
+            });
             loadOccasions();
         } catch (error) {
             console.error('Error deleting occasion:', error);
-            toast.error('Failed to delete occasion');
+            toast.error('Failed to delete occasion', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 
@@ -160,7 +178,10 @@ export default function OccasionsPage() {
             }
         } catch (error) {
             console.error('Error fetching suggestions:', error);
-            toast.error('Failed to load suggestions');
+            toast.error('Failed to load suggestions', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setSuggestionsLoading(false);
         }

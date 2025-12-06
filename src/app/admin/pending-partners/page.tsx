@@ -45,7 +45,10 @@ export default function PendingPartnersPage() {
             setPartners(data.users.filter(u => u.role === 'partner'));
         } catch (error) {
             console.error('Error fetching pending partners:', error);
-            toast.error('Failed to fetch pending partners');
+            toast.error('Failed to fetch pending partners', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -55,11 +58,16 @@ export default function PendingPartnersPage() {
         try {
             setProcessingId(id);
             await adminService.approveUser(id);
-            toast.success('Partner approved successfully');
+            toast.success('Partner approved successfully', {
+                duration: 3000,
+            });
             fetchPartners();
         } catch (error) {
             console.error('Error approving partner:', error);
-            toast.error('Failed to approve partner');
+            toast.error('Failed to approve partner', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setProcessingId(null);
         }
@@ -69,11 +77,16 @@ export default function PendingPartnersPage() {
         try {
             setProcessingId(id);
             await adminService.rejectUser(id);
-            toast.success('Partner rejected successfully');
+            toast.success('Partner rejected successfully', {
+                duration: 3000,
+            });
             fetchPartners();
         } catch (error) {
             console.error('Error rejecting partner:', error);
-            toast.error('Failed to reject partner');
+            toast.error('Failed to reject partner', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setProcessingId(null);
         }

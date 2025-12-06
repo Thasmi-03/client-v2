@@ -46,7 +46,10 @@ export default function PartnerProfilePage() {
             });
         } catch (error) {
             console.error('Error loading profile:', error);
-            toast.error('Failed to load profile');
+            toast.error('Failed to load profile', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -58,12 +61,17 @@ export default function PartnerProfilePage() {
 
         try {
             await userService.updateProfile(shopDetails);
-            toast.success('Profile updated successfully!');
+            toast.success('Profile updated successfully!', {
+                duration: 3000,
+            });
             await refreshUser();
             loadProfile();
         } catch (error) {
             console.error('Error updating profile:', error);
-            toast.error('Failed to update profile');
+            toast.error('Failed to update profile', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setSaving(false);
         }

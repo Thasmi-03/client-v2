@@ -25,7 +25,10 @@ export default function PartnerAnalyticsPage() {
             setPartners(response.partners);
         } catch (error) {
             console.error('Error loading partner analytics:', error);
-            toast.error('Failed to load partner analytics');
+            toast.error('Failed to load partner analytics', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }

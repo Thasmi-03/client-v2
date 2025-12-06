@@ -25,11 +25,17 @@ export default function StylistsPage() {
         } catch (error: any) {
             if (error?.response?.status === 404) {
                 console.log('Stylists endpoint not found (404) - using empty fallback');
-                toast.error('Stylists endpoint not yet implemented on backend');
+                toast.error('Stylists endpoint not yet implemented on backend', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 setStylists([]);
             } else {
                 console.error('Error loading stylists:', error);
-                toast.error('Failed to load stylists');
+                toast.error('Failed to load stylists', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } finally {
             setLoading(false);

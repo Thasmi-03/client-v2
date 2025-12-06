@@ -46,7 +46,10 @@ export default function SuggestionsPage() {
             }
         } catch (error) {
             console.error('Error loading data:', error);
-            toast.error('Failed to load dress suggestions');
+            toast.error('Failed to load dress suggestions', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -57,10 +60,15 @@ export default function SuggestionsPage() {
         try {
             const res = await userService.toggleFavorite(clothId);
             setFavorites(res.favorites);
-            toast.success(res.isFavorite ? 'Added to favorites' : 'Removed from favorites');
+            toast.success(res.isFavorite ? 'Added to favorites' : 'Removed from favorites', {
+                duration: 3000,
+            });
         } catch (error) {
             console.error('Error toggling favorite:', error);
-            toast.error('Failed to update favorites');
+            toast.error('Failed to update favorites', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 

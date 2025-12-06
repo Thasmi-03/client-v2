@@ -30,11 +30,17 @@ export default function UsersPage() {
         } catch (error: any) {
             if (error?.response?.status === 404) {
                 console.log('Users endpoint not found (404) - using empty fallback');
-                toast.error('Users endpoint not yet implemented on backend');
+                toast.error('Users endpoint not yet implemented on backend', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
                 setUsers([]);
             } else {
                 console.error('Error loading users:', error);
-                toast.error('Failed to load users');
+                toast.error('Failed to load users', {
+                    duration: Infinity,
+                    closeButton: true,
+                });
             }
         } finally {
             setLoading(false);

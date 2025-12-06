@@ -67,7 +67,10 @@ export default function StylerClothesPage() {
             setTotalItems(response.total);
         } catch (error) {
             console.error('Error loading clothes:', error);
-            toast.error('Failed to load clothes');
+            toast.error('Failed to load clothes', {
+                duration: Infinity,
+                closeButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -78,11 +81,16 @@ export default function StylerClothesPage() {
 
         try {
             await clothesService.delete(id);
-            toast.success('Clothes deleted successfully');
+            toast.success('Clothes deleted successfully', {
+                duration: 3000,
+            });
             loadClothes();
         } catch (error) {
             console.error('Error deleting clothes:', error);
-            toast.error('Failed to delete clothes');
+            toast.error('Failed to delete clothes', {
+                duration: Infinity,
+                closeButton: true,
+            });
         }
     };
 
