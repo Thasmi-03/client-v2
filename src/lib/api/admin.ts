@@ -77,6 +77,22 @@ export const getAllPartners = async (): Promise<{ users: AdminUser[] }> => {
 };
 
 /**
+ * Get all stylists (admin only)
+ */
+export const getAllStylists = async (): Promise<{ users: AdminUser[] }> => {
+    const response = await apiClient.get('/api/admin/users?role=styler');
+    return response.data;
+};
+
+/**
+ * Get all payments (admin only)
+ */
+export const getAllPayments = async (): Promise<{ payments: any[] }> => {
+    const response = await apiClient.get('/api/payment');
+    return response.data;
+};
+
+/**
  * Get pending partners (admin only)
  */
 export const getPendingPartners = async (): Promise<{ users: PendingUser[] }> => {

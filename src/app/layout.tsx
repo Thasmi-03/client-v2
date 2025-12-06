@@ -11,8 +11,10 @@ export const metadata: Metadata = {
   description: "Manage your wardrobe and style with FitFlow",
 };
 
+// 1 - react component render 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
+    // 2 - app  providers wrap 
     <html lang="en">
       <body>
         <Providers>

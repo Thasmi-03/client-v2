@@ -26,7 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
+// 4 -  run useeffect 
   useEffect(() => {
     checkAuth();
   }, []);
@@ -126,7 +126,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Use hard redirect to ensure we go to homepage
     window.location.href = '/';
   };
-
+// 3 - auth providers initalize
   return (
     <AuthContext.Provider value={{ user, loading, login, register, logout }}>
       {children}

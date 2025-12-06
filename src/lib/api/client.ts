@@ -4,6 +4,7 @@ import { getToken, removeToken, removeUser } from '@/utils/storage';
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 console.log('Using API URL:', API_URL);
 
+
 const apiClient: AxiosInstance = axios.create({
     baseURL: API_URL,
     headers: {
@@ -11,10 +12,12 @@ const apiClient: AxiosInstance = axios.create({
     },
 });
 
+// 6 - get token - client api verify
 apiClient.interceptors.request.use(
     (config) => {
         const token = getToken();
         if (token) {
+            // 7- request axios interceptor run on browser , add token automatically request header
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;

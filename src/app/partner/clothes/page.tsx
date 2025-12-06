@@ -13,7 +13,7 @@ import { getPartnerClothes, deletePartnerClothes, PartnerClothes } from '@/lib/a
 import { toast } from 'sonner';
 import { Category, Color } from '@/types/clothes';
 
-const categories: Category[] = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'Frock', 'blazer', 'sweater', 'coat', 'Tshirt'];
+const categories: Category[] = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'frock', 'blazer', 'sweater', 'coat', 'tshirt'];
 const colors: Color[] = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi'];
 
 export default function PartnerInventoryPage() {

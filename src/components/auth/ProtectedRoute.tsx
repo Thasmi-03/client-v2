@@ -15,17 +15,17 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
     const router = useRouter();
 
     useEffect(() => {
-        console.log('[ProtectedRoute] Auth state:', { user: user?.email, role: user?.role, loading, allowedRoles });
+
 
         if (!loading) {
             if (!user) {
-                console.log('[ProtectedRoute] No user, redirecting to login');
+
                 router.push('/auth/login');
                 return;
             }
 
             if (allowedRoles && !allowedRoles.includes(user.role)) {
-                console.log('[ProtectedRoute] Wrong role, redirecting to dashboard');
+
                 const dashboardMap: Record<Role, string> = {
                     admin: '/admin',
                     styler: '/styler',
@@ -33,7 +33,7 @@ export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) 
                 };
                 router.push(dashboardMap[user.role] || '/');
             } else {
-                console.log('[ProtectedRoute] Auth check passed');
+
             }
         }
     }, [user, loading, router, allowedRoles]);

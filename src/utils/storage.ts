@@ -11,6 +11,7 @@ export const setToken = (token: string): void => {
 
 export const getToken = (): string | null => {
     if (typeof window !== 'undefined') {
+        // 5 - cheak the login status
         return localStorage.getItem(TOKEN_KEY);
     }
     return null;
