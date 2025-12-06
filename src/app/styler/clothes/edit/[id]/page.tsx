@@ -66,8 +66,12 @@ export default function EditClothesPage() {
                 name: item.name || '',
                 category: item.category || '',
                 color: item.color || '',
-                // Handle occasion as array and cast to Occasion[]
-                occasion: (Array.isArray(item.occasion) ? item.occasion : (item.occasion ? [item.occasion] : [])) as Occasion[],
+                // Handle occasion - ensure it's always an array
+                occasion: (item.occasion && Array.isArray(item.occasion) && item.occasion.length > 0
+                    ? item.occasion
+                    : (item.occasion && !Array.isArray(item.occasion)
+                        ? [item.occasion]
+                        : [])) as Occasion[],
                 description: item.description || (item as any).note || '',
                 imageUrl: item.imageUrl || (item as any).image || '',
             });
@@ -150,7 +154,7 @@ export default function EditClothesPage() {
 
     const handleOccasionToggle = (occasion: Occasion) => {
         setFormData(prev => {
-            const currentOccasions = prev.occasion;
+            const currentOccasions = prev.occasion || []; // Ensure it's always an array
             if (currentOccasions.includes(occasion)) {
                 // Remove occasion
                 return { ...prev, occasion: currentOccasions.filter(o => o !== occasion) };
@@ -343,7 +347,7 @@ export default function EditClothesPage() {
                                                     >
                                                         <input
                                                             type="checkbox"
-                                                            checked={formData.occasion.includes(occasion)}
+                                                            checked={formData.occasion?.includes(occasion) || false}
                                                             onChange={() => handleOccasionToggle(occasion)}
                                                             className="w-4 h-4 rounded border-gray-300"
                                                         />
@@ -354,7 +358,7 @@ export default function EditClothesPage() {
                                                 ))}
                                             </div>
                                             <p className="text-xs text-gray-500 mt-1">
-                                                Selected: {formData.occasion.length}/4
+                                                Selected: {formData.occasion?.length || 0}/4
                                             </p>
                                         </div>
 
