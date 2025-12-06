@@ -73,18 +73,25 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
 
       const response = await authService.register(registerData);
 
-      toast.success('Registration successful!', {
-        duration: 3000,
-      });
-
+      // Partners don't receive a token (they need admin approval)
+      // Stylers and first admin receive a token immediately
       if (response.token && response.user) {
+        // Auto-approved users (stylers, first admin) - log them in
+        toast.success('Registration successful!', {
+          duration: 3000,
+        });
         await login(response.token, response.user);
-      } else if (data.role === 'partner') {
-        // Partners might not get a token immediately if approval is needed
-        if (onSuccess) onSuccess();
+        // Don't call onSuccess here as login will redirect to dashboard
+      } else {
+        // Partners and subsequent admins need approval
+        toast.success(response.message || 'Registration successful! Waiting for admin approval.', {
+          duration: 3000,
+        });
+        // Redirect to login page for partners to wait for approval
+        if (onSuccess) {
+          onSuccess();
+        }
       }
-
-      if (onSuccess) onSuccess();
     } catch (err: any) {
       console.error('Registration error:', err);
       const errorMessage = err?.response?.data?.error || err.message || 'Registration failed';
