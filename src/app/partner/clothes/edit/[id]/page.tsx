@@ -44,7 +44,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
         try {
             setFetching(true);
             const response = await partnerService.getClothById(id);
-            const item = response.clothes;
+            const item = response;
 
             if (!item) {
                 toast.error('Product not found', {

@@ -28,7 +28,7 @@ export default function ProductDetailsPage() {
         try {
             setLoading(true);
             const response = await partnerService.getClothById(id);
-            setProduct(response.clothes);
+            setProduct(response);
         } catch (error) {
             console.error('Error loading product:', error);
             toast.error('Failed to load product details', {
