@@ -29,7 +29,7 @@ export default function PartnerDashboard() {
         try {
             setLoading(true);
             const response = await partnerService.getClothes();
-            setClothes(response.clothes);
+            setClothes(response.data || []);
         } catch (error) {
             console.error('Error loading clothes:', error);
             toast.error('Failed to load inventory', {
