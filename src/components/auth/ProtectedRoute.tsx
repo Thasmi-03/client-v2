@@ -11,13 +11,13 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
-    const { user, loading } = useAuth();
+    const { user, loading, isLoggingOut } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
 
 
-        if (!loading) {
+        if (!loading && !isLoggingOut) {
             console.log("ProtectedRoute: Checking access. User:", user, "AllowedRoles:", allowedRoles);
             if (!user) {
                 console.log("ProtectedRoute: No user found. Redirecting to login.");

@@ -11,6 +11,7 @@ interface AuthContextType {
   login: (token: string, userData: User) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  isLoggingOut: boolean;
   refreshUser: () => Promise<void>;
 }
 
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -42,15 +44,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const login = async (token: string, userData: User) => {
+    setIsLoggingOut(false);
     Cookies.set("token", token);
     setUser(userData);
     router.push(userData.role === 'admin' ? '/admin' : '/styler');
   };
 
   const logout = () => {
+    setIsLoggingOut(true);
     Cookies.remove("token");
-    setUser(null);
     router.push("/");
+    // Delay state update to prevent ProtectedRoute from redirecting to login
+    setTimeout(() => {
+      setUser(null);
+      setIsLoggingOut(false);
+    }, 100);
   };
 
   return (
@@ -61,6 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login,
         logout,
         isAuthenticated: !!user,
+        isLoggingOut,
         refreshUser,
       }}
     >
