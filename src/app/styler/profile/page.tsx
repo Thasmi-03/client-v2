@@ -135,7 +135,7 @@ export default function ProfileSettingsPage() {
                                                         />
                                                     )}
                                                     <ImageUploader
-                                                        useCloudinaryDirect={false}
+                                                        useCloudinaryDirect={true}
                                                         autoUpload={true}
                                                         onUploadStart={() => setIsUploadingPhoto(true)}
                                                         onUploadComplete={(url) => {
