@@ -40,7 +40,7 @@ export default function SuggestionsPage() {
                 partnerService.getPublicClothes(),
                 userService.getProfile().catch(() => ({ favorites: [] }))
             ]);
-            setClothes(clothesRes.clothes);
+            setClothes(clothesRes.data || []);
             if (profileRes.favorites) {
                 setFavorites(profileRes.favorites);
             }
