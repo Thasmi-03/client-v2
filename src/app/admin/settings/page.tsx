@@ -4,7 +4,8 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { AdminDashboardSidebar } from '@/components/layout/AdminDashboardSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Settings, Bell, Shield, Database, Mail, Globe } from 'lucide-react';
+import Link from 'next/link';
+import { Settings, Bell, Shield, Database, Mail, Globe, User } from 'lucide-react';
 
 export default function SettingsPage() {
     return (
@@ -27,6 +28,28 @@ export default function SettingsPage() {
 
                         {/* Settings Sections */}
                         <div className="space-y-6">
+                            {/* Profile Settings */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <User className="h-5 w-5" />
+                                        Profile Settings
+                                    </CardTitle>
+                                    <CardDescription>Manage your personal account details</CardDescription>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                        <div>
+                                            <p className="font-medium">Personal Information</p>
+                                            <p className="text-sm text-gray-500">Update your name and profile photo</p>
+                                        </div>
+                                        <Link href="/admin/profile">
+                                            <Button variant="outline" size="sm">Edit Profile</Button>
+                                        </Link>
+                                    </div>
+                                </CardContent>
+                            </Card>
+
                             {/* General Settings */}
                             <Card>
                                 <CardHeader>
