@@ -75,9 +75,10 @@ export default function SuggestionsPage() {
             toast.success(`Skin tone detected: ${data.skinTone} (${data.confidence} confidence)`, {
                 duration: 3000,
             });
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error detecting skin tone:', error);
-            toast.error('Failed to detect skin tone. Please try another photo.', {
+            const errorMessage = error.message || 'Failed to detect skin tone. Please try another photo.';
+            toast.error(errorMessage, {
                 duration: Infinity,
                 closeButton: true,
             });
