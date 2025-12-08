@@ -1,5 +1,6 @@
 export type Role = 'user' | 'admin' | 'styler' | 'partner';
 
+// User type definition - updated 2025-12-08
 export interface User {
     _id: string;
     email: string;
