@@ -102,7 +102,7 @@ export function AdminDashboardSidebar() {
             {/* Sidebar */}
             <aside
                 className={`
-          fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 z-40
+          fixed top-0 left-0 h-full w-64 bg-sidebar border-r border-sidebar-border z-40
           transform transition-transform duration-300 ease-in-out
           lg:translate-x-0
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'}
@@ -110,8 +110,8 @@ export function AdminDashboardSidebar() {
             >
                 <div className="flex flex-col h-full">
                     {/* Header */}
-                    <div className="p-6 border-b border-gray-200 flex flex-col items-center">
-                        <div className="h-20 w-20 rounded-full overflow-hidden bg-gray-200 mb-3 border-2 border-gray-100">
+                    <div className="p-6 border-b border-sidebar-border flex flex-col items-center">
+                        <div className="h-20 w-20 rounded-full overflow-hidden bg-sidebar-accent mb-3 border-2 border-sidebar-border">
                             {user?.profilePhoto ? (
                                 <img
                                     src={user.profilePhoto}
@@ -119,15 +119,15 @@ export function AdminDashboardSidebar() {
                                     className="h-full w-full object-cover"
                                 />
                             ) : (
-                                <div className="h-full w-full flex items-center justify-center text-gray-400">
+                                <div className="h-full w-full flex items-center justify-center text-sidebar-foreground/50">
                                     <Users className="h-10 w-10" />
                                 </div>
                             )}
                         </div>
-                        <h2 className="text-xl font-bold text-gray-900 text-center">
+                        <h2 className="text-xl font-bold text-sidebar-foreground text-center">
                             Admin Dashboard
                         </h2>
-                        <p className="text-sm text-gray-600 mt-1 text-center">{user?.email}</p>
+                        <p className="text-sm text-sidebar-foreground/70 mt-1 text-center">{user?.email}</p>
                     </div>
 
                     {/* Navigation */}
@@ -140,8 +140,8 @@ export function AdminDashboardSidebar() {
                                 className={`
                   flex items-center gap-3 px-4 py-3 rounded-lg transition-colors
                   ${isActive(item.href)
-                                        ? 'bg-gray-900 text-white'
-                                        : 'text-gray-700 hover:bg-gray-100'
+                                        ? 'bg-sidebar-primary text-sidebar-primary-foreground'
+                                        : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
                                     }
                 `}
                             >
@@ -152,7 +152,7 @@ export function AdminDashboardSidebar() {
                     </nav>
 
                     {/* Logout button */}
-                    <div className="p-4 border-t border-gray-200">
+                    <div className="p-4 border-t border-sidebar-border">
                         <Button
                             onClick={logout}
                             variant="outline"

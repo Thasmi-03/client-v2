@@ -195,7 +195,7 @@ export default function OccasionsPage() {
 
     return (
         <ProtectedRoute allowedRoles={['styler']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="styler" />
 
                 <main className="flex-1 p-8">
@@ -204,15 +204,15 @@ export default function OccasionsPage() {
                         <div className="mb-8">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                                        <Calendar className="h-8 w-8 text-[#e2c2b7]" />
+                                    <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+                                        <Calendar className="h-8 w-8 text-primary" />
                                         My Occasions
                                     </h1>
-                                    <p className="mt-2 text-gray-600">
+                                    <p className="mt-2 text-muted-foreground">
                                         Manage your events and special occasions
                                     </p>
                                 </div>
-                                <Button onClick={() => openModal()} className="flex items-center gap-2 bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                <Button onClick={() => openModal()} className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
                                     <Plus className="h-4 w-4" />
                                     Add Occasion
                                 </Button>
@@ -222,15 +222,15 @@ export default function OccasionsPage() {
                         {/* Occasions Grid */}
                         {loading ? (
                             <div className="text-center py-12">
-                                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                <p className="mt-4 text-gray-600">Loading occasions...</p>
+                                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                <p className="mt-4 text-muted-foreground">Loading occasions...</p>
                             </div>
                         ) : occasions.length === 0 ? (
                             <div className="text-center py-12">
-                                <Calendar className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Occasions Yet</h3>
-                                <p className="text-gray-600 mb-6">Start by adding your first occasion</p>
-                                <Button onClick={() => openModal()} className="bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                <Calendar className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                <h3 className="text-lg font-semibold text-foreground mb-2">No Occasions Yet</h3>
+                                <p className="text-muted-foreground mb-6">Start by adding your first occasion</p>
+                                <Button onClick={() => openModal()} className="bg-primary hover:bg-primary/90 text-primary-foreground">
                                     <Plus className="h-4 w-4 mr-2" />
                                     Add Occasion
                                 </Button>
@@ -238,16 +238,16 @@ export default function OccasionsPage() {
                         ) : (
                             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                                 {occasions.map((occasion) => (
-                                    <Card key={occasion._id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                                        <CardHeader className="bg-gradient-to-r from-[#e2c2b7]/20 to-[#d4b5a8]/20">
+                                    <Card key={occasion._id} className="overflow-hidden hover:bg-muted/50 transition-colors bg-card border-border">
+                                        <CardHeader className="bg-muted/30">
                                             <div className="flex items-start justify-between">
                                                 <div className="flex-1">
-                                                    <CardTitle className="text-gray-900">{occasion.title}</CardTitle>
-                                                    <CardDescription className="text-gray-700 mt-1">
+                                                    <CardTitle className="text-foreground">{occasion.title}</CardTitle>
+                                                    <CardDescription className="text-muted-foreground mt-1">
                                                         {new Date(occasion.date).toLocaleDateString()}
                                                     </CardDescription>
                                                 </div>
-                                                <span className={`text-xs font-semibold px-3 py-1 rounded-full ${occasionColors[occasion.type] || 'bg-gray-100 text-gray-800'}`}>
+                                                <span className={`text-xs font-semibold px-3 py-1 rounded-full ${occasionColors[occasion.type] || 'bg-muted text-muted-foreground'}`}>
                                                     {occasion.type}
                                                 </span>
                                             </div>
@@ -255,26 +255,26 @@ export default function OccasionsPage() {
                                         <CardContent className="p-6">
                                             <div className="space-y-2 mb-4">
                                                 {occasion.location && (
-                                                    <p className="text-sm text-gray-600">
-                                                        <span className="font-medium">Location:</span> {occasion.location}
+                                                    <p className="text-sm text-muted-foreground">
+                                                        <span className="font-medium text-foreground">Location:</span> {occasion.location}
                                                     </p>
                                                 )}
                                                 {occasion.dressCode && (
-                                                    <p className="text-sm text-gray-600">
-                                                        <span className="font-medium">Dress Code:</span> {occasion.dressCode}
+                                                    <p className="text-sm text-muted-foreground">
+                                                        <span className="font-medium text-foreground">Dress Code:</span> {occasion.dressCode}
                                                     </p>
                                                 )}
                                                 {occasion.notes && (
-                                                    <p className="text-sm text-gray-600">
-                                                        <span className="font-medium">Notes:</span> {occasion.notes}
+                                                    <p className="text-sm text-muted-foreground">
+                                                        <span className="font-medium text-foreground">Notes:</span> {occasion.notes}
                                                     </p>
                                                 )}
                                             </div>
-                                            <div className="flex flex-col gap-2 pt-4 border-t">
+                                            <div className="flex flex-col gap-2 pt-4 border-t border-border">
                                                 <Button
                                                     variant="outline"
                                                     size="sm"
-                                                    className="w-full bg-gradient-to-r from-[#e2c2b7]/10 to-[#d4b5a8]/10 hover:from-[#e2c2b7]/20 hover:to-[#d4b5a8]/20 border-[#e2c2b7]"
+                                                    className="w-full bg-primary/10 hover:bg-primary/20 border-primary text-primary hover:text-primary"
                                                     onClick={() => openSuggestionsModal(occasion)}
                                                 >
                                                     <Sparkles className="h-4 w-4 mr-2" /> View Suggestions
@@ -283,7 +283,7 @@ export default function OccasionsPage() {
                                                     <Button variant="outline" size="sm" className="flex-1" onClick={() => openModal(occasion)}>
                                                         <Edit className="h-4 w-4 mr-2" /> Edit
                                                     </Button>
-                                                    <Button variant="outline" size="sm" className="text-red-600 hover:bg-red-50" onClick={() => handleDelete(occasion._id)}>
+                                                    <Button variant="outline" size="sm" className="text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => handleDelete(occasion._id)}>
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </div>
@@ -298,29 +298,30 @@ export default function OccasionsPage() {
                     {/* Modal */}
                     {isModalOpen && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                            <div className="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+                            <div className="bg-card rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-border">
                                 <div className="p-6">
                                     <div className="flex justify-between items-center mb-6">
-                                        <h2 className="text-xl font-bold">{editingOccasion ? 'Edit Occasion' : 'Create New Occasion'}</h2>
-                                        <button onClick={closeModal}><X className="h-6 w-6" /></button>
+                                        <h2 className="text-xl font-bold text-foreground">{editingOccasion ? 'Edit Occasion' : 'Create New Occasion'}</h2>
+                                        <button onClick={closeModal}><X className="h-6 w-6 text-muted-foreground hover:text-foreground" /></button>
                                     </div>
 
                                     <form onSubmit={handleSubmit} className="space-y-4">
                                         <div>
-                                            <Label>Title *</Label>
+                                            <Label className="text-foreground">Title *</Label>
                                             <Input
                                                 value={formData.title}
                                                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                                 placeholder="e.g., Birthday Party"
                                                 required
+                                                className="bg-background border-border text-foreground"
                                             />
                                         </div>
 
                                         <div className="grid grid-cols-2 gap-4">
                                             <div>
-                                                <Label>Type *</Label>
+                                                <Label className="text-foreground">Type *</Label>
                                                 <select
-                                                    className="w-full p-2 border rounded-md"
+                                                    className="w-full p-2 border rounded-md bg-background border-border text-foreground"
                                                     value={formData.type}
                                                     onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                                                     required
@@ -332,38 +333,41 @@ export default function OccasionsPage() {
                                             </div>
 
                                             <div>
-                                                <Label>Date *</Label>
+                                                <Label className="text-foreground">Date *</Label>
                                                 <Input
                                                     type="date"
                                                     value={formData.date}
                                                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                                                     required
+                                                    className="bg-background border-border text-foreground"
                                                 />
                                             </div>
                                         </div>
 
                                         <div>
-                                            <Label>Location</Label>
+                                            <Label className="text-foreground">Location</Label>
                                             <Input
                                                 value={formData.location}
                                                 onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                                                 placeholder="e.g., Central Park"
+                                                className="bg-background border-border text-foreground"
                                             />
                                         </div>
 
                                         <div>
-                                            <Label>Dress Code</Label>
+                                            <Label className="text-foreground">Dress Code</Label>
                                             <Input
                                                 value={formData.dressCode}
                                                 onChange={(e) => setFormData({ ...formData, dressCode: e.target.value })}
                                                 placeholder="e.g., Formal, Casual"
+                                                className="bg-background border-border text-foreground"
                                             />
                                         </div>
 
                                         <div>
-                                            <Label>Skin Tone</Label>
+                                            <Label className="text-foreground">Skin Tone</Label>
                                             <select
-                                                className="w-full p-2 border rounded-md"
+                                                className="w-full p-2 border rounded-md bg-background border-border text-foreground"
                                                 value={formData.skinTone}
                                                 onChange={(e) => setFormData({ ...formData, skinTone: e.target.value })}
                                             >
@@ -375,18 +379,19 @@ export default function OccasionsPage() {
                                         </div>
 
                                         <div>
-                                            <Label>Notes</Label>
+                                            <Label className="text-foreground">Notes</Label>
                                             <Textarea
                                                 value={formData.notes}
                                                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                                 placeholder="Additional notes..."
                                                 rows={3}
+                                                className="bg-background border-border text-foreground"
                                             />
                                         </div>
 
                                         <div className="flex justify-end gap-2 mt-6">
                                             <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
-                                            <Button type="submit" className="bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                            <Button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground">
                                                 {editingOccasion ? 'Update Occasion' : 'Create Occasion'}
                                             </Button>
                                         </div>
@@ -399,47 +404,47 @@ export default function OccasionsPage() {
                     {/* Suggestions Modal */}
                     {isSuggestionsModalOpen && (
                         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-                            <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                            <div className="bg-card rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-border">
                                 <div className="p-6">
                                     <div className="flex justify-between items-center mb-6">
                                         <div>
-                                            <h2 className="text-2xl font-bold flex items-center gap-2">
-                                                <Sparkles className="h-6 w-6 text-[#e2c2b7]" />
+                                            <h2 className="text-2xl font-bold flex items-center gap-2 text-foreground">
+                                                <Sparkles className="h-6 w-6 text-primary" />
                                                 Outfit Suggestions
                                             </h2>
                                             {currentOccasion && (
-                                                <p className="text-gray-600 mt-1">
+                                                <p className="text-muted-foreground mt-1">
                                                     For {currentOccasion.title} ({currentOccasion.type})
                                                 </p>
                                             )}
                                         </div>
                                         <button onClick={closeSuggestionsModal}>
-                                            <X className="h-6 w-6" />
+                                            <X className="h-6 w-6 text-muted-foreground hover:text-foreground" />
                                         </button>
                                     </div>
 
                                     {suggestionsLoading ? (
                                         <div className="text-center py-12">
-                                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                            <p className="mt-4 text-gray-600">Finding perfect outfits...</p>
+                                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                            <p className="mt-4 text-muted-foreground">Finding perfect outfits...</p>
                                         </div>
                                     ) : suggestions.length === 0 ? (
                                         <div className="text-center py-12">
-                                            <Sparkles className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Matching Outfits Found</h3>
-                                            <p className="text-gray-600 mb-4">
+                                            <Sparkles className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                            <h3 className="text-lg font-semibold text-foreground mb-2">No Matching Outfits Found</h3>
+                                            <p className="text-muted-foreground mb-4">
                                                 We couldn't find any clothes in your wardrobe that match this occasion.
                                             </p>
-                                            <p className="text-sm text-gray-500">
+                                            <p className="text-sm text-muted-foreground">
                                                 Try adding clothes with the "{currentOccasion?.type}" occasion tag to see suggestions here.
                                             </p>
                                         </div>
                                     ) : (
                                         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                             {suggestions.map((item) => (
-                                                <Card key={item._id} className="overflow-hidden hover:shadow-lg transition-shadow">
+                                                <Card key={item._id} className="overflow-hidden hover:bg-muted/50 transition-colors bg-card border-border">
                                                     {item.image && (
-                                                        <div className="aspect-square overflow-hidden bg-gray-100">
+                                                        <div className="aspect-square overflow-hidden bg-muted">
                                                             <img
                                                                 src={item.image}
                                                                 alt={item.name}
@@ -448,34 +453,34 @@ export default function OccasionsPage() {
                                                         </div>
                                                     )}
                                                     <CardContent className="p-4">
-                                                        <h3 className="font-semibold text-gray-900 mb-2">{item.name}</h3>
-                                                        <div className="space-y-1 text-sm text-gray-600 mb-3">
-                                                            <p><span className="font-medium">Category:</span> {item.category}</p>
-                                                            <p><span className="font-medium">Color:</span> {item.color}</p>
+                                                        <h3 className="font-semibold text-foreground mb-2">{item.name}</h3>
+                                                        <div className="space-y-1 text-sm text-muted-foreground mb-3">
+                                                            <p><span className="font-medium text-foreground">Category:</span> {item.category}</p>
+                                                            <p><span className="font-medium text-foreground">Color:</span> {item.color}</p>
                                                             {item.brand && (
-                                                                <p><span className="font-medium">Brand:</span> {item.brand}</p>
+                                                                <p><span className="font-medium text-foreground">Brand:</span> {item.brand}</p>
                                                             )}
                                                             {item.price && (
-                                                                <p className="text-[#e2c2b7] font-bold text-lg mt-2">${item.price}</p>
+                                                                <p className="text-primary font-bold text-lg mt-2">${item.price}</p>
                                                             )}
                                                         </div>
 
                                                         {/* Partner Details */}
                                                         {item.partner && (
-                                                            <div className="mt-3 pt-3 border-t border-gray-200">
-                                                                <p className="text-xs font-semibold text-gray-700 mb-2">Partner Shop</p>
-                                                                <div className="space-y-1 text-xs text-gray-600">
-                                                                    <p><span className="font-medium">Shop:</span> {item.partner.name}</p>
-                                                                    <p><span className="font-medium">Location:</span> {item.partner.location}</p>
+                                                            <div className="mt-3 pt-3 border-t border-border">
+                                                                <p className="text-xs font-semibold text-foreground mb-2">Partner Shop</p>
+                                                                <div className="space-y-1 text-xs text-muted-foreground">
+                                                                    <p><span className="font-medium text-foreground">Shop:</span> {item.partner.name}</p>
+                                                                    <p><span className="font-medium text-foreground">Location:</span> {item.partner.location}</p>
                                                                     {item.partner.phone && item.partner.phone !== 'N/A' && (
-                                                                        <p><span className="font-medium">Contact:</span> {item.partner.phone}</p>
+                                                                        <p><span className="font-medium text-foreground">Contact:</span> {item.partner.phone}</p>
                                                                     )}
                                                                 </div>
                                                             </div>
                                                         )}
 
-                                                        <div className="mt-3 pt-3 border-t">
-                                                            <p className="text-xs text-[#e2c2b7] font-medium flex items-center gap-1">
+                                                        <div className="mt-3 pt-3 border-t border-border">
+                                                            <p className="text-xs text-primary font-medium flex items-center gap-1">
                                                                 <Sparkles className="h-3 w-3" />
                                                                 {item.matchReason}
                                                             </p>

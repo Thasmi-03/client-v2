@@ -84,7 +84,7 @@ export default function PartnerInventoryPage() {
 
     return (
         <ProtectedRoute allowedRoles={['partner']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="partner" />
 
                 <main className="flex-1 p-8">
@@ -92,13 +92,13 @@ export default function PartnerInventoryPage() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-8">
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Product Inventory</h1>
-                                <p className="mt-2 text-gray-600">
+                                <h1 className="text-3xl font-bold text-foreground">Product Inventory</h1>
+                                <p className="mt-2 text-muted-foreground">
                                     Manage your product catalog - {filteredClothes.length} of {clothes.length} products
                                 </p>
                             </div>
                             <Link href="/partner/clothes/add">
-                                <Button className="flex items-center gap-2 bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
                                     <Plus className="h-4 w-4" />
                                     Add New Product
                                 </Button>
@@ -106,13 +106,13 @@ export default function PartnerInventoryPage() {
                         </div>
 
                         {/* Search and Filters */}
-                        <Card className="mb-6">
+                        <Card className="mb-6 bg-card border-border">
                             <CardContent className="pt-6">
                                 <div className="grid gap-4 md:grid-cols-4">
                                     {/* Search */}
                                     <div className="md:col-span-1">
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                             <Input
                                                 placeholder="Search products..."
                                                 value={searchTerm}
@@ -177,26 +177,26 @@ export default function PartnerInventoryPage() {
                         </Card>
 
                         {/* Clothes List */}
-                        <Card>
+                        <Card className="bg-card border-border">
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
-                                    <Package className="h-5 w-5 text-[#e2c2b7]" />
+                                <CardTitle className="flex items-center gap-2 text-foreground">
+                                    <Package className="h-5 w-5 text-primary" />
                                     All Products
                                 </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-12">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading inventory...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading inventory...</p>
                                     </div>
                                 ) : filteredClothes.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                        <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                        <h3 className="text-lg font-semibold text-foreground mb-2">
                                             {clothes.length === 0 ? 'No Products Yet' : 'No matches found'}
                                         </h3>
-                                        <p className="text-gray-600 mb-6">
+                                        <p className="text-muted-foreground mb-6">
                                             {clothes.length === 0
                                                 ? 'Start by adding your first product to your inventory'
                                                 : 'Try adjusting your filters or search terms'
@@ -204,7 +204,7 @@ export default function PartnerInventoryPage() {
                                         </p>
                                         {clothes.length === 0 && (
                                             <Link href="/partner/clothes/add">
-                                                <Button className="bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                                                     <Plus className="h-4 w-4 mr-2" />
                                                     Add Product
                                                 </Button>
@@ -221,10 +221,10 @@ export default function PartnerInventoryPage() {
                                             return (
                                                 <div
                                                     key={itemId}
-                                                    className="border rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col h-full"
+                                                    className="border border-border rounded-lg overflow-hidden hover:bg-muted/50 transition-all duration-300 flex flex-col h-full bg-card"
                                                 >
                                                     {/* Product Image */}
-                                                    <div className="h-48 w-full bg-gradient-to-br from-[#e2c2b7] to-[#d4b5a8] relative overflow-hidden">
+                                                    <div className="h-48 w-full bg-muted relative overflow-hidden">
                                                         {imageUrl ? (
                                                             <img
                                                                 src={imageUrl}
@@ -233,24 +233,24 @@ export default function PartnerInventoryPage() {
                                                             />
                                                         ) : (
                                                             <div className="w-full h-full flex items-center justify-center">
-                                                                <Package className="h-16 w-16 text-white opacity-40" />
+                                                                <Package className="h-16 w-16 text-muted-foreground opacity-40" />
                                                             </div>
                                                         )}
-                                                        <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-bold">
+                                                        <div className="absolute top-2 right-2 bg-card px-2 py-1 rounded-full text-xs font-bold text-foreground shadow-sm">
                                                             {item.stock || 0} in stock
                                                         </div>
                                                     </div>
 
                                                     {/* Product Details */}
                                                     <div className="p-4 flex flex-col flex-1">
-                                                        <h3 className="font-semibold text-lg mb-1">{item.name}</h3>
-                                                        <p className="text-sm text-gray-600 mb-3">{item.category} • {item.color}</p>
+                                                        <h3 className="font-semibold text-lg mb-1 text-foreground">{item.name}</h3>
+                                                        <p className="text-sm text-muted-foreground mb-3">{item.category} • {item.color}</p>
 
-                                                        <div className="space-y-1 text-sm text-gray-600 mb-3">
-                                                            <p>Brand: <span className="font-medium">{item.brand}</span></p>
-                                                            <p>Price: <span className="font-bold text-[#e2c2b7] text-lg">Rs. {item.price}</span></p>
-                                                            <p>Sales: <span className="font-medium">{item.sales || 0} sold</span></p>
-                                                            <p>Visibility: <span className="font-medium capitalize">{item.visibility}</span></p>
+                                                        <div className="space-y-1 text-sm text-muted-foreground mb-3">
+                                                            <p>Brand: <span className="font-medium text-foreground">{item.brand}</span></p>
+                                                            <p>Price: <span className="font-bold text-primary text-lg">Rs. {item.price}</span></p>
+                                                            <p>Sales: <span className="font-medium text-foreground">{item.sales || 0} sold</span></p>
+                                                            <p>Visibility: <span className="font-medium capitalize text-foreground">{item.visibility}</span></p>
                                                         </div>
 
                                                         <div className="flex gap-2 mt-auto">

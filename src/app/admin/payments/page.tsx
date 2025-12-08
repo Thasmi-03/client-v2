@@ -69,11 +69,11 @@ export default function PaymentsPage() {
     const getStatusIcon = (status: string) => {
         switch (status) {
             case 'completed':
-                return <CheckCircle className="h-4 w-4 text-green-600" />;
+                return <CheckCircle className="h-4 w-4 text-success" />;
             case 'pending':
-                return <Clock className="h-4 w-4 text-orange-600" />;
+                return <Clock className="h-4 w-4 text-warning" />;
             case 'failed':
-                return <XCircle className="h-4 w-4 text-red-600" />;
+                return <XCircle className="h-4 w-4 text-destructive" />;
             default:
                 return null;
         }
@@ -82,30 +82,30 @@ export default function PaymentsPage() {
     const getStatusColor = (status: string) => {
         switch (status) {
             case 'completed':
-                return 'bg-green-50 text-green-700';
+                return 'bg-success/10 text-success';
             case 'pending':
-                return 'bg-orange-50 text-orange-700';
+                return 'bg-warning/10 text-warning';
             case 'failed':
-                return 'bg-red-50 text-red-700';
+                return 'bg-destructive/10 text-destructive';
             default:
-                return 'bg-gray-50 text-gray-700';
+                return 'bg-muted text-muted-foreground';
         }
     };
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <AdminDashboardSidebar />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                                <DollarSign className="h-8 w-8 text-[#e2c2b7]" />
+                            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+                                <DollarSign className="h-8 w-8 text-primary" />
                                 Payment Overview
                             </h1>
-                            <p className="mt-2 text-gray-600">
+                            <p className="mt-2 text-muted-foreground">
                                 Monitor all transactions from stylists and partners
                             </p>
                         </div>
@@ -114,51 +114,51 @@ export default function PaymentsPage() {
                         <div className="grid gap-6 md:grid-cols-4 mb-8">
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Total Revenue
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-green-600">
+                                    <div className="text-3xl font-bold text-success">
                                         LKR {totalRevenue.toFixed(2)}
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">From completed payments</p>
+                                    <p className="text-xs text-muted-foreground mt-1">From completed payments</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Total Payments
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-3xl font-bold">{payments.length}</div>
-                                    <p className="text-xs text-gray-500 mt-1">All transactions</p>
+                                    <p className="text-xs text-muted-foreground mt-1">All transactions</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Completed
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-green-600">{completedPayments}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Successful payments</p>
+                                    <div className="text-3xl font-bold text-success">{completedPayments}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">Successful payments</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Pending
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-orange-600">{pendingPayments}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Awaiting confirmation</p>
+                                    <div className="text-3xl font-bold text-warning">{pendingPayments}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">Awaiting confirmation</p>
                                 </CardContent>
                             </Card>
                         </div>
@@ -175,47 +175,47 @@ export default function PaymentsPage() {
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-12">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading payments...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading payments...</p>
                                     </div>
                                 ) : payments.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <DollarSign className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                        <p className="text-gray-600 font-medium">No payments found</p>
-                                        <p className="text-sm text-gray-500 mt-1">No transactions recorded yet</p>
+                                        <DollarSign className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                        <p className="text-muted-foreground font-medium">No payments found</p>
+                                        <p className="text-sm text-muted-foreground mt-1">No transactions recorded yet</p>
                                     </div>
                                 ) : (
                                     <div className="space-y-4">
                                         {payments.map((payment) => (
                                             <div
                                                 key={payment._id}
-                                                className="flex items-center justify-between rounded-lg border p-4 hover:shadow-md transition-shadow"
+                                                className="flex items-center justify-between rounded-lg border p-4 hover:bg-muted/50 transition-colors"
                                             >
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-3 mb-1">
-                                                        <p className="font-medium text-lg">{payment.description || 'Payment'}</p>
+                                                        <p className="font-medium text-lg text-foreground">{payment.description || 'Payment'}</p>
                                                         <span className={`flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full ${getStatusColor(payment.status)}`}>
                                                             {getStatusIcon(payment.status)}
                                                             {payment.status.charAt(0).toUpperCase() + payment.status.slice(1)}
                                                         </span>
                                                     </div>
-                                                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                                                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                                         <span>
                                                             {typeof payment.userId === 'object'
                                                                 ? `${payment.userId.name || payment.userId.email} (${payment.userId.role})`
                                                                 : 'Unknown User'}
                                                         </span>
-                                                        <span className="text-gray-400">•</span>
+                                                        <span className="text-muted-foreground/50">•</span>
                                                         <span>{payment.method}</span>
-                                                        <span className="text-gray-400">•</span>
+                                                        <span className="text-muted-foreground/50">•</span>
                                                         <span>{new Date(payment.createdAt).toLocaleDateString()}</span>
                                                     </div>
                                                 </div>
                                                 <div className="text-right ml-4">
-                                                    <div className={`text-2xl font-bold ${payment.status === 'completed' ? 'text-green-600' : 'text-gray-700'}`}>
+                                                    <div className={`text-2xl font-bold ${payment.status === 'completed' ? 'text-success' : 'text-muted-foreground'}`}>
                                                         LKR {payment.amount.toFixed(2)}
                                                     </div>
-                                                    <p className="text-xs text-gray-500 mt-1">{payment.currency || 'LKR'}</p>
+                                                    <p className="text-xs text-muted-foreground mt-1">{payment.currency || 'LKR'}</p>
                                                 </div>
                                             </div>
                                         ))}

@@ -87,12 +87,12 @@ export default function PartnerProfilePage() {
     if (loading) {
         return (
             <ProtectedRoute allowedRoles={['partner']}>
-                <div className="flex min-h-screen bg-gray-50">
+                <div className="flex min-h-screen bg-background">
                     <DashboardSidebar role="partner" />
                     <main className="flex-1 p-8 flex items-center justify-center">
                         <div className="text-center">
-                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent mb-4"></div>
-                            <p className="text-gray-600">Loading profile...</p>
+                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent mb-4"></div>
+                            <p className="text-muted-foreground">Loading profile...</p>
                         </div>
                     </main>
                 </div>
@@ -102,44 +102,44 @@ export default function PartnerProfilePage() {
 
     return (
         <ProtectedRoute allowedRoles={['partner']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="partner" />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-3xl mx-auto">
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                                <User className="h-8 w-8 text-[#e2c2b7]" />
+                            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+                                <User className="h-8 w-8 text-primary" />
                                 Partner Profile
                             </h1>
-                            <p className="mt-2 text-gray-600">
+                            <p className="mt-2 text-muted-foreground">
                                 Manage your account and shop settings
                             </p>
                         </div>
 
                         <div className="grid gap-6">
                             {/* Account Info Card */}
-                            <Card>
+                            <Card className="bg-card border-border">
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Shield className="h-5 w-5 text-blue-600" />
+                                    <CardTitle className="flex items-center gap-2 text-foreground">
+                                        <Shield className="h-5 w-5 text-info" />
                                         Account Information
                                     </CardTitle>
-                                    <CardDescription>Your login credentials and role status</CardDescription>
+                                    <CardDescription className="text-muted-foreground">Your login credentials and role status</CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-4">
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div>
-                                            <Label>Email Address</Label>
-                                            <div className="flex items-center mt-1 p-2 bg-gray-100 rounded-md text-gray-700">
-                                                <Mail className="h-4 w-4 mr-2 text-gray-500" />
+                                            <Label className="text-foreground">Email Address</Label>
+                                            <div className="flex items-center mt-1 p-2 bg-muted rounded-md text-foreground">
+                                                <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
                                                 {profile?.email || user?.email}
                                             </div>
                                         </div>
                                         <div>
-                                            <Label>Account Role</Label>
-                                            <div className="flex items-center mt-1 p-2 bg-gray-100 rounded-md text-gray-700 capitalize">
-                                                <Shield className="h-4 w-4 mr-2 text-gray-500" />
+                                            <Label className="text-foreground">Account Role</Label>
+                                            <div className="flex items-center mt-1 p-2 bg-muted rounded-md text-foreground capitalize">
+                                                <Shield className="h-4 w-4 mr-2 text-muted-foreground" />
                                                 {profile?.role || user?.role}
                                             </div>
                                         </div>
@@ -148,25 +148,25 @@ export default function PartnerProfilePage() {
                             </Card>
 
                             {/* Shop Details Form */}
-                            <Card>
+                            <Card className="bg-card border-border">
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Store className="h-5 w-5 text-[#e2c2b7]" />
+                                    <CardTitle className="flex items-center gap-2 text-foreground">
+                                        <Store className="h-5 w-5 text-primary" />
                                         Shop Details
                                     </CardTitle>
-                                    <CardDescription>Information visible to stylists when they view your products</CardDescription>
+                                    <CardDescription className="text-muted-foreground">Information visible to stylists when they view your products</CardDescription>
                                 </CardHeader>
                                 <CardContent>
                                     <form onSubmit={handleSave} className="space-y-4">
                                         <div className="flex justify-center mb-6">
                                             <div className="w-32">
-                                                <Label className="mb-2 block text-center">Shop Logo / Photo</Label>
+                                                <Label className="mb-2 block text-center text-foreground">Shop Logo / Photo</Label>
                                                 <div className="flex flex-col items-center gap-2">
                                                     {shopDetails.profilePhoto && (
                                                         <img
                                                             src={shopDetails.profilePhoto}
                                                             alt="Profile"
-                                                            className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
+                                                            className="w-24 h-24 rounded-full object-cover border-2 border-border"
                                                         />
                                                     )}
                                                     <ImageUploader
@@ -183,7 +183,7 @@ export default function PartnerProfilePage() {
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="name" className="flex items-center gap-2">
+                                            <Label htmlFor="name" className="flex items-center gap-2 text-foreground">
                                                 <Store className="h-4 w-4" />
                                                 Shop Name
                                             </Label>
@@ -195,13 +195,13 @@ export default function PartnerProfilePage() {
                                                 placeholder="Enter your shop name"
                                                 className="mt-1"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">
+                                            <p className="text-xs text-muted-foreground mt-1">
                                                 This will be displayed as your shop's name
                                             </p>
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="location" className="flex items-center gap-2">
+                                            <Label htmlFor="location" className="flex items-center gap-2 text-foreground">
                                                 <MapPin className="h-4 w-4" />
                                                 Location / Address
                                             </Label>
@@ -213,13 +213,13 @@ export default function PartnerProfilePage() {
                                                 placeholder="Enter your shop address"
                                                 className="mt-1"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">
+                                            <p className="text-xs text-muted-foreground mt-1">
                                                 Stylists will see this location when viewing your products
                                             </p>
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="phone" className="flex items-center gap-2">
+                                            <Label htmlFor="phone" className="flex items-center gap-2 text-foreground">
                                                 <Phone className="h-4 w-4" />
                                                 Phone Number
                                             </Label>
@@ -231,7 +231,7 @@ export default function PartnerProfilePage() {
                                                 placeholder="Enter your contact number"
                                                 className="mt-1"
                                             />
-                                            <p className="text-xs text-gray-500 mt-1">
+                                            <p className="text-xs text-muted-foreground mt-1">
                                                 Contact number for customer inquiries
                                             </p>
                                         </div>
@@ -240,7 +240,7 @@ export default function PartnerProfilePage() {
                                             <Button
                                                 type="submit"
                                                 disabled={saving || isUploadingPhoto}
-                                                className="w-full md:w-auto bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900"
+                                                className="w-full md:w-auto bg-primary hover:bg-primary/90 text-primary-foreground"
                                             >
                                                 {saving || isUploadingPhoto ? (
                                                     <>

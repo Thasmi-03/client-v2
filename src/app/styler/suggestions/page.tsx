@@ -105,30 +105,30 @@ export default function SuggestionsPage() {
 
     return (
         <ProtectedRoute allowedRoles={['styler']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="styler" />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                                <Sparkles className="h-8 w-8 text-[#e2c2b7]" />
+                            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+                                <Sparkles className="h-8 w-8 text-primary" />
                                 Dress Suggestions
                             </h1>
-                            <p className="mt-2 text-gray-600">
+                            <p className="mt-2 text-muted-foreground">
                                 Curated dresses from our partner shops
                             </p>
                         </div>
 
                         {/* Search and Filters */}
-                        <Card className="mb-6">
+                        <Card className="mb-6 bg-card border-border">
                             <CardContent className="pt-6">
                                 <div className="grid gap-4 md:grid-cols-4">
                                     {/* Search */}
                                     <div className="md:col-span-1">
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                             <Input
                                                 placeholder="Search dresses..."
                                                 value={searchTerm}
@@ -194,43 +194,43 @@ export default function SuggestionsPage() {
 
                         {/* Stats */}
                         <div className="grid gap-6 md:grid-cols-3 mb-8">
-                            <Card>
+                            <Card className="bg-card border-border">
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Total Suggestions
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">{totalSuggestions}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Available for you</p>
+                                    <div className="text-2xl font-bold text-foreground">{totalSuggestions}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">Available for you</p>
                                 </CardContent>
                             </Card>
 
-                            <Card>
+                            <Card className="bg-card border-border">
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Partner Shops
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">
+                                    <div className="text-2xl font-bold text-foreground">
                                         {partnerShopsCount}
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">Contributing partners</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Contributing partners</p>
                                 </CardContent>
                             </Card>
 
-                            <Card>
+                            <Card className="bg-card border-border">
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Categories
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-2xl font-bold">
+                                    <div className="text-2xl font-bold text-foreground">
                                         {categoriesCount}
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">Different styles</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Different styles</p>
                                 </CardContent>
                             </Card>
                         </div>
@@ -238,17 +238,17 @@ export default function SuggestionsPage() {
                         {/* Suggestions Grid */}
                         {loading ? (
                             <div className="text-center py-12">
-                                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                <p className="mt-4 text-gray-600">Loading suggestions...</p>
+                                <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                <p className="mt-4 text-muted-foreground">Loading suggestions...</p>
                             </div>
                         ) : filteredClothes.length === 0 ? (
-                            <Card className="p-12">
+                            <Card className="p-12 bg-card border-border">
                                 <div className="text-center">
-                                    <Sparkles className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                                    <Sparkles className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                    <h3 className="text-lg font-semibold text-foreground mb-2">
                                         {clothes.length === 0 ? 'No Suggestions Available' : 'No matches found'}
                                     </h3>
-                                    <p className="text-gray-600 mb-6">
+                                    <p className="text-muted-foreground mb-6">
                                         {clothes.length === 0
                                             ? 'Check back later for new dress suggestions from our partner shops'
                                             : 'Try adjusting your filters or search terms'
@@ -263,9 +263,9 @@ export default function SuggestionsPage() {
                                     const isFavorite = favorites.includes(itemId);
 
                                     return (
-                                        <Card key={itemId} className="overflow-hidden hover:shadow-xl transition-all duration-300 group">
+                                        <Card key={itemId} className="overflow-hidden hover:bg-muted/50 transition-all duration-300 group bg-card border-border">
                                             {/* Image Placeholder */}
-                                            <div className="aspect-[3/4] bg-gradient-to-br from-[#e2c2b7] to-[#d4b5a8] flex items-center justify-center relative overflow-hidden">
+                                            <div className="aspect-[3/4] bg-muted flex items-center justify-center relative overflow-hidden">
                                                 {item.image ? (
                                                     <img
                                                         src={item.image}
@@ -273,13 +273,13 @@ export default function SuggestionsPage() {
                                                         className="w-full h-full object-cover"
                                                     />
                                                 ) : (
-                                                    <Package className="h-24 w-24 text-white opacity-30 group-hover:scale-110 transition-transform" />
+                                                    <Package className="h-24 w-24 text-muted-foreground opacity-30 group-hover:scale-110 transition-transform" />
                                                 )}
                                                 <div className="absolute top-3 right-3">
                                                     <Button
                                                         size="icon"
                                                         variant="secondary"
-                                                        className={`rounded-full h-8 w-8 ${isFavorite ? 'bg-red-50 text-red-500 hover:bg-red-100' : 'bg-white/80 hover:bg-white'}`}
+                                                        className={`rounded-full h-8 w-8 ${isFavorite ? 'bg-destructive/10 text-destructive hover:bg-destructive/20' : 'bg-background/80 hover:bg-background'}`}
                                                         onClick={(e) => handleFavorite(e, itemId)}
                                                     >
                                                         <Heart className={`h-4 w-4 ${isFavorite ? 'fill-current' : ''}`} />
@@ -289,27 +289,27 @@ export default function SuggestionsPage() {
 
                                             <CardContent className="p-5">
                                                 <div className="mb-3">
-                                                    <h3 className="font-semibold text-lg text-gray-900">{item.name}</h3>
-                                                    <p className="text-sm text-gray-600">{item.category}</p>
+                                                    <h3 className="font-semibold text-lg text-foreground">{item.name}</h3>
+                                                    <p className="text-sm text-muted-foreground">{item.category}</p>
                                                 </div>
 
                                                 <div className="space-y-2 mb-4">
                                                     <div className="flex justify-between text-sm">
-                                                        <span className="text-gray-600">Color:</span>
-                                                        <span className="font-medium capitalize">{item.color}</span>
+                                                        <span className="text-muted-foreground">Color:</span>
+                                                        <span className="font-medium capitalize text-foreground">{item.color}</span>
                                                     </div>
                                                     <div className="flex justify-between text-sm">
-                                                        <span className="text-gray-600">Brand:</span>
-                                                        <span className="font-medium">{item.brand}</span>
+                                                        <span className="text-muted-foreground">Brand:</span>
+                                                        <span className="font-medium text-foreground">{item.brand}</span>
                                                     </div>
                                                     <div className="flex justify-between text-sm">
-                                                        <span className="text-gray-600">Price:</span>
-                                                        <span className="font-bold text-[#e2c2b7]">Rs. {item.price.toFixed(2)}</span>
+                                                        <span className="text-muted-foreground">Price:</span>
+                                                        <span className="font-bold text-primary">Rs. {item.price.toFixed(2)}</span>
                                                     </div>
                                                     {typeof item.ownerId === 'object' && item.ownerId !== null && item.ownerId.location && (
-                                                        <div className="pt-2 border-t border-gray-200">
-                                                            <div className="text-xs text-gray-500">
-                                                                <div className="font-medium text-gray-700">
+                                                        <div className="pt-2 border-t border-border">
+                                                            <div className="text-xs text-muted-foreground">
+                                                                <div className="font-medium text-foreground">
                                                                     {item.ownerId.name || 'Partner Shop'}
                                                                 </div>
                                                                 <div className="flex items-center gap-1 mt-1">
@@ -325,7 +325,7 @@ export default function SuggestionsPage() {
                                                 </div>
 
                                                 <Button
-                                                    className="w-full bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900"
+                                                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
                                                     onClick={() => handleViewDetails(itemId)}
                                                 >
                                                     View Details

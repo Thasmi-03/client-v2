@@ -8,9 +8,9 @@ export function AdminHeader() {
     const { logout } = useAuth();
 
     return (
-        <header className="w-full bg-white border-b shadow-sm">
+        <header className="w-full bg-background border-b border-border shadow-sm">
             <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-                <h1 className="text-xl font-semibold text-gray-900">Admin Dashboard</h1>
+                <h1 className="text-xl font-semibold text-foreground">Admin Dashboard</h1>
 
                 <Button
                     onClick={logout}

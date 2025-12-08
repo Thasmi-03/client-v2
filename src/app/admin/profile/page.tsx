@@ -85,12 +85,12 @@ export default function AdminProfilePage() {
     if (loading) {
         return (
             <ProtectedRoute allowedRoles={['admin']}>
-                <div className="flex min-h-screen bg-gray-50">
+                <div className="flex min-h-screen bg-background">
                     <AdminDashboardSidebar />
                     <main className="flex-1 p-8 flex items-center justify-center">
                         <div className="text-center">
-                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent mb-4"></div>
-                            <p className="text-gray-600">Loading profile...</p>
+                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent mb-4"></div>
+                            <p className="text-muted-foreground">Loading profile...</p>
                         </div>
                     </main>
                 </div>
@@ -100,17 +100,17 @@ export default function AdminProfilePage() {
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <AdminDashboardSidebar />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-3xl mx-auto">
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-                                <User className="h-8 w-8 text-gray-900" />
+                            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+                                <User className="h-8 w-8 text-foreground" />
                                 Admin Profile
                             </h1>
-                            <p className="mt-2 text-gray-600">
+                            <p className="mt-2 text-muted-foreground">
                                 Manage your admin account settings
                             </p>
                         </div>
@@ -120,7 +120,7 @@ export default function AdminProfilePage() {
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
-                                        <Shield className="h-5 w-5 text-blue-600" />
+                                        <Shield className="h-5 w-5 text-primary" />
                                         Account Information
                                     </CardTitle>
                                     <CardDescription>Your login credentials and role status</CardDescription>
@@ -129,15 +129,15 @@ export default function AdminProfilePage() {
                                     <div className="grid gap-4 md:grid-cols-2">
                                         <div>
                                             <Label>Email Address</Label>
-                                            <div className="flex items-center mt-1 p-2 bg-gray-100 rounded-md text-gray-700">
-                                                <Mail className="h-4 w-4 mr-2 text-gray-500" />
+                                            <div className="flex items-center mt-1 p-2 bg-muted rounded-md text-foreground">
+                                                <Mail className="h-4 w-4 mr-2 text-muted-foreground" />
                                                 {profile?.email || user?.email}
                                             </div>
                                         </div>
                                         <div>
                                             <Label>Account Role</Label>
-                                            <div className="flex items-center mt-1 p-2 bg-gray-100 rounded-md text-gray-700 capitalize">
-                                                <Shield className="h-4 w-4 mr-2 text-gray-500" />
+                                            <div className="flex items-center mt-1 p-2 bg-muted rounded-md text-foreground capitalize">
+                                                <Shield className="h-4 w-4 mr-2 text-muted-foreground" />
                                                 {profile?.role || user?.role}
                                             </div>
                                         </div>
@@ -149,7 +149,7 @@ export default function AdminProfilePage() {
                             <Card>
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
-                                        <User className="h-5 w-5 text-gray-900" />
+                                        <User className="h-5 w-5 text-foreground" />
                                         Personal Details
                                     </CardTitle>
                                     <CardDescription>Update your profile information</CardDescription>
@@ -164,7 +164,7 @@ export default function AdminProfilePage() {
                                                         <img
                                                             src={formData.profilePhoto}
                                                             alt="Profile"
-                                                            className="w-24 h-24 rounded-full object-cover border-2 border-gray-200"
+                                                            className="w-24 h-24 rounded-full object-cover border-2 border-border"
                                                         />
                                                     )}
                                                     <ImageUploader

@@ -76,7 +76,7 @@ export default function PartnerDashboard() {
 
     return (
         <ProtectedRoute allowedRoles={['partner']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="partner" />
 
                 <main className="flex-1 p-8">
@@ -85,13 +85,13 @@ export default function PartnerDashboard() {
                         <div className="mb-8">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h1 className="text-3xl font-bold text-gray-900">Partner Dashboard</h1>
-                                    <p className="mt-2 text-gray-600">
+                                    <h1 className="text-3xl font-bold text-foreground">Partner Dashboard</h1>
+                                    <p className="mt-2 text-muted-foreground">
                                         Manage your inventory, track sales, and grow your business
                                     </p>
                                 </div>
                                 <Link href="/partner/clothes/add">
-                                    <Button className="flex items-center gap-2 bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                    <Button className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground">
                                         <Plus className="h-4 w-4" />
                                         Add New Product
                                     </Button>
@@ -101,68 +101,68 @@ export default function PartnerDashboard() {
 
                         {/* Stats Grid */}
                         <div className="grid gap-6 md:grid-cols-4 mb-8 items-stretch">
-                            <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200 flex flex-col min-h-[140px]">
+                            <Card className="bg-success/10 border-success/20 flex flex-col min-h-[140px]">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-green-900">
+                                    <CardTitle className="text-sm font-medium text-success">
                                         Total Revenue
                                     </CardTitle>
-                                    <DollarSign className="h-5 w-5 text-green-600" />
+                                    <DollarSign className="h-5 w-5 text-success" />
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col justify-center">
-                                    <div className="text-3xl font-bold text-green-900">LKR {totalRevenue.toFixed(2)}</div>
-                                    <p className="text-xs text-green-700 mt-1">All time earnings</p>
+                                    <div className="text-3xl font-bold text-success">LKR {totalRevenue.toFixed(2)}</div>
+                                    <p className="text-xs text-success/80 mt-1">All time earnings</p>
                                 </CardContent>
                             </Card>
 
-                            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200 flex flex-col min-h-[140px]">
+                            <Card className="bg-info/10 border-info/20 flex flex-col min-h-[140px]">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-blue-900">
+                                    <CardTitle className="text-sm font-medium text-info">
                                         Total Views
                                     </CardTitle>
-                                    <Eye className="h-5 w-5 text-blue-600" />
+                                    <Eye className="h-5 w-5 text-info" />
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col justify-center">
-                                    <div className="text-3xl font-bold text-blue-900">{totalViews}</div>
-                                    <p className="text-xs text-blue-700 mt-1">Styler views</p>
+                                    <div className="text-3xl font-bold text-info">{totalViews}</div>
+                                    <p className="text-xs text-info/80 mt-1">Styler views</p>
                                 </CardContent>
                             </Card>
 
-                            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200 flex flex-col min-h-[140px]">
+                            <Card className="bg-primary/10 border-primary/20 flex flex-col min-h-[140px]">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-purple-900">
+                                    <CardTitle className="text-sm font-medium text-primary">
                                         Inventory
                                     </CardTitle>
-                                    <Package className="h-5 w-5 text-purple-600" />
+                                    <Package className="h-5 w-5 text-primary" />
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col justify-center">
-                                    <div className="text-3xl font-bold text-purple-900">{totalStock}</div>
-                                    <p className="text-xs text-purple-700 mt-1">Items in stock</p>
+                                    <div className="text-3xl font-bold text-primary">{totalStock}</div>
+                                    <p className="text-xs text-primary/80 mt-1">Items in stock</p>
                                 </CardContent>
                             </Card>
 
-                            <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200 flex flex-col min-h-[140px]">
+                            <Card className="bg-warning/10 border-warning/20 flex flex-col min-h-[140px]">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-orange-900">
+                                    <CardTitle className="text-sm font-medium text-warning">
                                         Products
                                     </CardTitle>
-                                    <ShoppingBag className="h-5 w-5 text-orange-600" />
+                                    <ShoppingBag className="h-5 w-5 text-warning" />
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col justify-center">
-                                    <div className="text-3xl font-bold text-orange-900">{totalProducts}</div>
-                                    <p className="text-xs text-orange-700 mt-1">Total listings</p>
+                                    <div className="text-3xl font-bold text-warning">{totalProducts}</div>
+                                    <p className="text-xs text-warning/80 mt-1">Total listings</p>
                                 </CardContent>
                             </Card>
                         </div>
 
                         {/* Product Inventory Grid */}
-                        <Card className="mb-8">
+                        <Card className="mb-8 bg-card border-border">
                             <CardHeader className="flex flex-row items-center justify-between">
                                 <div>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Package className="h-5 w-5 text-[#e2c2b7]" />
+                                    <CardTitle className="flex items-center gap-2 text-foreground">
+                                        <Package className="h-5 w-5 text-primary" />
                                         Product Inventory
                                     </CardTitle>
-                                    <CardDescription>Manage your product catalog</CardDescription>
+                                    <CardDescription className="text-muted-foreground">Manage your product catalog</CardDescription>
                                 </div>
                                 <Link href="/partner/clothes">
                                     <Button variant="outline">View All Products</Button>
@@ -171,16 +171,16 @@ export default function PartnerDashboard() {
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-12">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading inventory...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading inventory...</p>
                                     </div>
                                 ) : clothes.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <Package className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                        <h3 className="text-lg font-semibold text-gray-900 mb-2">No Products Yet</h3>
-                                        <p className="text-gray-600 mb-6">Start by adding your first product to your inventory</p>
+                                        <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                        <h3 className="text-lg font-semibold text-foreground mb-2">No Products Yet</h3>
+                                        <p className="text-muted-foreground mb-6">Start by adding your first product to your inventory</p>
                                         <Link href="/partner/clothes/add">
-                                            <Button className="bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
                                                 <Plus className="h-4 w-4 mr-2" />
                                                 Add Product
                                             </Button>
@@ -194,9 +194,9 @@ export default function PartnerDashboard() {
                                             const imageUrl = product.image;
 
                                             return (
-                                                <Card key={productId} className="overflow-hidden hover:shadow-lg transition-all duration-300 group h-full flex flex-col">
+                                                <Card key={productId} className="overflow-hidden hover:bg-muted/50 transition-all duration-300 group h-full flex flex-col bg-card border-border">
                                                     {/* Product Image Placeholder */}
-                                                    <div className="h-48 w-full bg-gradient-to-br from-[#e2c2b7] to-[#d4b5a8] relative overflow-hidden">
+                                                    <div className="h-48 w-full bg-muted relative overflow-hidden">
                                                         {imageUrl ? (
                                                             <img
                                                                 src={imageUrl}
@@ -205,22 +205,22 @@ export default function PartnerDashboard() {
                                                             />
                                                         ) : (
                                                             <div className="w-full h-full flex items-center justify-center">
-                                                                <Package className="h-16 w-16 text-white opacity-40 group-hover:scale-110 transition-transform" />
+                                                                <Package className="h-16 w-16 text-muted-foreground opacity-40 group-hover:scale-110 transition-transform" />
                                                             </div>
                                                         )}
-                                                        <div className="absolute top-2 right-2 bg-white px-2 py-1 rounded-full text-xs font-bold">
+                                                        <div className="absolute top-2 right-2 bg-card px-2 py-1 rounded-full text-xs font-bold text-foreground shadow-sm">
                                                             {product.stock || 0} in stock
                                                         </div>
                                                     </div>
 
                                                     <CardContent className="p-4 flex-1 flex flex-col justify-between">
                                                         <div>
-                                                            <h3 className="font-semibold text-gray-900 mb-1">{product.name}</h3>
-                                                            <p className="text-xs text-gray-600 mb-3">{product.category} • {product.color}</p>
+                                                            <h3 className="font-semibold text-foreground mb-1">{product.name}</h3>
+                                                            <p className="text-xs text-muted-foreground mb-3">{product.category} • {product.color}</p>
 
                                                             <div className="flex items-center justify-between mb-3">
-                                                                <span className="text-lg font-bold text-[#e2c2b7]">LKR {product.price}</span>
-                                                                <span className="text-xs text-gray-600">{product.sales || 0} sold</span>
+                                                                <span className="text-lg font-bold text-primary">LKR {product.price}</span>
+                                                                <span className="text-xs text-muted-foreground">{product.sales || 0} sold</span>
                                                             </div>
                                                         </div>
 
@@ -236,32 +236,32 @@ export default function PartnerDashboard() {
 
                         <div className="grid gap-6 md:grid-cols-2 items-stretch">
                             {/* Recent Orders */}
-                            <Card className="flex flex-col h-full">
+                            <Card className="flex flex-col h-full bg-card border-border">
                                 <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <ShoppingBag className="h-5 w-5 text-[#e2c2b7]" />
+                                    <CardTitle className="flex items-center gap-2 text-foreground">
+                                        <ShoppingBag className="h-5 w-5 text-primary" />
                                         Recent Orders
                                     </CardTitle>
-                                    <CardDescription>Latest customer orders</CardDescription>
+                                    <CardDescription className="text-muted-foreground">Latest customer orders</CardDescription>
                                 </CardHeader>
                                 <CardContent className="flex-1 flex flex-col">
                                     <div className="space-y-4 flex-1">
                                         {orders.length === 0 ? (
-                                            <p className="text-center text-gray-500 py-4">No recent orders</p>
+                                            <p className="text-center text-muted-foreground py-4">No recent orders</p>
                                         ) : (
                                             orders.slice(0, 5).map((order) => (
-                                                <div key={order._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                                <div key={order._id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                                                     <div className="flex-1">
-                                                        <p className="font-medium text-gray-900">Order #{order._id.slice(-6)}</p>
-                                                        <p className="text-sm text-gray-600">
+                                                        <p className="font-medium text-foreground">Order #{order._id.slice(-6)}</p>
+                                                        <p className="text-sm text-muted-foreground">
                                                             {new Date(order.createdAt).toLocaleDateString()} • {order.items?.length || 0} items
                                                         </p>
                                                     </div>
                                                     <div className="text-right">
-                                                        <p className="font-bold text-gray-900">LKR {order.totalAmount}</p>
-                                                        <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'delivered' ? 'bg-green-100 text-green-800' :
-                                                            order.status === 'pending' ? 'bg-blue-100 text-blue-800' :
-                                                                'bg-yellow-100 text-yellow-800'
+                                                        <p className="font-bold text-foreground">LKR {order.totalAmount}</p>
+                                                        <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'delivered' ? 'bg-success/10 text-success' :
+                                                            order.status === 'pending' ? 'bg-info/10 text-info' :
+                                                                'bg-warning/10 text-warning'
                                                             }`}>
                                                             {order.status}
                                                         </span>
@@ -277,15 +277,15 @@ export default function PartnerDashboard() {
                             </Card>
 
                             {/* Quick Actions */}
-                            <Card className="flex flex-col h-full">
+                            <Card className="flex flex-col h-full bg-card border-border">
                                 <CardHeader>
-                                    <CardTitle>Quick Actions</CardTitle>
-                                    <CardDescription>Manage your store</CardDescription>
+                                    <CardTitle className="text-foreground">Quick Actions</CardTitle>
+                                    <CardDescription className="text-muted-foreground">Manage your store</CardDescription>
                                 </CardHeader>
                                 <CardContent className="flex-1">
                                     <div className="space-y-3">
                                         <Link href="/partner/clothes/add" className="block">
-                                            <Button className="w-full flex items-center justify-start gap-3 h-auto py-4 bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                            <Button className="w-full flex items-center justify-start gap-3 h-auto py-4 bg-primary hover:bg-primary/90 text-primary-foreground">
                                                 <Plus className="h-5 w-5" />
                                                 <div className="text-left">
                                                     <div className="font-semibold">Add New Product</div>

@@ -103,27 +103,27 @@ export default function StylerClothesPage() {
 
     return (
         <ProtectedRoute allowedRoles={['styler']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="styler" />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900">My Wardrobe</h1>
-                            <p className="mt-2 text-gray-600">
+                            <h1 className="text-3xl font-bold text-foreground">My Wardrobe</h1>
+                            <p className="mt-2 text-muted-foreground">
                                 Manage your clothing collection
                             </p>
                         </div>
 
                         {/* Search and Filters */}
-                        <Card className="mb-6">
+                        <Card className="mb-6 bg-card border-border">
                             <CardContent className="pt-6">
                                 <div className="grid gap-4 md:grid-cols-5">
                                     {/* Search */}
                                     <div className="md:col-span-2">
                                         <div className="relative">
-                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                                            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                             <Input
                                                 placeholder="Search clothes..."
                                                 value={searchTerm}
@@ -188,9 +188,9 @@ export default function StylerClothesPage() {
                         </Card>
 
                         {/* Clothes List */}
-                        <Card>
+                        <Card className="bg-card border-border">
                             <CardHeader>
-                                <CardTitle className="flex items-center gap-2">
+                                <CardTitle className="flex items-center gap-2 text-foreground">
                                     <Package className="h-5 w-5" />
                                     All Clothes ({totalItems})
                                 </CardTitle>
@@ -198,18 +198,18 @@ export default function StylerClothesPage() {
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-8">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading...</p>
                                     </div>
                                 ) : clothes.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <Package className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                                        <p className="text-gray-500 mb-4">
+                                        <Package className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                                        <p className="text-muted-foreground mb-4">
                                             {totalItems === 0 && !searchTerm && filterCategory === 'all' ? 'No clothes in wardrobe yet' : 'No clothes match your filters'}
                                         </p>
                                         {totalItems === 0 && !searchTerm && filterCategory === 'all' && (
                                             <Link href="/styler/clothes/add">
-                                                <Button>Add Your First Item</Button>
+                                                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Add Your First Item</Button>
                                             </Link>
                                         )}
                                     </div>
@@ -224,7 +224,7 @@ export default function StylerClothesPage() {
                                                 return (
                                                     <div
                                                         key={itemId}
-                                                        className="border rounded-lg p-4 hover:shadow-md transition-shadow flex flex-col h-full"
+                                                        className="border border-border rounded-lg p-4 hover:bg-muted/50 transition-colors flex flex-col h-full bg-card"
                                                     >
                                                         {imageUrl && (
                                                             <img
@@ -234,13 +234,13 @@ export default function StylerClothesPage() {
                                                             />
                                                         )}
                                                         <div className="flex-1">
-                                                            <h3 className="font-semibold text-lg mb-2">{item.name}</h3>
-                                                            <div className="space-y-1 text-sm text-gray-600 mb-3">
-                                                                <p>Category: <span className="font-medium">{item.category}</span></p>
-                                                                <p>Color: <span className="font-medium">{item.color}</span></p>
-                                                                {item.skinTone && <p>Skin Tone: <span className="font-medium">{item.skinTone}</span></p>}
-                                                                {item.gender && <p>Gender: <span className="font-medium">{item.gender}</span></p>}
-                                                                {item.age && <p>Age: <span className="font-medium">{item.age}</span></p>}
+                                                            <h3 className="font-semibold text-lg mb-2 text-foreground">{item.name}</h3>
+                                                            <div className="space-y-1 text-sm text-muted-foreground mb-3">
+                                                                <p>Category: <span className="font-medium text-foreground">{item.category}</span></p>
+                                                                <p>Color: <span className="font-medium text-foreground">{item.color}</span></p>
+                                                                {item.skinTone && <p>Skin Tone: <span className="font-medium text-foreground">{item.skinTone}</span></p>}
+                                                                {item.gender && <p>Gender: <span className="font-medium text-foreground">{item.gender}</span></p>}
+                                                                {item.age && <p>Age: <span className="font-medium text-foreground">{item.age}</span></p>}
                                                             </div>
                                                         </div>
                                                         <div className="flex gap-2 mt-auto">
@@ -276,7 +276,7 @@ export default function StylerClothesPage() {
                                                 >
                                                     Previous
                                                 </Button>
-                                                <span className="text-sm text-gray-600">
+                                                <span className="text-sm text-muted-foreground">
                                                     Page {page} of {totalPages}
                                                 </span>
                                                 <Button

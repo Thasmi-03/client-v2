@@ -114,27 +114,41 @@ export default function ImageUploader({
 
   return (
     <div>
-      <input type="file" accept="image/*" onChange={onFileChange} />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={onFileChange}
+        className="block w-full text-sm text-muted-foreground
+          file:mr-4 file:py-2 file:px-4
+          file:rounded-full file:border-0
+          file:text-sm file:font-semibold
+          file:bg-primary file:text-primary-foreground
+          hover:file:bg-primary/90"
+      />
       {preview && (
         <div className="mt-2">
-          <img src={preview} alt="preview" style={{ width: 150, height: "auto" }} />
+          <img src={preview} alt="preview" className="w-[150px] h-auto rounded-md border border-border" />
         </div>
       )}
 
       {!autoUpload && (
-        <button onClick={() => handleUpload()} disabled={uploading} className="mt-2">
+        <button
+          onClick={() => handleUpload()}
+          disabled={uploading}
+          className="mt-2 bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 disabled:opacity-50"
+        >
           {uploading ? "Uploading..." : "Upload"}
         </button>
       )}
 
       {uploading && autoUpload && (
-        <div className="mt-2 text-sm text-gray-500">Uploading...</div>
+        <div className="mt-2 text-sm text-muted-foreground">Uploading...</div>
       )}
 
       {imageUrl && !autoUpload && (
         <div className="mt-2">
-          <p>Uploaded image:</p>
-          <img src={imageUrl} alt="uploaded" style={{ width: 200 }} />
+          <p className="text-sm text-muted-foreground mb-1">Uploaded image:</p>
+          <img src={imageUrl} alt="uploaded" className="w-[200px] rounded-md border border-border" />
         </div>
       )}
     </div>

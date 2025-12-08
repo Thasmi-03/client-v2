@@ -87,8 +87,8 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-2">Create Account</h2>
-      <p className="text-gray-600 text-sm mb-6">Sign up as a styler</p>
+      <h2 className="text-2xl font-bold mb-2 text-foreground">Create Account</h2>
+      <p className="text-muted-foreground text-sm mb-6">Sign up as a styler</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -172,7 +172,7 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
             max={new Date().toISOString().split('T')[0]}
           />
           {age !== null && (
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-muted-foreground mt-1">
               Age: <span className="font-semibold">{age} years old</span>
             </p>
           )}
@@ -184,12 +184,12 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
       </form>
 
       {onSwitchToLogin && (
-        <p className="text-center text-sm text-gray-600 mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-4">
           Already have an account?{' '}
           <button
             type="button"
             onClick={onSwitchToLogin}
-            className="text-blue-600 hover:underline font-medium"
+            className="text-primary hover:underline font-medium"
           >
             Login
           </button>

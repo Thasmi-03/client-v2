@@ -43,15 +43,15 @@ export default function PartnerAnalyticsPage() {
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <AdminDashboardSidebar />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900">Partner Analytics</h1>
-                            <p className="mt-2 text-gray-600">
+                            <h1 className="text-3xl font-bold text-foreground">Partner Analytics</h1>
+                            <p className="mt-2 text-muted-foreground">
                                 View partner upload statistics and inventory details
                             </p>
                         </div>
@@ -60,42 +60,42 @@ export default function PartnerAnalyticsPage() {
                         <div className="grid gap-6 md:grid-cols-3 mb-8">
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Total Partners
                                     </CardTitle>
-                                    <Store className="h-5 w-5 text-blue-600" />
+                                    <Store className="h-5 w-5 text-info" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-gray-900">{partners.length}</div>
-                                    <p className="text-xs text-gray-500 mt-1">{approvedPartners} approved</p>
+                                    <div className="text-3xl font-bold text-foreground">{partners.length}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">{approvedPartners} approved</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Total Clothes
                                     </CardTitle>
-                                    <Package className="h-5 w-5 text-purple-600" />
+                                    <Package className="h-5 w-5 text-primary" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-gray-900">{totalClothes}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Across all partners</p>
+                                    <div className="text-3xl font-bold text-foreground">{totalClothes}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">Across all partners</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-gray-600">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Average per Partner
                                     </CardTitle>
-                                    <TrendingUp className="h-5 w-5 text-green-600" />
+                                    <TrendingUp className="h-5 w-5 text-success" />
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-gray-900">
+                                    <div className="text-3xl font-bold text-foreground">
                                         {partners.length > 0 ? Math.round(totalClothes / partners.length) : 0}
                                     </div>
-                                    <p className="text-xs text-gray-500 mt-1">Items per partner</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Items per partner</p>
                                 </CardContent>
                             </Card>
                         </div>
@@ -109,31 +109,31 @@ export default function PartnerAnalyticsPage() {
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-12">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading analytics...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading analytics...</p>
                                     </div>
                                 ) : partners.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <Store className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                        <p className="text-gray-500">No partners found</p>
+                                        <Store className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                        <p className="text-muted-foreground">No partners found</p>
                                     </div>
                                 ) : (
                                     <div className="space-y-4">
                                         {partners.map((partner) => (
                                             <div key={partner._id} className="border rounded-lg overflow-hidden">
                                                 <div
-                                                    className="p-4 bg-gray-50 cursor-pointer hover:bg-gray-100 transition-colors"
+                                                    className="p-4 bg-muted/50 cursor-pointer hover:bg-muted transition-colors"
                                                     onClick={() => togglePartner(partner._id)}
                                                 >
                                                     <div className="flex items-center justify-between">
                                                         <div className="flex-1">
                                                             <div className="flex items-center gap-3">
-                                                                <h3 className="font-semibold text-gray-900">{partner.name}</h3>
-                                                                <span className={`text-xs px-2 py-1 rounded-full ${partner.isApproved ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                                                <h3 className="font-semibold text-foreground">{partner.name}</h3>
+                                                                <span className={`text-xs px-2 py-1 rounded-full ${partner.isApproved ? 'bg-success/10 text-success' : 'bg-warning/10 text-warning'}`}>
                                                                     {partner.isApproved ? 'Approved' : 'Pending'}
                                                                 </span>
                                                             </div>
-                                                            <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                                                            <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-muted-foreground">
                                                                 <div>
                                                                     <span className="font-medium">Email:</span> {partner.email}
                                                                 </div>
@@ -149,23 +149,23 @@ export default function PartnerAnalyticsPage() {
                                                             </div>
                                                         </div>
                                                         <div className="text-right ml-4">
-                                                            <div className="text-2xl font-bold text-[#e2c2b7]">{partner.totalClothes}</div>
-                                                            <div className="text-xs text-gray-500">Total Clothes</div>
+                                                            <div className="text-2xl font-bold text-primary">{partner.totalClothes}</div>
+                                                            <div className="text-xs text-muted-foreground">Total Clothes</div>
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 {/* Expanded Clothes List */}
                                                 {expandedPartner === partner._id && (
-                                                    <div className="p-4 border-t bg-white">
+                                                    <div className="p-4 border-t bg-card">
                                                         {partner.clothes.length === 0 ? (
-                                                            <p className="text-center text-gray-500 py-4">No clothes uploaded yet</p>
+                                                            <p className="text-center text-muted-foreground py-4">No clothes uploaded yet</p>
                                                         ) : (
                                                             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                                                                 {partner.clothes.map((cloth) => (
                                                                     <Card key={cloth._id} className="overflow-hidden">
                                                                         {cloth.image && (
-                                                                            <div className="h-48 w-full bg-gray-100 overflow-hidden">
+                                                                            <div className="h-48 w-full bg-muted overflow-hidden">
                                                                                 <img
                                                                                     src={cloth.image}
                                                                                     alt={cloth.name}
@@ -174,8 +174,8 @@ export default function PartnerAnalyticsPage() {
                                                                             </div>
                                                                         )}
                                                                         <CardContent className="p-4">
-                                                                            <h4 className="font-semibold text-gray-900 mb-2">{cloth.name}</h4>
-                                                                            <div className="space-y-1 text-sm text-gray-600">
+                                                                            <h4 className="font-semibold text-foreground mb-2">{cloth.name}</h4>
+                                                                            <div className="space-y-1 text-sm text-muted-foreground">
                                                                                 <p><span className="font-medium">Category:</span> {cloth.category}</p>
                                                                                 <p><span className="font-medium">Brand:</span> {cloth.brand}</p>
                                                                                 <p><span className="font-medium">Color:</span> {cloth.color}</p>
@@ -193,13 +193,13 @@ export default function PartnerAnalyticsPage() {
                                                                                     <p className="mt-2">
                                                                                         <span className="font-medium">Suitable Skin Tones:</span>{' '}
                                                                                         {cloth.suitableSkinTones.map(tone => (
-                                                                                            <span key={tone} className="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs mr-1 mb-1 capitalize">
+                                                                                            <span key={tone} className="inline-block bg-muted text-muted-foreground px-2 py-1 rounded-full text-xs mr-1 mb-1 capitalize">
                                                                                                 {tone}
                                                                                             </span>
                                                                                         ))}
                                                                                     </p>
                                                                                 )}
-                                                                                <p className="text-xs text-gray-500 mt-2">
+                                                                                <p className="text-xs text-muted-foreground mt-2">
                                                                                     <Calendar className="h-3 w-3 inline mr-1" />
                                                                                     Uploaded: {new Date(cloth.uploadedAt).toLocaleDateString()}
                                                                                 </p>

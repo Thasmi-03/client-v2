@@ -127,10 +127,10 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
     if (fetching) {
         return (
             <ProtectedRoute allowedRoles={['partner']}>
-                <div className="flex min-h-screen bg-gray-50 items-center justify-center">
+                <div className="flex min-h-screen bg-background items-center justify-center">
                     <div className="text-center">
-                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent mb-4"></div>
-                        <p>Loading product details...</p>
+                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent mb-4"></div>
+                        <p className="text-muted-foreground">Loading product details...</p>
                     </div>
                 </div>
             </ProtectedRoute>
@@ -139,7 +139,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
 
     return (
         <ProtectedRoute allowedRoles={['partner']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="partner" />
 
                 <main className="flex-1 p-8">
@@ -152,22 +152,22 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                     Back to Inventory
                                 </Button>
                             </Link>
-                            <h1 className="text-3xl font-bold text-gray-900">Edit Product</h1>
-                            <p className="mt-2 text-gray-600">
+                            <h1 className="text-3xl font-bold text-foreground">Edit Product</h1>
+                            <p className="mt-2 text-muted-foreground">
                                 Update product information
                             </p>
                         </div>
 
                         {/* Form */}
-                        <Card>
+                        <Card className="bg-card border-border">
                             <CardHeader>
-                                <CardTitle>Product Information</CardTitle>
+                                <CardTitle className="text-foreground">Product Information</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid gap-6 md:grid-cols-2">
                                         <div>
-                                            <Label htmlFor="name">Product Name *</Label>
+                                            <Label htmlFor="name" className="text-foreground">Product Name *</Label>
                                             <Input
                                                 id="name"
                                                 name="name"
@@ -180,7 +180,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="brand">Brand *</Label>
+                                            <Label htmlFor="brand" className="text-foreground">Brand *</Label>
                                             <Input
                                                 id="brand"
                                                 name="brand"
@@ -193,7 +193,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="category">Category *</Label>
+                                            <Label htmlFor="category" className="text-foreground">Category *</Label>
                                             <Select
                                                 value={formData.category}
                                                 onValueChange={(value) => handleSelectChange('category', value)}
@@ -212,7 +212,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="color">Color *</Label>
+                                            <Label htmlFor="color" className="text-foreground">Color *</Label>
                                             <Select
                                                 value={formData.color}
                                                 onValueChange={(value) => handleSelectChange('color', value)}
@@ -231,7 +231,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="price">Price (LKR) *</Label>
+                                            <Label htmlFor="price" className="text-foreground">Price (LKR) *</Label>
                                             <Input
                                                 id="price"
                                                 name="price"
@@ -247,7 +247,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="stock">Stock Quantity *</Label>
+                                            <Label htmlFor="stock" className="text-foreground">Stock Quantity *</Label>
                                             <Input
                                                 id="stock"
                                                 name="stock"
@@ -262,7 +262,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="visibility">Visibility *</Label>
+                                            <Label htmlFor="visibility" className="text-foreground">Visibility *</Label>
                                             <Select
                                                 value={formData.visibility}
                                                 onValueChange={(value) => handleSelectChange('visibility', value)}
@@ -278,7 +278,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="imageUrl">Image URL</Label>
+                                            <Label htmlFor="imageUrl" className="text-foreground">Image URL</Label>
                                             <Input
                                                 id="imageUrl"
                                                 name="imageUrl"
@@ -291,7 +291,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                     </div>
 
                                     <div>
-                                        <Label htmlFor="description">Description</Label>
+                                        <Label htmlFor="description" className="text-foreground">Description</Label>
                                         <Textarea
                                             id="description"
                                             name="description"
@@ -304,7 +304,7 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                     </div>
 
                                     <div className="flex gap-4">
-                                        <Button type="submit" disabled={loading} className="flex-1 bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
+                                        <Button type="submit" disabled={loading} className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground">
                                             {loading ? 'Updating...' : 'Update Product'}
                                         </Button>
                                         <Link href="/partner/clothes" className="flex-1">

@@ -69,17 +69,17 @@ export default function UsersPage() {
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <AdminDashboardSidebar />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
                                 Users
                             </h1>
-                            <p className="mt-2 text-gray-600">
+                            <p className="mt-2 text-muted-foreground">
                                 User Management
                             </p>
                         </div>
@@ -87,17 +87,17 @@ export default function UsersPage() {
                         {/* Search and Filters */}
                         <div className="flex items-center justify-between mb-6">
                             <div className="relative w-72">
-                                <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     placeholder="Search users..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-10 bg-white"
+                                    className="pl-10 bg-card"
                                 />
                             </div>
                             <div className="flex gap-2">
                                 <select
-                                    className="px-3 py-2 border rounded-md text-sm bg-white"
+                                    className="px-3 py-2 border rounded-md text-sm bg-card text-foreground border-input"
                                     value={roleFilter}
                                     onChange={(e) => setRoleFilter(e.target.value as any)}
                                 >
@@ -116,18 +116,18 @@ export default function UsersPage() {
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-12">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading users...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading users...</p>
                                     </div>
                                 ) : filteredUsers.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                        <p className="text-gray-600 font-medium">No users found</p>
+                                        <Users className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                        <p className="text-muted-foreground font-medium">No users found</p>
                                     </div>
                                 ) : (
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-sm text-left">
-                                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                                            <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
                                                 <tr>
                                                     <th className="px-6 py-3">Email</th>
                                                     <th className="px-6 py-3">Role</th>
@@ -137,27 +137,27 @@ export default function UsersPage() {
                                             </thead>
                                             <tbody>
                                                 {filteredUsers.map((user) => (
-                                                    <tr key={user._id} className="bg-white border-b hover:bg-gray-50">
-                                                        <td className="px-6 py-4 font-medium text-gray-900">
+                                                    <tr key={user._id} className="bg-card border-b border-border hover:bg-muted/50">
+                                                        <td className="px-6 py-4 font-medium text-foreground">
                                                             {user.email}
                                                         </td>
                                                         <td className="px-6 py-4">
-                                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold capitalize ${user.role === 'styler' ? 'bg-purple-100 text-purple-800' :
-                                                                user.role === 'partner' ? 'bg-blue-100 text-blue-800' :
-                                                                    'bg-gray-100 text-gray-800'
+                                                            <span className={`px-2 py-1 rounded-full text-xs font-semibold capitalize ${user.role === 'styler' ? 'bg-primary/10 text-primary' :
+                                                                user.role === 'partner' ? 'bg-info/10 text-info' :
+                                                                    'bg-muted text-muted-foreground'
                                                                 }`}>
                                                                 {user.role}
                                                             </span>
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <span className={`px-2 py-1 rounded-full text-xs font-semibold ${user.isApproved
-                                                                ? 'bg-green-100 text-green-800'
-                                                                : 'bg-yellow-100 text-yellow-800'
+                                                                ? 'bg-success/10 text-success'
+                                                                : 'bg-warning/10 text-warning'
                                                                 }`}>
                                                                 {user.isApproved ? 'Active' : 'Pending'}
                                                             </span>
                                                         </td>
-                                                        <td className="px-6 py-4 text-gray-500">
+                                                        <td className="px-6 py-4 text-muted-foreground">
                                                             {new Date(user.createdAt).toLocaleDateString()}
                                                         </td>
                                                     </tr>

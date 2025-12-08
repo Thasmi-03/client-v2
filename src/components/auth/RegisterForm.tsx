@@ -117,8 +117,8 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-2">Create Account</h2>
-      <p className="text-gray-600 text-sm mb-6">Sign up as a partner</p>
+      <h2 className="text-2xl font-bold mb-2 text-foreground">Create Account</h2>
+      <p className="text-muted-foreground text-sm mb-6">Sign up as a partner</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
@@ -129,7 +129,7 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
             disabled={loading}
             className="mt-1"
           />
-          {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>}
+          {errors.fullName && <p className="text-destructive text-sm mt-1">{errors.fullName.message}</p>}
         </div>
 
         <div>
@@ -142,7 +142,7 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
             disabled={loading}
             className="mt-1"
           />
-          {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+          {errors.email && <p className="text-destructive text-sm mt-1">{errors.email.message}</p>}
         </div>
 
         <div>
@@ -154,7 +154,7 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
             disabled={loading}
             className="mt-1"
           />
-          {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>}
+          {errors.phone && <p className="text-destructive text-sm mt-1">{errors.phone.message}</p>}
         </div>
 
         <div>
@@ -166,7 +166,7 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
             disabled={loading}
             className="mt-1"
           />
-          {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
+          {errors.address && <p className="text-destructive text-sm mt-1">{errors.address.message}</p>}
         </div>
 
         <div>
@@ -178,7 +178,7 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
             disabled={loading}
             className="mt-1"
           />
-          {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+          {errors.password && <p className="text-destructive text-sm mt-1">{errors.password.message}</p>}
         </div>
 
         {!isPartnerPage && (
@@ -189,14 +189,14 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
                 {...register('gender')}
                 id="gender"
                 disabled={loading}
-                className="mt-1 w-full p-2 border rounded-md"
+                className="mt-1 w-full p-2 border rounded-md bg-background text-foreground border-input"
               >
                 <option value="">Select gender</option>
                 <option value="male">Male</option>
                 <option value="female">Female</option>
                 <option value="other">Other</option>
               </select>
-              {errors.gender && <p className="text-red-500 text-sm mt-1">{errors.gender.message}</p>}
+              {errors.gender && <p className="text-destructive text-sm mt-1">{errors.gender.message}</p>}
             </div>
 
             <div>
@@ -208,7 +208,7 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
                 disabled={loading}
                 className="mt-1"
               />
-              {errors.dateOfBirth && <p className="text-red-500 text-sm mt-1">{errors.dateOfBirth.message}</p>}
+              {errors.dateOfBirth && <p className="text-destructive text-sm mt-1">{errors.dateOfBirth.message}</p>}
             </div>
           </>
         )}
@@ -221,12 +221,12 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
       </form>
 
       {onSwitchToLogin && (
-        <p className="text-center text-sm text-gray-600 mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-4">
           Already have an account?{' '}
           <button
             type="button"
             onClick={onSwitchToLogin}
-            className="text-blue-600 hover:underline font-medium"
+            className="text-primary hover:underline font-medium"
           >
             Login
           </button>

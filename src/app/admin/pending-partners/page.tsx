@@ -148,7 +148,7 @@ export default function PendingPartnersPage() {
                                             <Button
                                                 size="sm"
                                                 variant="outline"
-                                                className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                                                className="text-success hover:text-success hover:bg-success/10 border-success/20"
                                                 onClick={() => handleApprove(partner._id)}
                                                 disabled={processingId === partner._id}
                                             >
@@ -164,7 +164,7 @@ export default function PendingPartnersPage() {
                                             <Button
                                                 size="sm"
                                                 variant="outline"
-                                                className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                                                className="text-destructive hover:text-destructive hover:bg-destructive/10 border-destructive/20"
                                                 onClick={() => handleReject(partner._id)}
                                                 disabled={processingId === partner._id}
                                             >

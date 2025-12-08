@@ -97,7 +97,7 @@ export default function PartnersPage() {
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <AdminDashboardSidebar />
 
                 <main className="flex-1 p-8">
@@ -105,12 +105,12 @@ export default function PartnersPage() {
                         {/* Header */}
                         <div className="flex items-center justify-between mb-8">
                             <div>
-                                <h1 className="text-3xl font-bold text-gray-900">Partners</h1>
-                                <p className="mt-2 text-gray-600">Manage partner approvals and access</p>
+                                <h1 className="text-3xl font-bold text-foreground">Partners</h1>
+                                <p className="mt-2 text-muted-foreground">Manage partner approvals and access</p>
                             </div>
                             <div className="flex gap-2">
                                 <select
-                                    className="px-3 py-2 border rounded-md text-sm bg-white"
+                                    className="px-3 py-2 border rounded-md text-sm bg-card text-foreground border-input"
                                     value={filterStatus}
                                     onChange={(e) => setFilterStatus(e.target.value as any)}
                                 >
@@ -127,27 +127,27 @@ export default function PartnersPage() {
                                 <CardContent className="pt-6">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-sm font-medium text-gray-600">Total Partners</p>
-                                            <p className="text-3xl font-bold text-gray-900 mt-2">{partners.length}</p>
+                                            <p className="text-sm font-medium text-muted-foreground">Total Partners</p>
+                                            <p className="text-3xl font-bold text-foreground mt-2">{partners.length}</p>
                                         </div>
-                                        <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                            <Users className="h-6 w-6 text-blue-600" />
+                                        <div className="h-12 w-12 bg-info/10 rounded-full flex items-center justify-center">
+                                            <Users className="h-6 w-6 text-info" />
                                         </div>
                                     </div>
                                 </CardContent>
                             </Card>
 
-                            <Card className="border-yellow-200 bg-yellow-50">
+                            <Card className="border-warning/20 bg-warning/5">
                                 <CardContent className="pt-6">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-sm font-medium text-yellow-800">Pending Approvals</p>
-                                            <p className="text-3xl font-bold text-yellow-900 mt-2">
+                                            <p className="text-sm font-medium text-warning-foreground">Pending Approvals</p>
+                                            <p className="text-3xl font-bold text-warning-foreground mt-2">
                                                 {partners.filter(p => !p.isApproved).length}
                                             </p>
                                         </div>
-                                        <div className="h-12 w-12 bg-yellow-200 rounded-full flex items-center justify-center">
-                                            <Clock className="h-6 w-6 text-yellow-700" />
+                                        <div className="h-12 w-12 bg-warning/20 rounded-full flex items-center justify-center">
+                                            <Clock className="h-6 w-6 text-warning-foreground" />
                                         </div>
                                     </div>
                                 </CardContent>
@@ -157,13 +157,13 @@ export default function PartnersPage() {
                                 <CardContent className="pt-6">
                                     <div className="flex items-center justify-between">
                                         <div>
-                                            <p className="text-sm font-medium text-gray-600">Approved Partners</p>
-                                            <p className="text-3xl font-bold text-gray-900 mt-2">
+                                            <p className="text-sm font-medium text-muted-foreground">Approved Partners</p>
+                                            <p className="text-3xl font-bold text-foreground mt-2">
                                                 {partners.filter(p => p.isApproved).length}
                                             </p>
                                         </div>
-                                        <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center">
-                                            <UserCheck className="h-6 w-6 text-green-600" />
+                                        <div className="h-12 w-12 bg-success/10 rounded-full flex items-center justify-center">
+                                            <UserCheck className="h-6 w-6 text-success" />
                                         </div>
                                     </div>
                                 </CardContent>
@@ -178,18 +178,18 @@ export default function PartnersPage() {
                             <CardContent>
                                 {loading ? (
                                     <div className="text-center py-12">
-                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                                        <p className="mt-4 text-gray-600">Loading partners...</p>
+                                        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                                        <p className="mt-4 text-muted-foreground">Loading partners...</p>
                                     </div>
                                 ) : filteredPartners.length === 0 ? (
                                     <div className="text-center py-12">
-                                        <Store className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                                        <p className="text-gray-600 font-medium">No partners found</p>
+                                        <Store className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                                        <p className="text-muted-foreground font-medium">No partners found</p>
                                     </div>
                                 ) : (
                                     <div className="overflow-x-auto">
                                         <table className="w-full text-sm text-left">
-                                            <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                                            <thead className="text-xs text-muted-foreground uppercase bg-muted/50">
                                                 <tr>
                                                     <th className="px-6 py-3">Shop Name</th>
                                                     <th className="px-6 py-3">Email</th>
@@ -201,23 +201,23 @@ export default function PartnersPage() {
                                             </thead>
                                             <tbody>
                                                 {filteredPartners.map((partner) => (
-                                                    <tr key={partner._id} className={`border-b hover:bg-gray-50 ${!partner.isApproved ? 'bg-yellow-50/30' : 'bg-white'}`}>
-                                                        <td className="px-6 py-4 font-medium text-gray-900">
+                                                    <tr key={partner._id} className={`border-b border-border hover:bg-muted/50 ${!partner.isApproved ? 'bg-warning/5' : 'bg-card'}`}>
+                                                        <td className="px-6 py-4 font-medium text-foreground">
                                                             {partner.name || 'Partner Shop'}
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             {partner.email}
                                                         </td>
-                                                        <td className="px-6 py-4 text-gray-600">
+                                                        <td className="px-6 py-4 text-muted-foreground">
                                                             {partner.location || '-'}
                                                         </td>
-                                                        <td className="px-6 py-4 text-gray-600">
+                                                        <td className="px-6 py-4 text-muted-foreground">
                                                             {partner.phone || '-'}
                                                         </td>
                                                         <td className="px-6 py-4">
                                                             <span className={`px-2 py-1 rounded-full text-xs font-semibold ${partner.isApproved
-                                                                ? 'bg-green-100 text-green-800'
-                                                                : 'bg-yellow-100 text-yellow-800'
+                                                                ? 'bg-success/10 text-success'
+                                                                : 'bg-warning/10 text-warning'
                                                                 }`}>
                                                                 {partner.isApproved ? 'approved' : 'pending'}
                                                             </span>
@@ -227,7 +227,7 @@ export default function PartnersPage() {
                                                                 {!partner.isApproved && (
                                                                     <Button
                                                                         size="sm"
-                                                                        className="bg-black hover:bg-gray-800 text-white h-8"
+                                                                        className="bg-primary hover:bg-primary/90 text-primary-foreground h-8"
                                                                         onClick={() => handleApprove(partner._id, partner.name || '')}
                                                                     >
                                                                         <CheckCircle className="w-4 h-4 mr-1" /> Approve
@@ -236,7 +236,7 @@ export default function PartnersPage() {
                                                                 <Button
                                                                     size="sm"
                                                                     variant={partner.isApproved ? "outline" : "destructive"}
-                                                                    className={partner.isApproved ? "text-red-600 border-red-200 hover:bg-red-50 h-8" : "bg-red-600 hover:bg-red-700 h-8"}
+                                                                    className={partner.isApproved ? "text-destructive border-destructive/20 hover:bg-destructive/10 h-8" : "bg-destructive hover:bg-destructive/90 h-8"}
                                                                     onClick={() => handleReject(partner._id, partner.name || '')}
                                                                 >
                                                                     <XCircle className="w-4 h-4 mr-1" /> Reject

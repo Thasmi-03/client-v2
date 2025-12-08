@@ -64,12 +64,12 @@ export default function AdminDashboard() {
     if (loading) {
         return (
             <ProtectedRoute allowedRoles={['admin']}>
-                <div className="flex min-h-screen bg-gray-50">
+                <div className="flex min-h-screen bg-background">
                     <AdminDashboardSidebar />
                     <main className="flex-1 p-8">
                         <div className="text-center py-12">
-                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent"></div>
-                            <p className="mt-4 text-gray-600">Loading dashboard...</p>
+                            <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+                            <p className="mt-4 text-muted-foreground">Loading dashboard...</p>
                         </div>
                     </main>
                 </div>
@@ -79,15 +79,15 @@ export default function AdminDashboard() {
 
     return (
         <ProtectedRoute allowedRoles={['admin']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <AdminDashboardSidebar />
 
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
                         <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-                            <p className="mt-2 text-gray-600">
+                            <h1 className="text-3xl font-bold text-foreground">Admin Dashboard</h1>
+                            <p className="mt-2 text-muted-foreground">
                                 Monitor system statistics and manage platform operations
                             </p>
                         </div>
@@ -96,77 +96,77 @@ export default function AdminDashboard() {
                         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         <Users className="h-4 w-4" />
                                         Total Users
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-3xl font-bold">{analytics?.totalUsers || 0}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Registered accounts</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Registered accounts</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         <UserCheck className="h-4 w-4" />
                                         Pending Approvals
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
-                                    <div className="text-3xl font-bold text-orange-600">{pendingCount}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Awaiting review</p>
+                                    <div className="text-3xl font-bold text-warning">{pendingCount}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">Awaiting review</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         <Store className="h-4 w-4" />
                                         Total Partners
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-3xl font-bold">{analytics?.totalPartners || 0}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Active partner shops</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Active partner shops</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         <ShoppingBag className="h-4 w-4" />
                                         Total Stylists
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-3xl font-bold">{analytics?.totalStylists || 0}</div>
-                                    <p className="text-xs text-gray-500 mt-1">Active stylist accounts</p>
+                                    <p className="text-xs text-muted-foreground mt-1">Active stylist accounts</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         Total Payments
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-3xl font-bold">{analytics?.totalPayments || 0}</div>
-                                    <p className="text-xs text-gray-500 mt-1">All-time transactions</p>
+                                    <p className="text-xs text-muted-foreground mt-1">All-time transactions</p>
                                 </CardContent>
                             </Card>
 
                             <Card>
                                 <CardHeader className="pb-3">
-                                    <CardTitle className="text-sm font-medium text-gray-600 flex items-center gap-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                                         Total Revenue
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     LKR {analytics?.totalRevenue?.toFixed(2) || '0.00'}
-                                    <p className="text-xs text-gray-500 mt-1">All-time revenue</p>
+                                    <p className="text-xs text-muted-foreground mt-1">All-time revenue</p>
                                 </CardContent>
                             </Card>
                         </div>
@@ -184,17 +184,17 @@ export default function AdminDashboard() {
                                 <CardContent>
                                     <div className="space-y-3">
                                         {analytics?.weeklyTrend.slice(0, 3).map((day, index) => (
-                                            <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                                            <div key={index} className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
                                                 <div className="flex-1">
                                                     <p className="text-sm font-medium">{day.week}</p>
-                                                    <p className="text-xs text-gray-500">
+                                                    <p className="text-xs text-muted-foreground">
                                                         {day.registrations} new registrations, {day.logins} logins
                                                     </p>
                                                 </div>
                                             </div>
                                         ))}
                                         {!analytics?.weeklyTrend.length && (
-                                            <p className="text-sm text-gray-500 text-center py-4">No recent activity</p>
+                                            <p className="text-sm text-muted-foreground text-center py-4">No recent activity</p>
                                         )}
                                     </div>
                                 </CardContent>
@@ -210,17 +210,17 @@ export default function AdminDashboard() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-3">
-                                        <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg">
                                             <span className="text-sm font-medium">API Status</span>
-                                            <span className="text-xs font-semibold text-green-600">Online</span>
+                                            <span className="text-xs font-semibold text-success">Online</span>
                                         </div>
-                                        <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg">
                                             <span className="text-sm font-medium">Database</span>
-                                            <span className="text-xs font-semibold text-green-600">Connected</span>
+                                            <span className="text-xs font-semibold text-success">Connected</span>
                                         </div>
-                                        <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+                                        <div className="flex items-center justify-between p-3 bg-success/10 rounded-lg">
                                             <span className="text-sm font-medium">Payment Gateway</span>
-                                            <span className="text-xs font-semibold text-green-600">Active</span>
+                                            <span className="text-xs font-semibold text-success">Active</span>
                                         </div>
                                     </div>
                                 </CardContent>

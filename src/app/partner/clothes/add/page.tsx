@@ -157,7 +157,7 @@ export default function AddPartnerClothesPage() {
 
     return (
         <ProtectedRoute allowedRoles={['partner']}>
-            <div className="flex min-h-screen bg-gray-50">
+            <div className="flex min-h-screen bg-background">
                 <DashboardSidebar role="partner" />
 
                 <main className="flex-1 p-8">
@@ -170,16 +170,16 @@ export default function AddPartnerClothesPage() {
                                     Back to Inventory
                                 </Button>
                             </Link>
-                            <h1 className="text-3xl font-bold text-gray-900">Add New Product</h1>
-                            <p className="mt-2 text-gray-600">
+                            <h1 className="text-3xl font-bold text-foreground">Add New Product</h1>
+                            <p className="mt-2 text-muted-foreground">
                                 Add a new item to your store inventory
                             </p>
                         </div>
 
                         {/* Form */}
-                        <Card>
+                        <Card className="bg-card border-border">
                             <CardHeader>
-                                <CardTitle>Product Information</CardTitle>
+                                <CardTitle className="text-foreground">Product Information</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <Form {...form}>
@@ -190,7 +190,7 @@ export default function AddPartnerClothesPage() {
                                                 name="name"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Product Name *</FormLabel>
+                                                        <FormLabel className="text-foreground">Product Name *</FormLabel>
                                                         <FormControl>
                                                             <Input
                                                                 {...field}
@@ -207,7 +207,7 @@ export default function AddPartnerClothesPage() {
                                                 name="brand"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Brand *</FormLabel>
+                                                        <FormLabel className="text-foreground">Brand *</FormLabel>
                                                         <FormControl>
                                                             <Input
                                                                 {...field}
@@ -224,7 +224,7 @@ export default function AddPartnerClothesPage() {
                                                 name="category"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Category *</FormLabel>
+                                                        <FormLabel className="text-foreground">Category *</FormLabel>
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <FormControl>
                                                                 <SelectTrigger>
@@ -249,7 +249,7 @@ export default function AddPartnerClothesPage() {
                                                 name="color"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Color *</FormLabel>
+                                                        <FormLabel className="text-foreground">Color *</FormLabel>
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <FormControl>
                                                                 <SelectTrigger>
@@ -274,7 +274,7 @@ export default function AddPartnerClothesPage() {
                                                 name="price"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Price (LKR) *</FormLabel>
+                                                        <FormLabel className="text-foreground">Price (LKR) *</FormLabel>
                                                         <FormControl>
                                                             <Input
                                                                 {...field}
@@ -294,7 +294,7 @@ export default function AddPartnerClothesPage() {
                                                 name="stock"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Stock Quantity *</FormLabel>
+                                                        <FormLabel className="text-foreground">Stock Quantity *</FormLabel>
                                                         <FormControl>
                                                             <Input
                                                                 {...field}
@@ -313,7 +313,7 @@ export default function AddPartnerClothesPage() {
                                                 name="size"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Size *</FormLabel>
+                                                        <FormLabel className="text-foreground">Size *</FormLabel>
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <FormControl>
                                                                 <SelectTrigger>
@@ -338,7 +338,7 @@ export default function AddPartnerClothesPage() {
                                                 name="visibility"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Visibility *</FormLabel>
+                                                        <FormLabel className="text-foreground">Visibility *</FormLabel>
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <FormControl>
                                                                 <SelectTrigger>
@@ -360,7 +360,7 @@ export default function AddPartnerClothesPage() {
                                                 name="imageUrl"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Product Image</FormLabel>
+                                                        <FormLabel className="text-foreground">Product Image</FormLabel>
                                                         <FormControl>
                                                             <div>
                                                                 {field.value ? (
@@ -368,26 +368,26 @@ export default function AddPartnerClothesPage() {
                                                                         <img
                                                                             src={field.value}
                                                                             alt="Product preview"
-                                                                            className="w-full h-48 object-cover rounded-lg border"
+                                                                            className="w-full h-48 object-cover rounded-lg border border-border"
                                                                         />
                                                                         <button
                                                                             type="button"
                                                                             onClick={removeImage}
-                                                                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                                                                            className="absolute top-2 right-2 bg-destructive text-destructive-foreground p-1 rounded-full hover:bg-destructive/90"
                                                                         >
                                                                             <X className="h-4 w-4" />
                                                                         </button>
                                                                     </div>
                                                                 ) : (
                                                                     <div className="mt-2">
-                                                                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 border-gray-300">
+                                                                        <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted/50 hover:bg-muted border-border">
                                                                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                                                                 {uploading ? (
-                                                                                    <Loader2 className="h-8 w-8 text-gray-400 animate-spin" />
+                                                                                    <Loader2 className="h-8 w-8 text-muted-foreground animate-spin" />
                                                                                 ) : (
-                                                                                    <Upload className="h-8 w-8 text-gray-400" />
+                                                                                    <Upload className="h-8 w-8 text-muted-foreground" />
                                                                                 )}
-                                                                                <p className="mt-2 text-sm text-gray-500">
+                                                                                <p className="mt-2 text-sm text-muted-foreground">
                                                                                     {uploading ? 'Uploading...' : 'Click to upload image'}
                                                                                 </p>
                                                                             </div>
@@ -414,7 +414,7 @@ export default function AddPartnerClothesPage() {
                                             name="description"
                                             render={({ field }) => (
                                                 <FormItem>
-                                                    <FormLabel>Description</FormLabel>
+                                                    <FormLabel className="text-foreground">Description</FormLabel>
                                                     <FormControl>
                                                         <Textarea
                                                             {...field}
@@ -424,7 +424,7 @@ export default function AddPartnerClothesPage() {
                                                     </FormControl>
                                                     <div className="flex justify-between items-center">
                                                         <FormMessage />
-                                                        <p className="text-sm text-gray-500">
+                                                        <p className="text-sm text-muted-foreground">
                                                             {field.value?.length || 0}/500 characters
                                                         </p>
                                                     </div>
@@ -436,7 +436,7 @@ export default function AddPartnerClothesPage() {
                                             <Button
                                                 type="submit"
                                                 disabled={form.formState.isSubmitting}
-                                                className="flex-1 bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900"
+                                                className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground"
                                             >
                                                 {form.formState.isSubmitting ? 'Adding...' : 'Add Product'}
                                             </Button>
