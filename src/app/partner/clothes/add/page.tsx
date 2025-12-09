@@ -26,6 +26,7 @@ const CLOUDINARY_UPLOAD_PRESET = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESE
 
 const colors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi', 'gold', 'silver'] as const;
 const skinTones = ['fair', 'light', 'medium', 'tan', 'deep', 'dark'];
+const occasions = ['casual', 'formal', 'business', 'party', 'wedding', 'sports', 'beach'];
 
 // Zod validation schema
 const addClothSchema = z.object({
@@ -46,6 +47,7 @@ const addClothSchema = z.object({
     description: z.string().max(500, 'Description must be 500 characters or less').optional(),
     imageUrl: z.string().optional(),
     suitableSkinTones: z.array(z.string()).optional(),
+    occasion: z.array(z.string()).optional(),
 });
 
 type AddClothFormValues = z.infer<typeof addClothSchema>;
@@ -68,6 +70,7 @@ export default function AddPartnerClothesPage() {
             size: '',
             visibility: 'public',
             suitableSkinTones: [],
+            occasion: [],
         },
     });
 
@@ -136,6 +139,7 @@ export default function AddPartnerClothesPage() {
                 size: data.size,
                 visibility: data.visibility as 'public' | 'private',
                 suitableSkinTones: data.suitableSkinTones || [],
+                occasion: data.occasion || [],
             } as any);
 
             toast.success('Product added successfully!', {
@@ -407,7 +411,108 @@ export default function AddPartnerClothesPage() {
                                                     </FormItem>
                                                 )}
                                             />
+
                                         </div>
+
+                                        <FormField
+                                            control={form.control}
+                                            name="occasion"
+                                            render={() => (
+                                                <FormItem>
+                                                    <div className="mb-4">
+                                                        <FormLabel className="text-base">Occasions (Select up to 4)</FormLabel>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                                        {occasions.map((item) => (
+                                                            <FormField
+                                                                key={item}
+                                                                control={form.control}
+                                                                name="occasion"
+                                                                render={({ field }) => {
+                                                                    return (
+                                                                        <FormItem
+                                                                            key={item}
+                                                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                                                        >
+                                                                            <FormControl>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    checked={field.value?.includes(item)}
+                                                                                    onChange={(checked) => {
+                                                                                        return checked.target.checked
+                                                                                            ? field.onChange([...(field.value || []), item])
+                                                                                            : field.onChange(
+                                                                                                field.value?.filter(
+                                                                                                    (value) => value !== item
+                                                                                                )
+                                                                                            )
+                                                                                    }}
+                                                                                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                                                                                />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal capitalize cursor-pointer">
+                                                                                {item}
+                                                                            </FormLabel>
+                                                                        </FormItem>
+                                                                    )
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+
+                                        <FormField
+                                            control={form.control}
+                                            name="suitableSkinTones"
+                                            render={() => (
+                                                <FormItem>
+                                                    <div className="mb-4">
+                                                        <FormLabel className="text-base">Suitable Skin Tones</FormLabel>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                                        {skinTones.map((item) => (
+                                                            <FormField
+                                                                key={item}
+                                                                control={form.control}
+                                                                name="suitableSkinTones"
+                                                                render={({ field }) => {
+                                                                    return (
+                                                                        <FormItem
+                                                                            key={item}
+                                                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                                                        >
+                                                                            <FormControl>
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    checked={field.value?.includes(item)}
+                                                                                    onChange={(checked) => {
+                                                                                        return checked.target.checked
+                                                                                            ? field.onChange([...(field.value || []), item])
+                                                                                            : field.onChange(
+                                                                                                field.value?.filter(
+                                                                                                    (value) => value !== item
+                                                                                                )
+                                                                                            )
+                                                                                    }}
+                                                                                    className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                                                                                />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal capitalize cursor-pointer">
+                                                                                {item}
+                                                                            </FormLabel>
+                                                                        </FormItem>
+                                                                    )
+                                                                }}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
 
                                         <FormField
                                             control={form.control}

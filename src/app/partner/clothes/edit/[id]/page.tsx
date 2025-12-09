@@ -34,6 +34,9 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
         description: '',
         imageUrl: '',
         visibility: 'public',
+        size: '',
+        occasion: [] as string[],
+        suitableSkinTones: [] as string[],
     });
 
     useEffect(() => {
@@ -65,6 +68,9 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                 description: item.description || (item as any).note || '',
                 imageUrl: item.image || '',
                 visibility: item.visibility || 'public',
+                size: item.size || '',
+                occasion: Array.isArray(item.occasion) ? item.occasion : (item.occasion ? [item.occasion] : []),
+                suitableSkinTones: item.suitableSkinTones || [],
             });
         } catch (error: any) {
             console.error('Error loading product:', error);
@@ -92,6 +98,18 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
         });
     };
 
+    const handleMultiSelectChange = (name: string, value: string) => {
+        const currentValues = formData[name as keyof typeof formData] as string[];
+        const newValues = currentValues.includes(value)
+            ? currentValues.filter(v => v !== value)
+            : [...currentValues, value];
+
+        setFormData({
+            ...formData,
+            [name]: newValues,
+        });
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
@@ -107,6 +125,9 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                 description: formData.description,
                 image: formData.imageUrl || undefined,
                 visibility: formData.visibility as 'public' | 'private',
+                size: formData.size,
+                occasion: formData.occasion,
+                suitableSkinTones: formData.suitableSkinTones,
             });
 
             toast.success('Product updated successfully!', {
@@ -262,6 +283,20 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                         </div>
 
                                         <div>
+                                            <Label htmlFor="size" className="text-foreground">Size</Label>
+                                            <Input
+                                                id="size"
+                                                name="size"
+                                                value={formData.size}
+                                                onChange={handleChange}
+                                                placeholder="e.g., S, M, L, XL, 32, 34"
+                                                className="mt-1"
+                                            />
+                                        </div>
+
+
+
+                                        <div>
                                             <Label htmlFor="visibility" className="text-foreground">Visibility *</Label>
                                             <Select
                                                 value={formData.visibility}
@@ -287,6 +322,46 @@ export default function EditPartnerClothesPage({ params }: { params: Promise<{ i
                                                 placeholder="https://example.com/image.jpg"
                                                 className="mt-1"
                                             />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-foreground mb-2 block">Occasions (Select up to 4)</Label>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                            {['casual', 'formal', 'business', 'party', 'wedding', 'sports', 'beach'].map((occ) => (
+                                                <div key={occ} className="flex items-center space-x-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`occ-${occ}`}
+                                                        checked={formData.occasion.includes(occ)}
+                                                        onChange={() => handleMultiSelectChange('occasion', occ)}
+                                                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                                                    />
+                                                    <Label htmlFor={`occ-${occ}`} className="text-sm font-normal cursor-pointer capitalize">
+                                                        {occ}
+                                                    </Label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <Label className="text-foreground mb-2 block">Suitable Skin Tones</Label>
+                                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                                            {['fair', 'light', 'medium', 'tan', 'deep', 'dark'].map((tone) => (
+                                                <div key={tone} className="flex items-center space-x-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`tone-${tone}`}
+                                                        checked={formData.suitableSkinTones.includes(tone)}
+                                                        onChange={() => handleMultiSelectChange('suitableSkinTones', tone)}
+                                                        className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+                                                    />
+                                                    <Label htmlFor={`tone-${tone}`} className="text-sm font-normal cursor-pointer capitalize">
+                                                        {tone}
+                                                    </Label>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
 
