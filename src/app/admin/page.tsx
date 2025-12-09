@@ -38,6 +38,7 @@ export default function AdminDashboard() {
                     totalPartners: 0,
                     totalPayments: 0,
                     totalRevenue: 0,
+                    totalLogins: 0,
                     weeklyTrend: []
                 });
             }
@@ -167,6 +168,18 @@ export default function AdminDashboard() {
                                 <CardContent>
                                     LKR {analytics?.totalRevenue?.toFixed(2) || '0.00'}
                                     <p className="text-xs text-muted-foreground mt-1">All-time revenue</p>
+                                </CardContent>
+                            </Card>
+
+                            <Card>
+                                <CardHeader className="pb-3">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+                                        Total Logins
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-3xl font-bold">{analytics?.totalLogins || 0}</div>
+                                    <p className="text-xs text-muted-foreground mt-1">System-wide logins</p>
                                 </CardContent>
                             </Card>
                         </div>

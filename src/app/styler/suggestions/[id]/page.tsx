@@ -29,6 +29,12 @@ export default function ProductDetailsPage() {
             setLoading(true);
             const response = await partnerService.getClothById(id);
             setProduct(response);
+            // Record view
+            try {
+                await partnerService.recordView(id);
+            } catch (err) {
+                console.error('Error recording view:', err);
+            }
         } catch (error) {
             console.error('Error loading product:', error);
             toast.error('Failed to load product details', {

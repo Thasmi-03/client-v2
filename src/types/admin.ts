@@ -6,6 +6,7 @@ export interface AdminStats {
     totalPartners: number;
     totalPayments: number;
     totalRevenue: number;
+    totalLogins: number;
     weeklyTrend: {
         week: string;
         registrations: number;

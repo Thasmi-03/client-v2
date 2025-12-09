@@ -8,21 +8,17 @@ import { Package, DollarSign, TrendingUp, Plus, ShoppingBag, Edit, BarChart3, Tr
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { partnerService } from '@/services/partner.service';
-import { ordersService } from '@/services/orders.service';
 import { PartnerClothes } from '@/types/partner';
-import { Order } from '@/types/orders';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 export default function PartnerDashboard() {
     const router = useRouter();
     const [clothes, setClothes] = useState<PartnerClothes[]>([]);
-    const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         loadClothes();
-        loadOrders();
     }, []);
 
     const loadClothes = async () => {
@@ -41,14 +37,7 @@ export default function PartnerDashboard() {
         }
     };
 
-    const loadOrders = async () => {
-        try {
-            const response = await ordersService.getAll();
-            setOrders(response.data || []);
-        } catch (error) {
-            console.error('Error loading orders:', error);
-        }
-    };
+    // Orders functionality removed
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this product?')) return;
@@ -235,46 +224,7 @@ export default function PartnerDashboard() {
                         </Card>
 
                         <div className="grid gap-6 md:grid-cols-2 items-stretch">
-                            {/* Recent Orders */}
-                            <Card className="flex flex-col h-full bg-card border-border">
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2 text-foreground">
-                                        <ShoppingBag className="h-5 w-5 text-primary" />
-                                        Recent Orders
-                                    </CardTitle>
-                                    <CardDescription className="text-muted-foreground">Latest customer orders</CardDescription>
-                                </CardHeader>
-                                <CardContent className="flex-1 flex flex-col">
-                                    <div className="space-y-4 flex-1">
-                                        {orders.length === 0 ? (
-                                            <p className="text-center text-muted-foreground py-4">No recent orders</p>
-                                        ) : (
-                                            orders.slice(0, 5).map((order) => (
-                                                <div key={order._id} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
-                                                    <div className="flex-1">
-                                                        <p className="font-medium text-foreground">Order #{order._id.slice(-6)}</p>
-                                                        <p className="text-sm text-muted-foreground">
-                                                            {new Date(order.createdAt).toLocaleDateString()} • {order.items?.length || 0} items
-                                                        </p>
-                                                    </div>
-                                                    <div className="text-right">
-                                                        <p className="font-bold text-foreground">LKR {order.totalAmount}</p>
-                                                        <span className={`text-xs px-2 py-1 rounded-full ${order.status === 'delivered' ? 'bg-success/10 text-success' :
-                                                            order.status === 'pending' ? 'bg-info/10 text-info' :
-                                                                'bg-warning/10 text-warning'
-                                                            }`}>
-                                                            {order.status}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            ))
-                                        )}
-                                    </div>
-                                    {/* <Link href="/partner/orders">
-                                        <Button variant="outline" className="w-full mt-4">View All Orders</Button>
-                                    </Link> */}
-                                </CardContent>
-                            </Card>
+                            {/* Recent Orders removed */}
 
                             {/* Quick Actions */}
                             <Card className="flex flex-col h-full bg-card border-border">

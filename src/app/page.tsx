@@ -174,7 +174,7 @@ export default function HomePage() {
                       {product.brand}
                     </p>
                     <div className="flex items-center justify-between">
-                      <span className="text-lg font-bold text-gray-900">${product.price}</span>
+                      <span className="text-lg font-bold text-gray-900">LKR {product.price}</span>
                       <Button
                         size="sm"
                         variant="ghost"
