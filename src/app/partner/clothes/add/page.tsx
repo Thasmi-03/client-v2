@@ -104,6 +104,38 @@ export default function AddPartnerClothesPage() {
                 toast.success('Image uploaded successfully!', {
                     duration: 3000,
                 });
+
+                // Call AI service to analyze cloth
+                toast.info('Analyzing image for skin tones and occasions...', { duration: 2000 });
+                try {
+                    const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+                    const aiResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/analyze-cloth`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ imageUrl: data.secure_url })
+                    });
+
+                    if (aiResponse.ok) {
+                        const aiData = await aiResponse.json();
+                        if (aiData.suitableSkinTones && Array.isArray(aiData.suitableSkinTones)) {
+                            form.setValue('suitableSkinTones', aiData.suitableSkinTones);
+                        }
+                        if (aiData.occasions && Array.isArray(aiData.occasions)) {
+                            form.setValue('occasion', aiData.occasions);
+                        }
+                        toast.success('Auto-detected skin tones and occasions!', { duration: 3000 });
+                    } else {
+                        console.error('AI analysis failed:', await aiResponse.text());
+                        toast.warning('Could not auto-detect attributes. Please select manually.', { duration: 4000 });
+                    }
+                } catch (aiError) {
+                    console.error('Error calling AI service:', aiError);
+                    toast.warning('Could not auto-detect attributes. Please select manually.', { duration: 4000 });
+                }
+
             } else {
                 toast.error(data.error?.message || 'Upload failed', {
                     duration: Infinity,
