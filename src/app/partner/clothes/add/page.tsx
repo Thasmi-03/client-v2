@@ -126,7 +126,14 @@ export default function AddPartnerClothesPage() {
                         if (aiData.occasions && Array.isArray(aiData.occasions)) {
                             form.setValue('occasion', aiData.occasions);
                         }
-                        toast.success('Auto-detected skin tones and occasions!', { duration: 3000 });
+                        if (aiData.color) {
+                            // Ensure the color is one of the allowed options
+                            const detectedColor = aiData.color.toLowerCase();
+                            if (colors.includes(detectedColor as any)) {
+                                form.setValue('color', detectedColor);
+                            }
+                        }
+                        toast.success('Auto-detected attributes!', { duration: 3000 });
                     } else {
                         console.error('AI analysis failed:', await aiResponse.text());
                         toast.warning('Could not auto-detect attributes. Please select manually.', { duration: 4000 });
