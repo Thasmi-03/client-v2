@@ -14,7 +14,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { clothesService } from '@/services/clothes.service';
 import { toast } from 'sonner';
-import { CATEGORIES, OCCASIONS, Occasion } from '@/types/clothes';
+import { CATEGORIES, OCCASIONS, Occasion, SKIN_TONES, SkinTone } from '@/types/clothes';
 import { Upload, X, Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -32,6 +32,7 @@ const addClothesSchema = z.object({
     category: z.string().min(1, 'Please select a category'),
     color: z.string().min(1, 'Please select a color'),
     occasion: z.array(z.string()).min(1, 'Please select at least 1 occasion').max(4, 'Please select maximum 4 occasions'),
+    skinTone: z.array(z.string()).optional(),
     description: z.string().max(500, 'Description must be 500 characters or less').optional(),
     imageUrl: z.string().optional(),
 });
@@ -49,6 +50,7 @@ export default function AddClothesPage() {
             category: '',
             color: '',
             occasion: [],
+            skinTone: [],
             description: '',
             imageUrl: '',
         },
@@ -84,6 +86,46 @@ export default function AddClothesPage() {
                 toast.success('Image uploaded successfully!', {
                     duration: 3000,
                 });
+
+                // Call AI service to analyze cloth
+                toast.info('Analyzing image for attributes...', { duration: 2000 });
+                try {
+                    const token = document.cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
+                    const aiResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/ai/analyze-cloth`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ imageUrl: data.secure_url })
+                    });
+
+                    if (aiResponse.ok) {
+                        const aiData = await aiResponse.json();
+
+                        // Auto-fill and lock fields
+                        if (aiData.suitableSkinTones && Array.isArray(aiData.suitableSkinTones)) {
+                            form.setValue('skinTone', aiData.suitableSkinTones);
+                        }
+                        if (aiData.occasions && Array.isArray(aiData.occasions)) {
+                            form.setValue('occasion', aiData.occasions);
+                        }
+                        if (aiData.color) {
+                            const detectedColor = aiData.color.toLowerCase();
+                            if (colors.includes(detectedColor as any)) {
+                                form.setValue('color', detectedColor);
+                            }
+                        }
+                        toast.success('Attributes auto-detected by AI!', { duration: 3000 });
+                    } else {
+                        console.error('AI analysis failed:', await aiResponse.text());
+                        toast.warning('Could not auto-detect attributes.', { duration: 4000 });
+                    }
+                } catch (aiError) {
+                    console.error('Error calling AI service:', aiError);
+                    toast.warning('Could not auto-detect attributes.', { duration: 4000 });
+                }
+
             } else {
                 toast.error(data.error?.message || 'Upload failed', {
                     duration: Infinity,
@@ -123,6 +165,7 @@ export default function AddClothesPage() {
                 category: data.category,
                 color: data.color,
                 occasion: data.occasion,
+                skinTone: data.skinTone,
                 note: data.description || undefined,
                 image: data.imageUrl || undefined,
             };
@@ -235,11 +278,11 @@ export default function AddClothesPage() {
                                                 name="color"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Color *</FormLabel>
-                                                        <Select onValueChange={field.onChange} value={field.value}>
+                                                        <FormLabel>Color (Auto-detected)</FormLabel>
+                                                        <Select onValueChange={field.onChange} value={field.value} disabled>
                                                             <FormControl>
-                                                                <SelectTrigger className="w-full">
-                                                                    <SelectValue placeholder="Select color" />
+                                                                <SelectTrigger className="w-full bg-gray-100">
+                                                                    <SelectValue placeholder="AI will detect color" />
                                                                 </SelectTrigger>
                                                             </FormControl>
                                                             <SelectContent>
@@ -260,17 +303,18 @@ export default function AddClothesPage() {
                                                 name="occasion"
                                                 render={({ field }) => (
                                                     <FormItem className="md:col-span-2">
-                                                        <FormLabel>Occasions * (Select 1-4)</FormLabel>
-                                                        <div className="mt-2 grid grid-cols-2 gap-3">
+                                                        <FormLabel>Occasions (Auto-detected)</FormLabel>
+                                                        <div className="mt-2 grid grid-cols-2 gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
                                                             {OCCASIONS.map((occasion) => (
                                                                 <label
                                                                     key={occasion}
-                                                                    className="flex items-center space-x-2 cursor-pointer p-2 rounded border hover:bg-gray-50"
+                                                                    className={`flex items-center space-x-2 p-2 rounded border ${field.value.includes(occasion) ? 'bg-primary/10 border-primary' : 'bg-white border-gray-200 opacity-50'}`}
                                                                 >
                                                                     <input
                                                                         type="checkbox"
                                                                         checked={field.value.includes(occasion)}
-                                                                        onChange={() => handleOccasionToggle(occasion)}
+                                                                        readOnly
+                                                                        disabled
                                                                         className="w-4 h-4 rounded border-gray-300"
                                                                     />
                                                                     <span className="text-sm">
@@ -279,9 +323,36 @@ export default function AddClothesPage() {
                                                                 </label>
                                                             ))}
                                                         </div>
-                                                        <p className="text-xs text-gray-500 mt-1">
-                                                            Selected: {field.value.length}/4
-                                                        </p>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="skinTone"
+                                                render={({ field }) => (
+                                                    <FormItem className="md:col-span-2">
+                                                        <FormLabel>Suitable Skin Tones (Auto-detected)</FormLabel>
+                                                        <div className="mt-2 grid grid-cols-3 gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                                            {SKIN_TONES.map((tone) => (
+                                                                <label
+                                                                    key={tone}
+                                                                    className={`flex items-center space-x-2 p-2 rounded border ${field.value?.includes(tone) ? 'bg-primary/10 border-primary' : 'bg-white border-gray-200 opacity-50'}`}
+                                                                >
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={field.value?.includes(tone)}
+                                                                        readOnly
+                                                                        disabled
+                                                                        className="w-4 h-4 rounded border-gray-300"
+                                                                    />
+                                                                    <span className="text-sm">
+                                                                        {tone.charAt(0).toUpperCase() + tone.slice(1)}
+                                                                    </span>
+                                                                </label>
+                                                            ))}
+                                                        </div>
                                                         <FormMessage />
                                                     </FormItem>
                                                 )}

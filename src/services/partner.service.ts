@@ -42,4 +42,8 @@ export const partnerService = {
         const response = await apiClient.post(`/partnerclothes/${id}/view`);
         return response.data;
     },
+    toggleLike: async (id: string) => {
+        const response = await apiClient.post(`/partnerclothes/${id}/like`);
+        return response.data;
+    },
 };

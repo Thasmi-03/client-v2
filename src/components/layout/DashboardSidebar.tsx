@@ -45,19 +45,9 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
             icon: <Home className="h-5 w-5" />,
         },
         {
-            label: 'Add Clothes',
-            href: '/styler/clothes/add',
-            icon: <Plus className="h-5 w-5" />,
-        },
-        {
-            label: 'My Wardrobe',
+            label: 'My Clothes',
             href: '/styler/clothes',
             icon: <Package className="h-5 w-5" />,
-        },
-        {
-            label: 'Dress Suggestions',
-            href: '/styler/suggestions',
-            icon: <Sparkles className="h-5 w-5" />,
         },
         {
             label: 'My Occasions',
@@ -65,7 +55,17 @@ export function DashboardSidebar({ role }: DashboardSidebarProps) {
             icon: <Shirt className="h-5 w-5" />,
         },
         {
-            label: 'Profile Settings',
+            label: 'AI Pick',
+            href: '/styler/ai-pick',
+            icon: <Sparkles className="h-5 w-5" />,
+        },
+        {
+            label: 'Marketplace',
+            href: '/styler/suggestions',
+            icon: <Store className="h-5 w-5" />,
+        },
+        {
+            label: 'Settings',
             href: '/styler/profile',
             icon: <Settings className="h-5 w-5" />,
         },

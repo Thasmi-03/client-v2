@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { authService } from '@/services/auth.service';
 import { Button } from '../ui/button';
@@ -28,6 +29,7 @@ interface StylerRegisterFormProps {
 }
 
 export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegisterFormProps) {
+  const router = useRouter();
   const { login, loading } = useAuth();
   const { register, handleSubmit, watch, setValue } = useForm<StylerRegisterFormValues>();
 
@@ -62,19 +64,14 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
         age: age || undefined
       });
 
-      toast.success('Registration successful! Please sign in.', {
+      toast.success('Registration successful! Redirecting to sign-in...', {
         duration: 3000,
       });
 
-      // Removed auto-login
-      // if (response.token && response.user) {
-      //   await login(response.token, response.user);
-      // }
-
-      // Removed auto-close
-      // setTimeout(() => {
-      //   if (onSuccess) onSuccess();
-      // }, 100);
+      // Redirect to sign-in page after successful registration
+      setTimeout(() => {
+        router.push('/auth/login');
+      }, 1500);
     } catch (err: any) {
       console.error('Styler register error:', err);
       const errorMessage = err?.response?.data?.error || err.message || 'Registration failed';

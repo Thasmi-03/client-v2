@@ -17,6 +17,8 @@ export default function ProductDetailsPage() {
     const router = useRouter();
     const [product, setProduct] = useState<PartnerClothes | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeLoading, setLikeLoading] = useState(false);
 
     useEffect(() => {
         if (params.id) {
@@ -29,6 +31,13 @@ export default function ProductDetailsPage() {
             setLoading(true);
             const response = await partnerService.getClothById(id);
             setProduct(response);
+
+            // Check if current user has liked this product
+            if (response.likes && response.likes.length > 0) {
+                // The backend should ideally return isLiked, but we can check the likes array
+                setIsLiked(response.isLiked || false);
+            }
+
             // Record view
             try {
                 await partnerService.recordView(id);
@@ -44,6 +53,22 @@ export default function ProductDetailsPage() {
             router.push('/styler/suggestions');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleLike = async () => {
+        if (!product || likeLoading) return;
+
+        try {
+            setLikeLoading(true);
+            const response = await partnerService.toggleLike(product._id);
+            setIsLiked(response.isLiked);
+            toast.success(response.isLiked ? 'Added to favorites!' : 'Removed from favorites');
+        } catch (error) {
+            console.error('Error toggling like:', error);
+            toast.error('Failed to update favorite status');
+        } finally {
+            setLikeLoading(false);
         }
     };
 
@@ -113,8 +138,14 @@ export default function ProductDetailsPage() {
                                 <div className="flex items-center justify-between p-4 bg-white rounded-lg border shadow-sm">
                                     <span className="text-2xl font-bold text-[#e2c2b7]">Rs. {product.price.toFixed(2)}</span>
                                     <div className="flex gap-2">
-                                        <Button variant="outline" size="icon" className="rounded-full">
-                                            <Heart className="h-5 w-5" />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className={`rounded-full transition-colors ${isLiked ? 'bg-red-50 border-red-300 hover:bg-red-100' : ''}`}
+                                            onClick={handleLike}
+                                            disabled={likeLoading}
+                                        >
+                                            <Heart className={`h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
                                         </Button>
                                         <Button className="bg-[#e2c2b7] hover:bg-[#d4b5a8] text-gray-900">
                                             <ShoppingBag className="h-4 w-4 mr-2" />

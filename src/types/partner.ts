@@ -24,6 +24,8 @@ export interface PartnerClothItem {
     createdAt: string;
     id?: string;
     views?: string[];
+    likes?: Array<{ stylerId: string; likedAt: string }>;
+    isLiked?: boolean;
 }
 
 export interface PartnerAnalytics {

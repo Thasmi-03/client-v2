@@ -6,12 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Package, Search, Filter } from 'lucide-react';
+import { Package, Search, Filter, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
 import { clothesService } from '@/services/clothes.service';
-import { Clothes } from '@/types/clothes';
+import { Clothes, CATEGORIES, COLORS, SKIN_TONES } from '@/types/clothes';
 import { toast } from 'sonner';
+import { AddClothesModal } from '@/components/modals/AddClothesModal';
 
 export default function StylerClothesPage() {
     const [clothes, setClothes] = useState<Clothes[]>([]);
@@ -21,6 +22,7 @@ export default function StylerClothesPage() {
     const [filterColor, setFilterColor] = useState('all');
     const [filterSkinTone, setFilterSkinTone] = useState('all');
     const [filterGender, setFilterGender] = useState('all');
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
     // Pagination state
     const [page, setPage] = useState(1);
@@ -94,11 +96,10 @@ export default function StylerClothesPage() {
         }
     };
 
-    // Hardcoded options for filters since we don't have a separate endpoint for them yet
-    // In a real app, these might come from an API or config
-    const categories = ['dress', 'shirt', 'pants', 'jacket', 'skirt', 'top', 'shorts', 'suit', 'Frock', 'blazer', 'sweater', 'coat', 'Tshirt', 'gown'];
-    const colors = ['red', 'blue', 'green', 'yellow', 'black', 'white', 'gray', 'brown', 'pink', 'purple', 'orange', 'beige', 'navy', 'maroon', 'teal', 'coral', 'multi'];
-    const skinTones = ['fair', 'light', 'medium', 'tan', 'deep', 'dark'];
+    // Use imported constants for filters
+    const categories = CATEGORIES;
+    const colors = COLORS;
+    const skinTones = SKIN_TONES;
     const genders = ['male', 'female'];
 
     return (
@@ -109,11 +110,20 @@ export default function StylerClothesPage() {
                 <main className="flex-1 p-8">
                     <div className="max-w-7xl mx-auto">
                         {/* Header */}
-                        <div className="mb-8">
-                            <h1 className="text-3xl font-bold text-foreground">My Wardrobe</h1>
-                            <p className="mt-2 text-muted-foreground">
-                                Manage your clothing collection
-                            </p>
+                        <div className="mb-8 flex items-center justify-between">
+                            <div>
+                                <h1 className="text-3xl font-bold text-foreground">My Clothes</h1>
+                                <p className="mt-2 text-muted-foreground">
+                                    Manage your clothing collection
+                                </p>
+                            </div>
+                            <Button
+                                onClick={() => setIsAddModalOpen(true)}
+                                className="bg-primary hover:bg-primary/90 text-primary-foreground"
+                            >
+                                <Plus className="h-4 w-4 mr-2" />
+                                Add Clothes
+                            </Button>
                         </div>
 
                         {/* Search and Filters */}
@@ -294,6 +304,13 @@ export default function StylerClothesPage() {
                         </Card>
                     </div>
                 </main>
+
+                {/* Add Clothes Modal */}
+                <AddClothesModal
+                    open={isAddModalOpen}
+                    onOpenChange={setIsAddModalOpen}
+                    onSuccess={loadClothes}
+                />
             </div >
         </ProtectedRoute >
     );
