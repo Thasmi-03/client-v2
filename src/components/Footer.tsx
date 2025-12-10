@@ -38,7 +38,7 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/partner/register" className="text-sm hover:text-primary transition-colors">
+                                <Link href="/partner-register" className="text-sm hover:text-primary transition-colors">
                                     Become a Partner
                                 </Link>
                             </li>
