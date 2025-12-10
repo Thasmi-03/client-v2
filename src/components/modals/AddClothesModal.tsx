@@ -151,8 +151,7 @@ export function AddClothesModal({ open, onOpenChange, onSuccess }: AddClothesMod
                 category: data.category,
                 color: data.color,
                 occasion: data.occasion,
-                // Convert skinTone array to single string (backend expects string, not array)
-                skinTone: data.skinTone && data.skinTone.length > 0 ? data.skinTone[0] : undefined,
+                skinTone: data.skinTone && data.skinTone.length > 0 ? data.skinTone : undefined,
                 note: data.description || undefined,
                 image: data.imageUrl || undefined,
             };
