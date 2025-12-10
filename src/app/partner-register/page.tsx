@@ -9,7 +9,7 @@ export default function PartnerRegisterPage() {
     const router = useRouter();
 
     const handleSuccess = () => {
-        router.push('/login');
+        router.push('/auth/login');
     };
 
     return (

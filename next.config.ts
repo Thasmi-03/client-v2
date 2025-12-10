@@ -27,6 +27,25 @@ const nextConfig: NextConfig = {
   },
   // Enable standalone output for production deployment
   output: 'standalone',
+  async redirects() {
+    return [
+      {
+        source: '/login',
+        destination: '/auth/login',
+        permanent: true,
+      },
+      {
+        source: '/register',
+        destination: '/auth/register',
+        permanent: true,
+      },
+      {
+        source: '/signup',
+        destination: '/auth/register',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
