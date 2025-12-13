@@ -40,9 +40,11 @@ export default function ProductDetailsPage() {
 
             // Record view
             try {
-                await partnerService.recordView(id);
+                console.log('📊 Recording view for dress:', id);
+                const viewResponse = await partnerService.recordView(id);
+                console.log('✅ View recorded successfully:', viewResponse);
             } catch (err) {
-                console.error('Error recording view:', err);
+                console.error('❌ Error recording view:', err);
             }
         } catch (error) {
             console.error('Error loading product:', error);
