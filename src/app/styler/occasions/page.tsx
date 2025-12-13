@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Calendar, Plus, Edit, Trash2, X, Sparkles } from 'lucide-react';
 import { occasionsService } from '@/services/occasions.service';
 import { partnerService } from '@/services/partner.service';
@@ -19,6 +20,8 @@ export default function OccasionsPage() {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingOccasion, setEditingOccasion] = useState<Occasion | null>(null);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectedOccasion, setSelectedOccasion] = useState<{ id: string; name: string } | null>(null);
     const [formData, setFormData] = useState<CreateOccasionInput>({
         title: '',
         type: 'casual',
@@ -104,11 +107,16 @@ export default function OccasionsPage() {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this occasion?')) return;
+    const handleDelete = async (id: string, title: string) => {
+        setSelectedOccasion({ id, name: title });
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedOccasion) return;
 
         try {
-            await occasionsService.delete(id);
+            await occasionsService.delete(selectedOccasion.id);
             toast.success('Occasion deleted successfully', {
                 duration: 3000,
             });
@@ -283,7 +291,7 @@ export default function OccasionsPage() {
                                                     <Button variant="outline" size="sm" className="flex-1" onClick={() => openModal(occasion)}>
                                                         <Edit className="h-4 w-4 mr-2" /> Edit
                                                     </Button>
-                                                    <Button variant="outline" size="sm" className="text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => handleDelete(occasion._id)}>
+                                                    <Button variant="outline" size="sm" className="text-destructive hover:bg-destructive/10 hover:text-destructive" onClick={() => handleDelete(occasion._id, occasion.title)}>
                                                         <Trash2 className="h-4 w-4" />
                                                     </Button>
                                                 </div>
@@ -495,6 +503,17 @@ export default function OccasionsPage() {
                         </div>
                     )}
                 </main>
+
+                {/* Delete Confirmation Dialog */}
+                <ConfirmDialog
+                    open={deleteDialogOpen}
+                    onOpenChange={setDeleteDialogOpen}
+                    onConfirm={confirmDelete}
+                    title="Delete Occasion"
+                    description={`Are you sure you want to delete "${selectedOccasion?.name}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    variant="warning"
+                />
             </div>
         </ProtectedRoute>
     );

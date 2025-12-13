@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Package, Search, Filter, Plus } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
@@ -23,6 +24,8 @@ export default function StylerClothesPage() {
     const [filterSkinTone, setFilterSkinTone] = useState('all');
     const [filterGender, setFilterGender] = useState('all');
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState<{ id: string; name: string } | null>(null);
 
     // Pagination state
     const [page, setPage] = useState(1);
@@ -78,11 +81,16 @@ export default function StylerClothesPage() {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this item?')) return;
+    const handleDelete = async (id: string, name: string) => {
+        setSelectedItem({ id, name });
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedItem) return;
 
         try {
-            await clothesService.delete(id);
+            await clothesService.delete(selectedItem.id);
             toast.success('Clothes deleted successfully', {
                 duration: 3000,
             });
@@ -266,7 +274,7 @@ export default function StylerClothesPage() {
                                                             <Button
                                                                 variant="destructive"
                                                                 size="sm"
-                                                                onClick={() => handleDelete(itemId)}
+                                                                onClick={() => handleDelete(itemId, item.name)}
                                                             >
                                                                 Delete
                                                             </Button>
@@ -310,6 +318,17 @@ export default function StylerClothesPage() {
                     open={isAddModalOpen}
                     onOpenChange={setIsAddModalOpen}
                     onSuccess={loadClothes}
+                />
+
+                {/* Delete Confirmation Dialog */}
+                <ConfirmDialog
+                    open={deleteDialogOpen}
+                    onOpenChange={setDeleteDialogOpen}
+                    onConfirm={confirmDelete}
+                    title="Delete Item"
+                    description={`Are you sure you want to delete "${selectedItem?.name}"? This action cannot be undone.`}
+                    confirmText="Delete"
+                    variant="warning"
                 />
             </div >
         </ProtectedRoute >

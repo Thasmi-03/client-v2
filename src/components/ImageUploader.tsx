@@ -1,5 +1,14 @@
 // src/components/ImageUploader.tsx
 import { useState, ChangeEvent } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const CLOUDINARY_CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
@@ -22,6 +31,13 @@ export default function ImageUploader({
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+
+  const showDialog = (message: string) => {
+    setDialogMessage(message);
+    setDialogOpen(true);
+  };
 
   const onFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const f = e.target.files?.[0] || null;
@@ -58,11 +74,11 @@ export default function ImageUploader({
         setImageUrl(data.secure_url);
         onUploadComplete?.(data.secure_url);
       } else {
-        alert("Upload failed");
+        showDialog("Upload failed");
       }
     } catch (err) {
       console.error(err);
-      alert("Upload error");
+      showDialog("Upload error");
     } finally {
       setUploading(false);
     }
@@ -96,14 +112,17 @@ export default function ImageUploader({
       }
     } catch (err: any) {
       console.error("Upload error details:", err);
-      alert(`Upload error: ${err.message || "Unknown error"}`);
+      showDialog(`Upload error: ${err.message || "Unknown error"}`);
     } finally {
       setUploading(false);
     }
   };
 
   const handleUpload = (fileToUpload: File = file!) => {
-    if (!fileToUpload) return alert("Choose an image first");
+    if (!fileToUpload) {
+      showDialog("Choose an image first");
+      return;
+    }
 
     if (useCloudinaryDirect && CLOUDINARY_CLOUD_NAME && CLOUDINARY_UPLOAD_PRESET) {
       uploadToCloudinary(fileToUpload);
@@ -151,6 +170,18 @@ export default function ImageUploader({
           <img src={imageUrl} alt="uploaded" className="w-[200px] rounded-md border border-border" />
         </div>
       )}
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Upload Status</DialogTitle>
+            <DialogDescription>{dialogMessage}</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setDialogOpen(false)}>OK</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

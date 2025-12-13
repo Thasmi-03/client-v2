@@ -16,8 +16,36 @@ import { toast } from 'sonner';
 const registerSchema = z.object({
   fullName: z.string().min(1, 'Full name is required'),
   email: z.string().email('Invalid email'),
-  phone: z.string().min(1, 'Phone number is required'),
-  address: z.string().min(1, 'Address is required'),
+  phone: z
+    .string()
+    .min(1, 'Phone number is required')
+    .refine((phone) => {
+      // Remove spaces and special characters for validation
+      const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+
+      // Sri Lankan mobile: 0771234567 (10 digits starting with 07)
+      const localMobile = /^07[0-9]{8}$/;
+
+      // Sri Lankan landline: 0112345678 (10 digits, area code + number)
+      const localLandline = /^0[1-9][0-9]{8}$/;
+
+      // International format: +94771234567 or 94771234567
+      const intlMobile = /^(\+?94|94)7[0-9]{8}$/;
+      const intlLandline = /^(\+?94|94)[1-9][0-9]{8}$/;
+
+      return localMobile.test(cleaned) ||
+        localLandline.test(cleaned) ||
+        intlMobile.test(cleaned) ||
+        intlLandline.test(cleaned);
+    }, 'Please enter a valid Sri Lankan phone number (e.g., 0771234567 or +94771234567)'),
+  address: z
+    .string()
+    .min(10, 'Address must be at least 10 characters')
+    .max(200, 'Address must not exceed 200 characters')
+    .refine((addr) => /\d/.test(addr),
+      'Address must include a house/building number')
+    .refine((addr) => addr.trim().split(/\s+/).length >= 3,
+      'Please provide a complete address (e.g., 123/A, Galle Road, Colombo)'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   role: z.enum(['admin', 'styler', 'partner']),
   // Styler-specific fields

@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { authService } from '@/services/auth.service';
@@ -11,15 +13,68 @@ import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'sonner';
 
-interface StylerRegisterFormValues {
-  fullName: string;
-  email: string;
-  phone: string;
-  address: string;
-  password: string;
-  gender: string;
-  dateOfBirth: string;
-}
+// Zod validation schema
+const stylerRegisterSchema = z.object({
+  fullName: z
+    .string()
+    .min(2, 'Full name must be at least 2 characters')
+    .max(100, 'Full name must not exceed 100 characters')
+    .regex(/^[a-zA-Z\s]+$/, 'Full name should only contain letters and spaces'),
+  email: z
+    .string()
+    .min(1, 'Email is required')
+    .email('Invalid email format'),
+  phone: z
+    .string()
+    .min(1, 'Phone number is required')
+    .refine((phone) => {
+      // Remove spaces and special characters for validation
+      const cleaned = phone.replace(/[\s\-\(\)]/g, '');
+
+      // Sri Lankan mobile: 0771234567 (10 digits starting with 07)
+      const localMobile = /^07[0-9]{8}$/;
+
+      // Sri Lankan landline: 0112345678 (10 digits, area code + number)
+      const localLandline = /^0[1-9][0-9]{8}$/;
+
+      // International format: +94771234567 or 94771234567
+      const intlMobile = /^(\+?94|94)7[0-9]{8}$/;
+      const intlLandline = /^(\+?94|94)[1-9][0-9]{8}$/;
+
+      return localMobile.test(cleaned) ||
+        localLandline.test(cleaned) ||
+        intlMobile.test(cleaned) ||
+        intlLandline.test(cleaned);
+    }, 'Please enter a valid Sri Lankan phone number (e.g., 0771234567 or +94771234567)'),
+  address: z
+    .string()
+    .min(10, 'Address must be at least 10 characters')
+    .max(200, 'Address must not exceed 200 characters')
+    .refine((addr) => /\d/.test(addr),
+      'Address must include a house/building number')
+    .refine((addr) => addr.trim().split(/\s+/).length >= 3,
+      'Please provide a complete address (e.g., 123/A, Galle Road, Colombo)'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[0-9]/, 'Password must contain at least one number'),
+  gender: z.enum(['male', 'female'], {
+    message: 'Please select a gender',
+  }),
+  dateOfBirth: z
+    .string()
+    .min(1, 'Date of birth is required')
+    .refine((date) => {
+      const birthDate = new Date(date);
+      const today = new Date();
+      const age = today.getFullYear() - birthDate.getFullYear();
+      return age >= 13;
+    }, 'You must be at least 13 years old to register'),
+});
+
+type StylerRegisterFormValues = z.infer<typeof stylerRegisterSchema>;
 
 const genders = ['male', 'female'] as const;
 
@@ -31,7 +86,16 @@ interface StylerRegisterFormProps {
 export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegisterFormProps) {
   const router = useRouter();
   const { login, loading } = useAuth();
-  const { register, handleSubmit, watch, setValue } = useForm<StylerRegisterFormValues>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors }
+  } = useForm<StylerRegisterFormValues>({
+    resolver: zodResolver(stylerRegisterSchema),
+    mode: 'onBlur', // Validate on blur for better UX
+  });
 
   const dateOfBirth = watch('dateOfBirth');
 
@@ -93,9 +157,11 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
           <Input
             {...register('fullName')}
             id="fullName"
-            required
             className="mt-1"
           />
+          {errors.fullName && (
+            <p className="text-destructive text-sm mt-1">{errors.fullName.message}</p>
+          )}
         </div>
 
         <div>
@@ -105,9 +171,11 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
             id="email"
             type="email"
             placeholder="you@example.com"
-            required
             className="mt-1"
           />
+          {errors.email && (
+            <p className="text-destructive text-sm mt-1">{errors.email.message}</p>
+          )}
         </div>
 
         <div>
@@ -116,9 +184,11 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
             {...register('phone')}
             id="phone"
             placeholder="+1234567890"
-            required
             className="mt-1"
           />
+          {errors.phone && (
+            <p className="text-destructive text-sm mt-1">{errors.phone.message}</p>
+          )}
         </div>
 
         <div>
@@ -127,9 +197,11 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
             {...register('address')}
             id="address"
             placeholder="123 Main St, City, Country"
-            required
             className="mt-1"
           />
+          {errors.address && (
+            <p className="text-destructive text-sm mt-1">{errors.address.message}</p>
+          )}
         </div>
 
         <div>
@@ -138,14 +210,16 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
             {...register('password')}
             id="password"
             type="password"
-            required
             className="mt-1"
           />
+          {errors.password && (
+            <p className="text-destructive text-sm mt-1">{errors.password.message}</p>
+          )}
         </div>
 
         <div>
           <Label htmlFor="gender">Gender</Label>
-          <Select onValueChange={(value) => setValue('gender', value)}>
+          <Select onValueChange={(value) => setValue('gender', value as 'male' | 'female', { shouldValidate: true })}>
             <SelectTrigger className="mt-1 w-full">
               <SelectValue placeholder="Select gender" />
             </SelectTrigger>
@@ -157,6 +231,9 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
               ))}
             </SelectContent>
           </Select>
+          {errors.gender && (
+            <p className="text-destructive text-sm mt-1">{errors.gender.message}</p>
+          )}
         </div>
 
         <div>
@@ -168,7 +245,10 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
             className="mt-1"
             max={new Date().toISOString().split('T')[0]}
           />
-          {age !== null && (
+          {errors.dateOfBirth && (
+            <p className="text-destructive text-sm mt-1">{errors.dateOfBirth.message}</p>
+          )}
+          {!errors.dateOfBirth && age !== null && (
             <p className="text-sm text-muted-foreground mt-1">
               Age: <span className="font-semibold">{age} years old</span>
             </p>

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Plus, Package, Search, Edit, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect, useMemo } from 'react';
@@ -24,6 +25,8 @@ export default function PartnerInventoryPage() {
     const [filterCategory, setFilterCategory] = useState('all');
     const [filterColor, setFilterColor] = useState('all');
     const [filterBrand, setFilterBrand] = useState('all');
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<{ id: string; name: string } | null>(null);
 
     useEffect(() => {
         loadClothes();
@@ -45,11 +48,16 @@ export default function PartnerInventoryPage() {
         }
     };
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this product?')) return;
+    const handleDelete = async (id: string, name: string) => {
+        setSelectedProduct({ id, name });
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedProduct) return;
 
         try {
-            await partnerService.deleteCloth(id);
+            await partnerService.deleteCloth(selectedProduct.id);
             toast.success('Product deleted successfully', {
                 duration: 3000,
             });
@@ -267,7 +275,7 @@ export default function PartnerInventoryPage() {
                                                             <Button
                                                                 variant="destructive"
                                                                 size="sm"
-                                                                onClick={() => handleDelete(itemId)}
+                                                                onClick={() => handleDelete(itemId, item.name)}
                                                             >
                                                                 <Trash2 className="h-3 w-3 mr-1" />
                                                                 Delete
@@ -284,6 +292,17 @@ export default function PartnerInventoryPage() {
                     </div>
                 </main>
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onConfirm={confirmDelete}
+                title="Delete Product"
+                description={`Are you sure you want to delete "${selectedProduct?.name}"? This action cannot be undone.`}
+                confirmText="Delete"
+                variant="warning"
+            />
         </ProtectedRoute>
     );
 }

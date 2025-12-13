@@ -4,6 +4,7 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { AdminDashboardSidebar } from '@/components/layout/AdminDashboardSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Store, CheckCircle, XCircle, Users, Clock, UserCheck } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { adminService } from '@/services/admin.service';
@@ -14,6 +15,9 @@ export default function PartnersPage() {
     const [partners, setPartners] = useState<UserProfile[]>([]);
     const [loading, setLoading] = useState(true);
     const [filterStatus, setFilterStatus] = useState<'all' | 'approved' | 'pending'>('all');
+    const [approveDialogOpen, setApproveDialogOpen] = useState(false);
+    const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+    const [selectedPartner, setSelectedPartner] = useState<{ id: string; name: string } | null>(null);
 
     useEffect(() => {
         loadPartners();
@@ -45,14 +49,15 @@ export default function PartnersPage() {
     };
 
     const handleApprove = async (userId: string, partnerName: string) => {
-        const confirmed = confirm(
-            `Are you sure you want to approve "${partnerName || 'this partner'}"?\n\nThey will be able to login and access the partner dashboard.`
-        );
+        setSelectedPartner({ id: userId, name: partnerName });
+        setApproveDialogOpen(true);
+    };
 
-        if (!confirmed) return;
+    const confirmApprove = async () => {
+        if (!selectedPartner) return;
 
         try {
-            await adminService.approveUser(userId);
+            await adminService.approveUser(selectedPartner.id);
             toast.success('Partner approved successfully', {
                 duration: 3000,
             });
@@ -67,14 +72,15 @@ export default function PartnersPage() {
     };
 
     const handleReject = async (userId: string, partnerName: string) => {
-        const confirmed = confirm(
-            `⚠️ WARNING: Are you sure you want to reject "${partnerName || 'this partner'}"?\n\nThis will permanently DELETE their account and cannot be undone.`
-        );
+        setSelectedPartner({ id: userId, name: partnerName });
+        setRejectDialogOpen(true);
+    };
 
-        if (!confirmed) return;
+    const confirmReject = async () => {
+        if (!selectedPartner) return;
 
         try {
-            await adminService.rejectUser(userId);
+            await adminService.rejectUser(selectedPartner.id);
             toast.success('Partner rejected and removed successfully', {
                 duration: 3000,
             });
@@ -254,6 +260,28 @@ export default function PartnersPage() {
                     </div>
                 </main>
             </div>
+
+            {/* Approve Dialog */}
+            <ConfirmDialog
+                open={approveDialogOpen}
+                onOpenChange={setApproveDialogOpen}
+                onConfirm={confirmApprove}
+                title="Approve Partner"
+                description={`Are you sure you want to approve "${selectedPartner?.name || 'this partner'}"? They will be able to login and access the partner dashboard.`}
+                confirmText="Approve"
+                variant="info"
+            />
+
+            {/* Reject Dialog */}
+            <ConfirmDialog
+                open={rejectDialogOpen}
+                onOpenChange={setRejectDialogOpen}
+                onConfirm={confirmReject}
+                title={`WARNING: Are you sure you want to reject "${selectedPartner?.name || 'this partner'}"?`}
+                description="This will permanently DELETE their account and cannot be undone."
+                confirmText="OK"
+                variant="warning"
+            />
         </ProtectedRoute>
     );
 }

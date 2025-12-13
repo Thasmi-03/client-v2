@@ -4,6 +4,7 @@ import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 import { DashboardSidebar } from '@/components/layout/DashboardSidebar';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { ConfirmDialog } from '@/components/ui/ConfirmDialog';
 import { Package, DollarSign, TrendingUp, Plus, ShoppingBag, Edit, BarChart3, Trash2, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -16,6 +17,8 @@ export default function PartnerDashboard() {
     const router = useRouter();
     const [clothes, setClothes] = useState<PartnerClothes[]>([]);
     const [loading, setLoading] = useState(true);
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<{ id: string; name: string } | null>(null);
 
     useEffect(() => {
         loadClothes();
@@ -39,11 +42,16 @@ export default function PartnerDashboard() {
 
     // Orders functionality removed
 
-    const handleDelete = async (id: string) => {
-        if (!confirm('Are you sure you want to delete this product?')) return;
+    const handleDelete = async (id: string, name: string) => {
+        setSelectedProduct({ id, name });
+        setDeleteDialogOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!selectedProduct) return;
 
         try {
-            await partnerService.deleteCloth(id);
+            await partnerService.deleteCloth(selectedProduct.id);
             toast.success('Product deleted successfully', {
                 duration: 3000,
             });
@@ -277,6 +285,17 @@ export default function PartnerDashboard() {
                     </div>
                 </main>
             </div>
+
+            {/* Delete Confirmation Dialog */}
+            <ConfirmDialog
+                open={deleteDialogOpen}
+                onOpenChange={setDeleteDialogOpen}
+                onConfirm={confirmDelete}
+                title="Delete Product"
+                description={`Are you sure you want to delete "${selectedProduct?.name}"? This action cannot be undone.`}
+                confirmText="Delete"
+                variant="warning"
+            />
         </ProtectedRoute>
     );
 }
