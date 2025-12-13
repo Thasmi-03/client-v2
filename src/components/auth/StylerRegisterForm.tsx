@@ -50,14 +50,14 @@ const stylerRegisterSchema = z.object({
     .string()
     .min(10, 'Address must be at least 10 characters')
     .max(200, 'Address must not exceed 200 characters')
-    .refine((addr) => /\d/.test(addr),
-      'Address must include a house/building number')
+    // .refine((addr) => /\d/.test(addr),
+    //   'Address must include a house/building number')
     .refine((addr) => addr.trim().split(/\s+/).length >= 3,
-      'Please provide a complete address (e.g., 123/A, Galle Road, Colombo)'),
+      'Please provide a complete address (e.g. Galle Road, Colombo)'),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .min(8, 'Password must be at least 5 characters')
+    // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number'),
   gender: z.enum(['male', 'female'], {
@@ -70,8 +70,8 @@ const stylerRegisterSchema = z.object({
       const birthDate = new Date(date);
       const today = new Date();
       const age = today.getFullYear() - birthDate.getFullYear();
-      return age >= 13;
-    }, 'You must be at least 13 years old to register'),
+      return age >= 12;
+    }, 'You must be at least 12 years old to register'),
 });
 
 type StylerRegisterFormValues = z.infer<typeof stylerRegisterSchema>;
