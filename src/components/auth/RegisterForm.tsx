@@ -42,10 +42,9 @@ const registerSchema = z.object({
     .string()
     .min(10, 'Address must be at least 10 characters')
     .max(200, 'Address must not exceed 200 characters')
-    .refine((addr) => /\d/.test(addr),
-      'Address must include a house/building number')
+    
     .refine((addr) => addr.trim().split(/\s+/).length >= 3,
-      'Please provide a complete address (e.g., 123/A, Galle Road, Colombo)'),
+      'Please provide a complete address (e.g. Galle Road, Colombo)'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   role: z.enum(['admin', 'styler', 'partner']),
   // Styler-specific fields
