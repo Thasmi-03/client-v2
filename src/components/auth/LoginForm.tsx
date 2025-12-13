@@ -9,6 +9,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { toast } from 'sonner';
+import { Eye, EyeOff } from 'lucide-react';
 import { loginSchema, LoginFormValues } from '@/schemas/auth.schema';
 
 interface LoginFormProps {
@@ -18,6 +19,7 @@ interface LoginFormProps {
 
 export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
   const { login, loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -69,13 +71,26 @@ export function LoginForm({ onSuccess, onSwitchToSignup }: LoginFormProps) {
 
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
-            {...register('password')}
-            id="password"
-            type="password"
-            disabled={loading}
-            className="mt-1"
-          />
+          <div className="relative mt-1">
+            <Input
+              {...register('password')}
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              disabled={loading}
+              className="pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
           {errors.password && <p className="text-destructive text-sm mt-1">{errors.password.message}</p>}
         </div>
 

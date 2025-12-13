@@ -12,6 +12,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'sonner';
+import { Eye, EyeOff } from 'lucide-react';
 
 // Zod validation schema
 const stylerRegisterSchema = z.object({
@@ -60,6 +61,7 @@ const stylerRegisterSchema = z.object({
     // .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
     .regex(/[0-9]/, 'Password must contain at least one number'),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
   gender: z.enum(['male', 'female'], {
     message: 'Please select a gender',
   }),
@@ -72,6 +74,9 @@ const stylerRegisterSchema = z.object({
       const age = today.getFullYear() - birthDate.getFullYear();
       return age >= 12;
     }, 'You must be at least 12 years old to register'),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 type StylerRegisterFormValues = z.infer<typeof stylerRegisterSchema>;
@@ -86,6 +91,8 @@ interface StylerRegisterFormProps {
 export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegisterFormProps) {
   const router = useRouter();
   const { login, loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const {
     register,
     handleSubmit,
@@ -206,14 +213,53 @@ export function StylerRegisterForm({ onSuccess, onSwitchToLogin }: StylerRegiste
 
         <div>
           <Label htmlFor="password">Password</Label>
-          <Input
-            {...register('password')}
-            id="password"
-            type="password"
-            className="mt-1"
-          />
+          <div className="relative mt-1">
+            <Input
+              {...register('password')}
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              className="pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
           {errors.password && (
             <p className="text-destructive text-sm mt-1">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div>
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <div className="relative mt-1">
+            <Input
+              {...register('confirmPassword')}
+              id="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              className="pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              {showConfirmPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+          {errors.confirmPassword && (
+            <p className="text-destructive text-sm mt-1">{errors.confirmPassword.message}</p>
           )}
         </div>
 

@@ -12,6 +12,7 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { toast } from 'sonner';
+import { Eye, EyeOff } from 'lucide-react';
 
 const registerSchema = z.object({
   fullName: z.string().min(1, 'Full name is required'),
@@ -42,7 +43,7 @@ const registerSchema = z.object({
     .string()
     .min(10, 'Address must be at least 10 characters')
     .max(200, 'Address must not exceed 200 characters')
-    
+
     .refine((addr) => addr.trim().split(/\s+/).length >= 3,
       'Please provide a complete address (e.g. Galle Road, Colombo)'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
@@ -50,6 +51,10 @@ const registerSchema = z.object({
   // Styler-specific fields
   gender: z.enum(['male', 'female', 'other']).optional(),
   dateOfBirth: z.string().optional(),
+  confirmPassword: z.string().min(1, 'Please confirm your password'),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -63,6 +68,7 @@ interface RegisterFormProps {
 export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin }: RegisterFormProps = {}) {
   const { login, loading } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -219,15 +225,57 @@ export function RegisterForm({ isPartnerPage = false, onSuccess, onSwitchToLogin
           <Label htmlFor="password" className="block text-sm font-medium text-[#4F433E] mb-2">
             Password
           </Label>
-          <Input
-            {...register('password')}
-            id="password"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            disabled={loading}
-            className="w-full px-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A57C65] focus:border-transparent text-[#4F433E] placeholder:text-gray-400"
-          />
+          <div className="relative">
+            <Input
+              {...register('password')}
+              id="password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              disabled={loading}
+              className="w-full px-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A57C65] focus:border-transparent text-[#4F433E] placeholder:text-gray-400 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#4F433E]"
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
           {errors.password && <p className="text-destructive text-sm mt-1">{errors.password.message}</p>}
+        </div>
+
+        {/* Confirm Password */}
+        <div>
+          <Label htmlFor="confirmPassword" className="block text-sm font-medium text-[#4F433E] mb-2">
+            Confirm Password
+          </Label>
+          <div className="relative">
+            <Input
+              {...register('confirmPassword')}
+              id="confirmPassword"
+              type={showConfirmPassword ? 'text' : 'password'}
+              placeholder="Confirm Password"
+              disabled={loading}
+              className="w-full px-4 py-3 bg-white/70 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#A57C65] focus:border-transparent text-[#4F433E] placeholder:text-gray-400 pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#4F433E]"
+            >
+              {showConfirmPassword ? (
+                <EyeOff className="h-4 w-4" />
+              ) : (
+                <Eye className="h-4 w-4" />
+              )}
+            </button>
+          </div>
+          {errors.confirmPassword && <p className="text-destructive text-sm mt-1">{errors.confirmPassword.message}</p>}
         </div>
 
         {/* Styler-specific fields */}
