@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import Cookies from "js-cookie";
+import apiClient from "@/lib/apiClient";
 import {
     PieChart,
     Pie,
@@ -54,10 +53,7 @@ export default function AnalyticsSidebar({ variant = 'sidebar' }: AnalyticsSideb
     useEffect(() => {
         const fetchHealth = async () => {
             try {
-                const token = Cookies.get("token");
-                const res = await axios.get("http://localhost:5000/api/analytics/health", {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
+                const res = await apiClient.get("/analytics/health");
                 setData(res.data);
             } catch (error) {
                 console.error("Error fetching analytics:", error);
